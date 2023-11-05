@@ -18,9 +18,6 @@ export default function usePwa() {
   const [isInstallable, setIsInstallable] = useState(false);
 
   useEffect(() => {
-    if (!navigator) {
-      return;
-    }
     const currentBrowser = navigator.userAgent.toLowerCase();
     setIsInstallable(currentBrowser.indexOf("edg") > -1 || currentBrowser.indexOf("chrome") > -1);
   }, []);
@@ -43,6 +40,7 @@ export default function usePwa() {
   useEffect(() => {
     const handler = async () => {
       const relatedApps = await navigator.getInstalledRelatedApps();
+      console.log(relatedApps);
       const PWAisInstalled = relatedApps.length > 0;
       setIsInstalled(PWAisInstalled);
     };

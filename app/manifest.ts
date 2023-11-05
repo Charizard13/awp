@@ -14,19 +14,19 @@ export default function manifest(): MetadataRoute.Manifest {
     screenshots: [
       {
         src: "/twitter-image.png",
-        type: "narrow",
+        type: "image/png",
         sizes: "1200x600",
       },
       {
         src: "/opengraph-image.png",
-        type: "wide",
+        type: "image/png",
         sizes: "1200x600",
       },
     ],
     related_applications: [
       {
         platform: "webapp",
-        url: `${process.env.NEXT_DOMAIN!}/manifest.json`,
+        url: `${process.env.NEXT_DOMAIN}/manifest.webmanifest`,
       },
     ],
     shortcuts: [
