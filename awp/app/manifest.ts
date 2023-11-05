@@ -24,6 +24,12 @@ export default function manifest(): MetadataRoute.Manifest {
         sizes: "1200x600",
       },
     ],
+    related_applications: [
+      {
+        platform: "webapp",
+        url: "https://example.com/manifest.json",
+      },
+    ],
     shortcuts: [
       {
         name: "How's weather tomorrow?",

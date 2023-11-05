@@ -6,8 +6,25 @@ type BeforeInstallPromptEvent = {
   userChoice: Promise<{ outcome: "accepted" | "dismissed" }>;
 } & Event;
 
+declare global {
+  interface Navigator {
+    getInstalledRelatedApps(): Promise<[]>;
+  }
+}
+
 export default function usePwa() {
   const [prompt, setPrompt] = useState<BeforeInstallPromptEvent | null>(null);
+  const [isInstalled, setIsInstalled] = useState(false);
+  const [isInstallable, setIsInstallable] = useState(false);
+
+  useEffect(() => {
+    if (!navigator) {
+      return;
+    }
+    const currentBrowser = navigator.userAgent.toLowerCase();
+    setIsInstallable(currentBrowser.indexOf("edg") > -1 || currentBrowser.indexOf("chrome") > -1);
+  }, []);
+
   useEffect(() => {
     const handler = (e: Event) => {
       e.preventDefault();
@@ -15,6 +32,21 @@ export default function usePwa() {
     };
     window.addEventListener("beforeinstallprompt", handler);
     return () => window.removeEventListener("transitionend", handler);
+  }, []);
+
+  useEffect(() => {
+    const handler = async () => setIsInstalled(true);
+    window.addEventListener("appinstalled", handler);
+    return () => window.removeEventListener("transitionend", handler);
+  }, []);
+
+  useEffect(() => {
+    const handler = async () => {
+      const relatedApps = await navigator.getInstalledRelatedApps();
+      const PWAisInstalled = relatedApps.length > 0;
+      setIsInstalled(PWAisInstalled);
+    };
+    handler();
   }, []);
 
   const install = async () => {
@@ -28,5 +60,5 @@ export default function usePwa() {
     }
   };
 
-  return { prompt, install };
+  return { prompt, install, isInstalled, isInstallable };
 }
