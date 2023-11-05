@@ -14,13 +14,12 @@ export default function manifest(): MetadataRoute.Manifest {
     screenshots: [
       {
         src: "/twitter-image.png",
-        type: "image/png",
+        type: "narrow",
         sizes: "1200x600",
       },
       {
         src: "/opengraph-image.png",
-        type: "image/png",
-        // form_factor: "wide",
+        type: "wide",
         sizes: "1200x600",
       },
     ],
