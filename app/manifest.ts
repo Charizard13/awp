@@ -27,7 +27,7 @@ export default function manifest(): MetadataRoute.Manifest {
     related_applications: [
       {
         platform: "webapp",
-        url: "https://example.com/manifest.json",
+        url: `${process.env.NEXT_DOMAIN!}/manifest.json`,
       },
     ],
     shortcuts: [

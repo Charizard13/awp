@@ -1,57 +1,148 @@
-import DeployButton from '../components/DeployButton'
-import AuthButton from '../components/AuthButton'
-import { createClient } from '@/utils/supabase/server'
-import ConnectSupabaseSteps from '@/components/ConnectSupabaseSteps'
-import SignUpUserSteps from '@/components/SignUpUserSteps'
-import Header from '@/components/Header'
-import { cookies } from 'next/headers'
+import { Button } from "@/components/ui/button";
+import Link from "next/link";
 
-export default async function Index() {
-  const cookieStore = cookies()
-
-  const canInitSupabaseClient = () => {
-    // This function is just for the interactive tutorial.
-    // Feel free to remove it once you have Supabase connected.
-    try {
-      createClient(cookieStore)
-      return true
-    } catch (e) {
-      return false
-    }
-  }
-
-  const isSupabaseConnected = canInitSupabaseClient()
-
+export default function Home() {
   return (
-    <div className="flex-1 w-full flex flex-col gap-20 items-center">
-      <nav className="w-full flex justify-center border-b border-b-foreground/10 h-16">
-        <div className="w-full max-w-4xl flex justify-between items-center p-3 text-sm">
-          <DeployButton />
-          {isSupabaseConnected && <AuthButton />}
+    <>
+      <section className="w-full py-12 md:py-24 lg:py-32">
+        <div className="container px-4 md:px-6">
+          <div className="flex flex-col items-center space-y-4 text-center">
+            <div className="space-y-2">
+              <h1 className="text-3xl font-bold tracking-tighter sm:text-5xl md:text-6xl/none">Welcome to Awp</h1>
+              <p className="mx-auto max-w-[700px] text-zinc-500 md:text-xl dark:text-zinc-400">Transform any website into a PWA in seconds.</p>
+            </div>
+            <div className="space-x-2">
+              <Button variant="default">
+                <Link href="/demo">Try Demo</Link>
+              </Button>
+            </div>
+          </div>
         </div>
-      </nav>
-
-      <div className="animate-in flex-1 flex flex-col gap-20 opacity-0 max-w-4xl px-3">
-        <Header />
-        <main className="flex-1 flex flex-col gap-6">
-          <h2 className="font-bold text-4xl mb-4">Next steps</h2>
-          {isSupabaseConnected ? <SignUpUserSteps /> : <ConnectSupabaseSteps />}
-        </main>
-      </div>
-
-      <footer className="w-full border-t border-t-foreground/10 p-8 flex justify-center text-center text-xs">
-        <p>
-          Powered by{' '}
-          <a
-            href="https://supabase.com/?utm_source=create-next-app&utm_medium=template&utm_term=nextjs"
-            target="_blank"
-            className="font-bold hover:underline"
-            rel="noreferrer"
-          >
-            Supabase
-          </a>
-        </p>
-      </footer>
-    </div>
-  )
+      </section>
+      <section className="w-full py-12 md:py-24 lg:py-32 bg-zinc-100 dark:bg-zinc-800 ">
+        <div className="container px-4 md:px-6">
+          <div className="flex flex-col justify-center items-center text-center space-y-4">
+            <div className="space-y-2">
+              <div className="inline-block rounded-lg bg-zinc-50 px-3 py-1 text-sm dark:bg-zinc-800">Key Features</div>
+              <ul className="grid gap-2 py-4">
+                <li>
+                  <svg
+                    className=" mr-2 inline-block h-4 w-4"
+                    fill="none"
+                    height="24"
+                    stroke="currentColor"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth="2"
+                    viewBox="0 0 24 24"
+                    width="24"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <polyline points="20 6 9 17 4 12" />
+                  </svg>
+                  Seamless transformation of websites into PWAs.
+                </li>
+                <li>
+                  <svg
+                    className=" mr-2 inline-block h-4 w-4"
+                    fill="none"
+                    height="24"
+                    stroke="currentColor"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth="2"
+                    viewBox="0 0 24 24"
+                    width="24"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <polyline points="20 6 9 17 4 12" />
+                  </svg>
+                  Quick and efficient process.
+                </li>
+                <li>
+                  <svg
+                    className=" mr-2 inline-block h-4 w-4"
+                    fill="none"
+                    height="24"
+                    stroke="currentColor"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth="2"
+                    viewBox="0 0 24 24"
+                    width="24"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <polyline points="20 6 9 17 4 12" />
+                  </svg>
+                  No coding skills required.
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </section>
+      <section className="w-full py-12 md:py-24 lg:py-32">
+        <div className="container px-4 md:px-6">
+          <div className="flex flex-col justify-center items-center text-center space-y-4">
+            <div className="space-y-2">
+              <div className="inline-block rounded-lg bg-zinc-100 px-3 py-1 text-sm dark:bg-zinc-800">Benefits</div>
+              <ul className="grid gap-2 py-4">
+                <li>
+                  <svg
+                    className=" mr-2 inline-block h-4 w-4"
+                    fill="none"
+                    height="24"
+                    stroke="currentColor"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth="2"
+                    viewBox="0 0 24 24"
+                    width="24"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <polyline points="20 6 9 17 4 12" />
+                  </svg>
+                  Enhance user experience with PWA features.
+                </li>
+                <li>
+                  <svg
+                    className=" mr-2 inline-block h-4 w-4"
+                    fill="none"
+                    height="24"
+                    stroke="currentColor"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth="2"
+                    viewBox="0 0 24 24"
+                    width="24"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <polyline points="20 6 9 17 4 12" />
+                  </svg>
+                  Improve website performance and speed.
+                </li>
+                <li>
+                  <svg
+                    className=" mr-2 inline-block h-4 w-4"
+                    fill="none"
+                    height="24"
+                    stroke="currentColor"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth="2"
+                    viewBox="0 0 24 24"
+                    width="24"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <polyline points="20 6 9 17 4 12" />
+                  </svg>
+                  Increase engagement and conversion rates.
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </section>
+    </>
+  );
 }
