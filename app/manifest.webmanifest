@@ -22,7 +22,7 @@
   "related_applications": [
     {
       "platform": "webapp",
-      "url": "https://awp-six.vercel.app/manifest.json"
+      "url": "https://awp-six.vercel.app/manifest.webmanifest"
     }
   ],
   "shortcuts": [
