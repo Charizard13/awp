@@ -2,10 +2,10 @@
 import { Button } from "@/components/ui/button";
 import { ToastAction } from "@/components/ui/toast";
 import { toast } from "@/components/ui/use-toast";
-import usePwa from "@/hooks/usePwa";
+import usePwa from "@/hooks/useInstall";
 
 export default function Pwa() {
-  const { prompt, install, isInstallable, isInstalled } = usePwa();
+  const { install, status } = usePwa();
   const handleCopy = () => {
     navigator.clipboard.writeText(window.location.href);
     toast({
@@ -18,17 +18,24 @@ export default function Pwa() {
     <div className="flex flex-col items-center justify-center flex-grow text-center p-4 space-y-8">
       <h1 className="text-3xl font-bold">Awp Demo Page</h1>
       <p className="text-lg text-gray-600 dark:text-gray-400">Explore the features and capabilities of our Progressive Web App (PWA).</p>
-      {prompt && (
-        <Button className="px-6 py-2 bg-blue-500 text-white rounded-md shadow-md hover:bg-blue-600" variant="default" onClick={install}>
-          Install App
+
+      {status === "idle" && (
+        <Button className="px-6 py-2 bg-blue-500 text-white rounded-md shadow-md hover:bg-blue-600 " variant="default" onClick={install}>
+          Install App <span className="material-symbols-outlined">get_app</span>
         </Button>
       )}
-      {isInstalled && (
+      {status === "installing" && (
+        <div className="border border-gray-200 dark:border-gray-700 p-4 rounded-md">
+          <p className="text-sm text-gray-600 dark:text-gray-400">Your app is installing...</p>
+        </div>
+      )}
+
+      {status === "installed" && (
         <div className="border border-gray-200 dark:border-gray-700 p-4 rounded-md">
           <p className="text-sm text-gray-600 dark:text-gray-400">Your app is installed!</p>
         </div>
       )}
-      {!isInstallable && (
+      {status === "unSupported" && (
         <div className="text-foreground">
           <div className="space-y-4">
             <h2 className="text-2xl font-semibold items-center flex space-x-2">
