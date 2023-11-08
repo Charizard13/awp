@@ -1,8 +1,4 @@
-declare global {
-  interface Window {
-    showOpenFilePicker(): Promise<any>;
-  }
-}
+"use client";
 
 async function selectFile() {
   const [handle] = await window.showOpenFilePicker();

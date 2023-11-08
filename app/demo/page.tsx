@@ -1,11 +1,19 @@
 "use client";
 import { Button } from "@/components/ui/button";
-import { ToastAction } from "@/components/ui/toast";
 import { toast } from "@/components/ui/use-toast";
-import usePwa from "@/hooks/useInstall";
+import useInstall from "@/hooks/useInstall";
+import type { App } from "@/hooks/useInstall";
+declare global {
+  interface Window {
+    showOpenFilePicker(): Promise<any>;
+  }
+  interface Navigator {
+    getInstalledRelatedApps(): Promise<App[]>;
+  }
+}
 
-export default function Pwa() {
-  const { install, status } = usePwa();
+export default function DemoPage() {
+  const { openInstallDialog, status } = useInstall();
   const handleCopy = () => {
     navigator.clipboard.writeText(window.location.href);
     toast({
@@ -20,7 +28,7 @@ export default function Pwa() {
       <p className="text-lg text-gray-600 dark:text-gray-400">Explore the features and capabilities of our Progressive Web App (PWA).</p>
 
       {status === "idle" && (
-        <Button className="px-6 py-2 bg-blue-500 text-white rounded-md shadow-md hover:bg-blue-600 " variant="default" onClick={install}>
+        <Button className="px-6 py-2 bg-blue-500 text-white rounded-md shadow-md hover:bg-blue-600 " variant="default" onClick={openInstallDialog}>
           Install App <span className="material-symbols-outlined">get_app</span>
         </Button>
       )}

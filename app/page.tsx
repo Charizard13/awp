@@ -1,7 +1,7 @@
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 
-export default function Home() {
+export default function HomePage() {
   return (
     <>
       <section className="w-full py-12 md:py-24 lg:py-32">
