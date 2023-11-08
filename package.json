@@ -13,7 +13,7 @@
     "autoprefixer": "10.4.16",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.0.0",
-    "geist": "^1.0.0",
+    "geist": "^1.0.1",
     "lucide-react": "^0.292.0",
     "next": "latest",
     "postcss": "8.4.31",
@@ -25,9 +25,9 @@
     "typescript": "5.2.2"
   },
   "devDependencies": {
-    "@types/node": "20.8.10",
-    "@types/react": "18.2.36",
-    "@types/react-dom": "18.2.14",
+    "@types/node": "20.9.0",
+    "@types/react": "18.2.37",
+    "@types/react-dom": "18.2.15",
     "encoding": "^0.1.13"
   }
 }
