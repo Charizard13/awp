@@ -11,7 +11,7 @@ export default function Install() {
     case "unSupported":
       return (
         <Button className="px-6 py-2 bg-blue-500 text-white rounded-md shadow-md hover:bg-blue-600 " variant="default" onClick={openInstallDialog}>
-          Install App <span className="material-symbols-outlined">get_app</span>
+          Install App <span className="material-symbols-outlined m-1">get_app</span>
         </Button>
       );
 
