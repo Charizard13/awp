@@ -14,6 +14,7 @@
     {
       "src": "/opengraph-image.png",
       "type": "image/png",
+      "form_factor": "wide",
       "sizes": "1200x600"
     }
   ],
