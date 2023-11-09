@@ -3,7 +3,7 @@
   "short_name": "AWP",
   "description": "AWP - Pwa made easy, is a chrome extension that helps you to convert your website into a PWA in just a few clicks.",
   "display": "standalone",
-  "background_color": "#3367D6",
+  "background_color": "#FFFFFF",
   "theme_color": "#3367D6",
   "screenshots": [
     {
