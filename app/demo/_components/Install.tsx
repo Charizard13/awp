@@ -1,18 +1,11 @@
 "use client";
-import { toast } from "@/components/ui/use-toast";
 import { Button } from "@/components/ui/button";
 
 import useInstall from "@/hooks/useInstall";
 
 export default function Install() {
   const { openInstallDialog, status } = useInstall();
-  const handleCopy = () => {
-    navigator.clipboard.writeText(window.location.href);
-    toast({
-      title: "Copied to clipboard",
-      description: "Use the copied URL to install the app on your device/computer",
-    });
-  };
+
   switch (status) {
     case "idle":
     case "unSupported":
