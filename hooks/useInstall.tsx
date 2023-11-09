@@ -42,7 +42,7 @@ export default function useInstall() {
       try {
         const relatedApps = await navigator.getInstalledRelatedApps();
         console.log(relatedApps);
-        const pwaApp = relatedApps.find((app) => app.platform === "webapp");
+        const pwaApp = relatedApps.find(({ platform }) => platform === "webapp");
         if (pwaApp) {
           setStatus("installed");
         }
