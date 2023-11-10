@@ -7,19 +7,22 @@ import { Button } from "@/components/ui/button";
 export default function Login({ searchParams }: { searchParams: { message: string } }) {
   const signIn = async (formData: FormData) => {
     "use server";
+    const defaultUrl = process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : "http://localhost:3000";
+
     const provider = formData.get("provider") as Provider;
     const cookieStore = cookies();
     const supabase = createClient(cookieStore);
 
-    const { error, data } = await supabase.auth.signInWithOAuth({
+    const { error } = await supabase.auth.signInWithOAuth({
       provider,
+      options: {
+        redirectTo: `${defaultUrl}`,
+      },
     });
 
     if (error) {
       return redirect("/login?message=Could not authenticate user");
     }
-
-    return redirect(data.url);
   };
 
   return (
