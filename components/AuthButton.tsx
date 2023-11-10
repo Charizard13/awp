@@ -20,8 +20,6 @@ export default async function AuthButton() {
     return redirect("/login");
   };
 
-  console.log({ user });
-
   if (user) {
     return (
       <div className="flex items-center gap-4">

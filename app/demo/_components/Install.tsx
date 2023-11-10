@@ -2,6 +2,7 @@
 import { Button } from "@/components/ui/button";
 
 import useInstall from "@/hooks/useInstall";
+import useNotifications from "@/hooks/useNotifications";
 
 export default function Install() {
   const { openInstallDialog, status } = useInstall();

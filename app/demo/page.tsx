@@ -2,6 +2,7 @@
 import type { App } from "@/hooks/useInstall";
 import Install from "./_components/Install";
 import { Button } from "@/components/ui/button";
+import useNotifications from "@/hooks/useNotifications";
 // import useServiceWorker from "@/hooks/useServiceWorker";
 declare global {
   interface Window {
@@ -15,6 +16,8 @@ declare global {
 
 export default function DemoPage() {
   // const { isRegistered, unRegister, register } = useServiceWorker();
+  const { openNotificationsDialog } = useNotifications();
+
   return (
     <div className="flex flex-col items-center justify-center flex-grow text-center p-4 space-y-8">
       <h1 className="text-3xl font-bold">Awp Demo Page</h1>
@@ -33,6 +36,7 @@ export default function DemoPage() {
           )}
         </div>
       </div> */}
+      <Button onClick={openNotificationsDialog}>Open Notifications Dialog</Button>
     </div>
   );
 }
