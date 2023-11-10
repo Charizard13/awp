@@ -1,6 +1,6 @@
 import { cookies } from "next/headers";
 import { createClient } from "@/utils/supabase/server";
-import { RedirectType, redirect } from "next/navigation";
+import { redirect } from "next/navigation";
 import { Provider } from "@supabase/supabase-js";
 import { Button } from "@/components/ui/button";
 
@@ -19,7 +19,7 @@ export default function Login({ searchParams }: { searchParams: { message: strin
       return redirect("/login?message=Could not authenticate user");
     }
 
-    return redirect(data.url, RedirectType.replace);
+    return redirect(data.url);
   };
 
   return (
