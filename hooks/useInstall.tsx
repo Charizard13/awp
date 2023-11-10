@@ -58,6 +58,18 @@ export default function useInstall() {
   }, []);
 
   useEffect(() => {
+    const isInstalled =
+      window.navigator.standalone == true || // iOS PWA Standalone
+      document.referrer.includes("android-app://") || // Android Trusted Web App
+      ["fullscreen", "standalone", "minimal-ui"].some((displayMode) => window.matchMedia(`(display-mode: ${displayMode})`).matches); // Chrome PWA (supporting fullscreen, standalone, minimal-ui)
+    console.log(isInstalled);
+    if (!isInstalled) {
+      return;
+    }
+    setStatus("installed");
+  }, []);
+
+  useEffect(() => {
     const handler = async () => {
       try {
         if (!navigator.getInstalledRelatedApps) {
@@ -119,7 +131,7 @@ export default function useInstall() {
       const result = await prompt.userChoice;
       if (result.outcome === "accepted") {
         setPrompt(null);
-        setStatus("installing");
+        setStatus("installed");
       }
     } catch (e) {
       toast({
