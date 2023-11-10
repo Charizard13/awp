@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/button";
 
 export default function Login({ searchParams }: { searchParams: { message: string } }) {
   const signIn = async (formData: FormData) => {
+    "use server";
     const provider = formData.get("provider") as Provider;
     const cookieStore = cookies();
     const supabase = createClient(cookieStore);
