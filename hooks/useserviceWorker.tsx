@@ -8,7 +8,7 @@ export default function useServiceWorker() {
   const register = async () => {
     try {
       if ("serviceWorker" in navigator) {
-        await navigator.serviceWorker.register("/serviceworker.js");
+        await navigator.serviceWorker.register("/sw.js");
         setIsRegistered(true);
       }
     } catch (e) {
