@@ -2,10 +2,10 @@ import type { App } from "@/hooks/useInstall";
 import Install from "./_components/Install";
 declare global {
   interface Window {
-    showOpenFilePicker(): Promise<any>;
+    showOpenFilePicker?(): Promise<any>;
   }
   interface Navigator {
-    getInstalledRelatedApps(): Promise<App[]>;
+    getInstalledRelatedApps?(): Promise<App[]>;
   }
 }
 

@@ -60,6 +60,9 @@ export default function useInstall() {
   useEffect(() => {
     const handler = async () => {
       try {
+        if (!navigator.getInstalledRelatedApps) {
+          return;
+        }
         const relatedApps = await navigator.getInstalledRelatedApps();
         console.log(relatedApps);
         const pwaApp = relatedApps.find(({ platform }) => platform === "webapp");
@@ -106,6 +109,10 @@ export default function useInstall() {
         return;
       }
       if (!prompt) {
+        toast({
+          title: "App install not supported/available",
+          description: "To install the app open this website in Chrome or Safari to install the app",
+        });
         return;
       }
       prompt.prompt();
@@ -115,7 +122,10 @@ export default function useInstall() {
         setStatus("installing");
       }
     } catch (e) {
-      //
+      toast({
+        title: "Error",
+        description: "Something went wrong",
+      });
     }
   };
 
