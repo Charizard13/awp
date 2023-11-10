@@ -20,7 +20,7 @@ export default async function AuthButton() {
     return redirect("/login");
   };
 
-  console.log(user);
+  console.log({ user });
 
   if (user) {
     return (

@@ -16,7 +16,7 @@ export default function Login({ searchParams }: { searchParams: { message: strin
     const { error } = await supabase.auth.signInWithOAuth({
       provider,
       options: {
-        redirectTo: getURL(),
+        redirectTo: getURL() + "/auth/callback",
       },
     });
 

@@ -62,7 +62,6 @@ export default function useInstall() {
       window.navigator.standalone == true || // iOS PWA Standalone
       document.referrer.includes("android-app://") || // Android Trusted Web App
       ["fullscreen", "standalone", "minimal-ui", "window-controls-overlay"].some((displayMode) => window.matchMedia(`(display-mode: ${displayMode})`).matches); // Chrome PWA (supporting fullscreen, standalone, minimal-ui)
-    console.log(isInstalled);
     if (!isInstalled) {
       return;
     }
