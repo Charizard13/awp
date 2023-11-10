@@ -3,11 +3,11 @@ import { createClient } from "@/utils/supabase/server";
 import { redirect } from "next/navigation";
 import { Provider } from "@supabase/supabase-js";
 import { Button } from "@/components/ui/button";
+import { getURL } from "@/utils/helpers";
 
 export default function Login({ searchParams }: { searchParams: { message: string } }) {
   const signIn = async (formData: FormData) => {
     "use server";
-    const defaultUrl = process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : "http://localhost:3000";
 
     const provider = formData.get("provider") as Provider;
     const cookieStore = cookies();
@@ -16,7 +16,7 @@ export default function Login({ searchParams }: { searchParams: { message: strin
     const { error } = await supabase.auth.signInWithOAuth({
       provider,
       options: {
-        redirectTo: `${defaultUrl}`,
+        redirectTo: getURL(),
       },
     });
 
