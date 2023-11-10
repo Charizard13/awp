@@ -16,7 +16,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     <html lang="en" className={GeistSans.className}>
       <head>
         <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />{" "}
-        {/* <link rel="manifest" href={`https://awp-six.vercel.app/manifest.webmanifest`} /> */}
+        <link rel="manifest" href={`https://awp-six.vercel.app/wdwaefawecvde`} />
       </head>
       <body className="bg-background text-foreground">
         <Header />

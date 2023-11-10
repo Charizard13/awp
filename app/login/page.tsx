@@ -13,7 +13,7 @@ export default function Login({ searchParams }: { searchParams: { message: strin
     const cookieStore = cookies();
     const supabase = createClient(cookieStore);
 
-    const { error } = await supabase.auth.signInWithOAuth({
+    const { error, data } = await supabase.auth.signInWithOAuth({
       provider,
       options: {
         redirectTo: getURL() + "auth/callback",
@@ -23,6 +23,8 @@ export default function Login({ searchParams }: { searchParams: { message: strin
     if (error) {
       return redirect("/login?message=Could not authenticate user");
     }
+
+    redirect(data.url);
   };
 
   return (
