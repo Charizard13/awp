@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { toast } from "@/components/ui/use-toast";
+
 export default function useServiceWorker() {
   const [isRegistered, setIsRegistered] = useState(false);
 

@@ -1,8 +1,8 @@
 "use client";
 import type { App } from "@/hooks/useInstall";
 import Install from "./_components/Install";
-import useServiceWorker from "@/hooks/useServiceWorker";
 import { Button } from "@/components/ui/button";
+import useServiceWorker from "@/hooks/useServiceWorker";
 declare global {
   interface Window {
     showOpenFilePicker?(): Promise<any>;
