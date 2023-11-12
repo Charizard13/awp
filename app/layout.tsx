@@ -2,6 +2,7 @@ import { GeistSans } from "geist/font/sans";
 import "./globals.css";
 import { Toaster } from "@/components/ui/toaster";
 import Header from "@/components/layout/Header";
+import { VercelToolbar } from "@vercel/toolbar/next";
 
 const defaultUrl = process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : "http://localhost:3000";
 
@@ -22,7 +23,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <Header />
         <main className="min-h-screen flex flex-col items-center">{children}</main>
         <Toaster />
-
+        <VercelToolbar />
         <footer className="flex items-center justify-center h-16 bg-gray-100 dark:bg-gray-900">
           <p className="text-sm text-gray-600 dark:text-gray-400">© 2023 Awp. All rights reserved.</p>
         </footer>
