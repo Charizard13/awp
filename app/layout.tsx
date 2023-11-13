@@ -3,6 +3,7 @@ import "./globals.css";
 import { Toaster } from "@/components/ui/toaster";
 import Header from "@/components/layout/Header";
 import { VercelToolbar } from "@vercel/toolbar/next";
+import SideBar from "@/components/layout/SideBar";
 
 const defaultUrl = process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : "http://localhost:3000";
 

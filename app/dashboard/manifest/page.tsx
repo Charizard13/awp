@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/button";
 import { cookies } from "next/headers";
 import { createClient } from "@/utils/supabase/server";
 import { redirect } from "next/navigation";
+import { generateManifest } from "@/lib/metadata";
 
 export default function MetaData({ searchParams }: { searchParams: { message: string } }) {
   const handleSubmit = async (formData: FormData) => {
@@ -33,15 +34,29 @@ export default function MetaData({ searchParams }: { searchParams: { message: st
       return redirect(`${route}?message=There was an error uploading your icon.`);
     }
 
-    const { error, data } = await supabase.from("apps").insert({
-      name,
-      description,
-      user_id: userId,
-      icon: iconData.path,
-    });
+    const { error, data } = await supabase
+      .from("apps")
+      .insert({
+        name,
+        description,
+        user_id: userId,
+        icon: iconData.path,
+      })
+      .select()
+      .single();
 
     if (error) {
       return redirect(`${route}?message=There was an error creating your metadata.`);
+    }
+
+    const appManifest = generateManifest(data, icon.type);
+
+    const { error: manifestError } = await supabase.storage.from("app_manifest").upload(name, appManifest, {
+      upsert: true,
+    });
+
+    if (manifestError) {
+      return redirect(`${route}?message=There was an error creating your manifest.`);
     }
 
     redirect("/dashboard");
