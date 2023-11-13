@@ -12,7 +12,7 @@ export default function HomePage() {
               <p className="mx-auto max-w-[700px] text-zinc-500 md:text-xl dark:text-zinc-400">Transform any website into a PWA in seconds.</p>
             </div>
             <div className="space-x-2">
-              <Button variant="default">
+              <Button variant="default" asChild>
                 <Link href="/demo">Try Demo</Link>
               </Button>
             </div>

@@ -20,10 +20,12 @@ export default async function AuthButton() {
     return redirect("/login");
   };
 
+  const username = user?.email?.split("@")[0];
+
   if (user) {
     return (
-      <div className="flex items-center gap-4">
-        Hey, {user.email}!
+      <div className="flex items-center gap-1">
+        <div className="text-foreground">{username}</div>
         <form action={signOut}>
           <button className="py-2 px-4 rounded-md no-underline bg-btn-background hover:bg-btn-background-hover">Logout</button>
         </form>
