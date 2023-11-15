@@ -4,41 +4,44 @@ import { cookies } from "next/headers";
 import Image from "next/image";
 import { redirect } from "next/navigation";
 
-const getManifest = async () => {
+const getApps = async () => {
   const cookieStore = cookies();
   const supabase = createClient(cookieStore);
 
-  const { error: appError, data: app } = await supabase.from("apps").select().limit(1).single();
+  const { error: appError, data: apps } = await supabase.from("apps").select();
 
   if (appError) {
     return redirect("/dashboard?message=There was an error getting your app metadata.");
   }
 
-  const { data: icon } = supabase.storage.from("app_icon").getPublicUrl(app.icon);
+  const output = apps.map((app) => {
+    const { data: icon } = supabase.storage.from("app_icon").getPublicUrl(app.icon);
 
-  const { data: manifest } = supabase.storage.from("app_manifest").getPublicUrl(app.name);
+    const { data: manifest } = supabase.storage.from("app_manifest").getPublicUrl(app.name);
 
-  return {
-    app,
-    iconURL: icon.publicUrl,
-    manifestURL: manifest.publicUrl,
-  };
+    return {
+      ...app,
+      iconURL: icon.publicUrl,
+      manifestURL: manifest.publicUrl,
+    };
+  });
+
+  return output;
 };
 
 export default async function Info() {
-  const { app, iconURL, manifestURL } = await getManifest();
-
-  const manifestLink = `<link rel="manifest" href="${manifestURL}" />`;
+  const apps = await getApps();
 
   return (
     <div className="flex flex-col items-center justify-center w-full h-full space-y-4">
-      <h3 className="text-2xl">App Metadata</h3>
-      <div className="flex flex-col items-center justify-center w-full h-full space-y-4">
-        <Image src={iconURL} alt="App Icon" width={128} height={128} className="rounded-md" />
-        <p>{app.name}</p>
-        <p>{app.description}</p>
-        <CodeSnippet code={manifestLink} description="Copy this and paste between the <head> tags of your app." />
-      </div>
+      {apps.map(({ iconURL, name, description, manifestURL }) => (
+        <div className="flex flex-col items-center justify-center w-full h-full space-y-4">
+          <Image src={iconURL} alt="App Icon" width={128} height={128} className="rounded-md" />
+          <p>{name}</p>
+          <p>{description}</p>
+          <CodeSnippet code={`<link rel="manifest" href="${manifestURL}" />`} description="Copy this and paste between the <head> tags of your app." />
+        </div>
+      ))}
     </div>
   );
 }

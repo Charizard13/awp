@@ -5,7 +5,7 @@ type IconButtonProps = {
   //   onClick: () => void;
 };
 
-export default function IconButton({ icon, label, onClick }: IconButtonProps) {
+export default function IconButton({ icon, label }: IconButtonProps) {
   return (
     <button
       //   onClick={onClick}

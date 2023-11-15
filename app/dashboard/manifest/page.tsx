@@ -25,7 +25,8 @@ export default function MetaData({ searchParams }: { searchParams: { message: st
       return redirect(`${route}?message=You must be logged in to create metadata.`);
     }
 
-    const { data: iconData, error: iconError } = await supabase.storage.from("app_icon").upload(name, icon, {
+    const pngIcon = new Blob([icon], { type: "image/png" });
+    const { data: iconData, error: iconError } = await supabase.storage.from("app_icon").upload(name, pngIcon, {
       upsert: true,
     });
 
@@ -49,7 +50,7 @@ export default function MetaData({ searchParams }: { searchParams: { message: st
       return redirect(`${route}?message=There was an error creating your metadata.`);
     }
 
-    const appManifest = generateManifest(data, icon.type);
+    const appManifest = generateManifest(data, pngIcon.type);
 
     const { error: manifestError } = await supabase.storage.from("app_manifest").upload(name, appManifest, {
       upsert: true,
