@@ -1,4 +1,4 @@
-import SideBar from "@/components/layout/SideBar";
+import SideBar from "@/app/dashboard/SideBar";
 
 export default function Layout({ children }: { children: React.ReactNode }) {
   return (

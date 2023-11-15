@@ -10,7 +10,11 @@ export function generateManifest(app: App, fileExtension: string) {
     description: app.description ?? "",
     icons: icons,
   };
-  return JSON.stringify(manifest);
+  const jsonString = JSON.stringify(manifest);
+
+  const blob = new Blob([jsonString], { type: "application/json" });
+
+  return blob;
 }
 
 function getIconMeta(iconPath: string, fileExtension: string) {

@@ -7,7 +7,7 @@ export default function SideBar() {
         <div className="overflow-y-auto overflow-x-hidden flex-grow">
           <ul className="flex flex-col py-6 space-y-1">
             <li>
-              <Link className="flex items-center px-5 py-2 text-gray-500 hover:text-gray-700 dark:text-gray-300 dark:hover:text-gray-500" href="#">
+              <Link className="flex items-center px-5 py-2 text-gray-500 hover:text-gray-700 dark:text-gray-300 dark:hover:text-gray-500" href="/dashboard">
                 <svg
                   className=" w-5 h-5"
                   fill="none"

@@ -19,7 +19,7 @@ export default function MetaData({ searchParams }: { searchParams: { message: st
     const supabase = createClient(cookieStore);
     const user = await supabase.auth.getUser();
     const userId = user?.data?.user?.id;
-    const route = "/dashboard/metadata";
+    const route = "/dashboard/manifest";
 
     if (!userId) {
       return redirect(`${route}?message=You must be logged in to create metadata.`);
