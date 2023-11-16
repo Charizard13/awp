@@ -1,7 +1,9 @@
 import CodeSnippet from "@/components/CodeSnippet";
+import { Button } from "@/components/ui/button";
 import { createServerClient } from "@/utils/supabase/server";
 import { cookies } from "next/headers";
 import Image from "next/image";
+import Link from "next/link";
 import { redirect } from "next/navigation";
 
 const getApps = async () => {
@@ -34,6 +36,15 @@ export default async function Info() {
 
   return (
     <div className="flex flex-col items-center justify-center w-full h-full space-y-4">
+      {apps.length === 0 && (
+        <div className="flex flex-col items-center justify-center w-full h-full space-y-4">
+          <p>You don't have any apps yet.</p>
+          <p>Click the button below to create one.</p>
+          <Button asChild>
+            <Link href="/dashboard/manifest">Create App</Link>
+          </Button>
+        </div>
+      )}
       {apps.map(({ iconURL, name, description, manifestURL }) => (
         <div className="flex flex-col items-center justify-center w-full h-full space-y-4">
           <Image src={iconURL} alt="App Icon" width={128} height={128} className="rounded-md" />
