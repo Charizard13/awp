@@ -2,6 +2,7 @@ import { createServerClient } from "@/utils/supabase/server";
 import Link from "next/link";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
+import { Button } from "./ui/button";
 
 export default async function AuthButton() {
   const cookieStore = cookies();
@@ -20,21 +21,16 @@ export default async function AuthButton() {
     return redirect("/login");
   };
 
-  const username = user?.email?.split("@")[0];
-
   if (user) {
     return (
-      <div className="flex items-center gap-1">
-        <div className="text-foreground">{username}</div>
-        <form action={signOut}>
-          <button className="py-2 px-4 rounded-md no-underline bg-btn-background hover:bg-btn-background-hover">Logout</button>
-        </form>
-      </div>
+      <form action={signOut}>
+        <Button variant="ghost">Logout</Button>
+      </form>
     );
   }
   return (
-    <Link href="/login" className="py-2 px-3 flex rounded-md no-underline bg-btn-background hover:bg-btn-background-hover">
-      Login
-    </Link>
+    <Button asChild>
+      <Link href="/login">Login</Link>
+    </Button>
   );
 }
