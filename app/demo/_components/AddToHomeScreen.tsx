@@ -1,10 +1,11 @@
+import { Share } from "lucide-react";
 export default function AddToHomeScreenDialog() {
   return (
     <div className="flex flex-col items-center justify-center flex-grow text-center p-4 space-y-8">
       <h2 className="text-2xl font-bold text-center">Add to Home Screen</h2>
       <ol className="list-decimal list-inside text-gray-600 dark:text-gray-400 space-y-8">
         <li className="text-left">
-          Click on the safari share button on the bottom of the browser <span className="material-symbols-outlined">ios_share</span>
+          Click on the safari share button on the bottom of the browser <Share />
         </li>
         <li className="text-left">
           Click on

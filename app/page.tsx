@@ -1,4 +1,5 @@
 import { Button } from "@/components/ui/button";
+import { Check } from "lucide-react";
 import Link from "next/link";
 
 export default function HomePage() {
@@ -25,55 +26,16 @@ export default function HomePage() {
             <div className="space-y-2">
               <div className="inline-block rounded-lg bg-zinc-50 px-3 py-1 text-sm dark:bg-zinc-800">Key Features</div>
               <ul className="grid gap-2 py-4">
-                <li>
-                  <svg
-                    className=" mr-2 inline-block h-4 w-4"
-                    fill="none"
-                    height="24"
-                    stroke="currentColor"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth="2"
-                    viewBox="0 0 24 24"
-                    width="24"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <polyline points="20 6 9 17 4 12" />
-                  </svg>
+                <li className="flex gap-2">
+                  <Check />
                   Seamless transformation of websites into PWAs.
                 </li>
-                <li>
-                  <svg
-                    className=" mr-2 inline-block h-4 w-4"
-                    fill="none"
-                    height="24"
-                    stroke="currentColor"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth="2"
-                    viewBox="0 0 24 24"
-                    width="24"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <polyline points="20 6 9 17 4 12" />
-                  </svg>
+                <li className="flex gap-2 w-full">
+                  <Check />
                   Quick and efficient process.
                 </li>
-                <li>
-                  <svg
-                    className=" mr-2 inline-block h-4 w-4"
-                    fill="none"
-                    height="24"
-                    stroke="currentColor"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth="2"
-                    viewBox="0 0 24 24"
-                    width="24"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <polyline points="20 6 9 17 4 12" />
-                  </svg>
+                <li className="flex gap-2 w-full">
+                  <Check />
                   No coding skills required.
                 </li>
               </ul>
@@ -87,55 +49,16 @@ export default function HomePage() {
             <div className="space-y-2">
               <div className="inline-block rounded-lg bg-zinc-100 px-3 py-1 text-sm dark:bg-zinc-800">Benefits</div>
               <ul className="grid gap-2 py-4">
-                <li>
-                  <svg
-                    className=" mr-2 inline-block h-4 w-4"
-                    fill="none"
-                    height="24"
-                    stroke="currentColor"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth="2"
-                    viewBox="0 0 24 24"
-                    width="24"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <polyline points="20 6 9 17 4 12" />
-                  </svg>
+                <li className="flex gap-2 w-full">
+                  <Check />
                   Enhance user experience with PWA features.
                 </li>
-                <li>
-                  <svg
-                    className=" mr-2 inline-block h-4 w-4"
-                    fill="none"
-                    height="24"
-                    stroke="currentColor"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth="2"
-                    viewBox="0 0 24 24"
-                    width="24"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <polyline points="20 6 9 17 4 12" />
-                  </svg>
+                <li className="flex gap-2 w-full">
+                  <Check />
                   Improve website performance and speed.
                 </li>
-                <li>
-                  <svg
-                    className=" mr-2 inline-block h-4 w-4"
-                    fill="none"
-                    height="24"
-                    stroke="currentColor"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth="2"
-                    viewBox="0 0 24 24"
-                    width="24"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <polyline points="20 6 9 17 4 12" />
-                  </svg>
+                <li className="flex gap-2 w-full">
+                  <Check />
                   Increase engagement and conversion rates.
                 </li>
               </ul>

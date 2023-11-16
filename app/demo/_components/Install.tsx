@@ -2,7 +2,7 @@
 import { Button } from "@/components/ui/button";
 
 import useInstall from "@/hooks/useInstall";
-import useNotifications from "@/hooks/useNotifications";
+import { Download } from "lucide-react";
 
 export default function Install() {
   const { openInstallDialog, status } = useInstall();
@@ -12,7 +12,8 @@ export default function Install() {
     case "unSupported":
       return (
         <Button className="px-6 py-2 bg-blue-500 text-white rounded-md shadow-md hover:bg-blue-600 " variant="default" onClick={openInstallDialog}>
-          Install App <span className="material-symbols-outlined m-1">get_app</span>
+          Install App
+          <Download />
         </Button>
       );
 
