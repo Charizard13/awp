@@ -12,6 +12,7 @@ const nextConfig = {
     experimental: {
         typedRoutes: true,
     },
+    transpilePackages: ['lucide-react']
 }
 
 module.exports = nextConfig

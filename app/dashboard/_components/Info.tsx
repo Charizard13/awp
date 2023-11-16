@@ -46,7 +46,7 @@ export default async function Info() {
         </div>
       )}
       {apps.map(({ iconURL, name, description, manifestURL }) => (
-        <div className="flex flex-col items-center justify-center w-full h-full space-y-4">
+        <div className="flex flex-col items-center justify-center w-full h-full space-y-4" key={name}>
           <Image src={iconURL} alt="App Icon" width={128} height={128} className="rounded-md" />
           <p>{name}</p>
           <p>{description}</p>

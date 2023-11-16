@@ -1,23 +1,26 @@
 "use client";
+import dynamic from "next/dynamic";
+import { LucideProps } from "lucide-react";
+import dynamicIconImports from "lucide-react/dynamicIconImports";
 
-import React from "react";
-import { Button } from "./button";
-import type { LucideIcon } from "lucide-react";
-
-type IconButtonProps = {
-  Icon: LucideIcon;
-  label: string;
-  //   onClick: () => void;
-};
-
-export default function IconButton({ Icon, label }: IconButtonProps) {
-  return (
-    <Button
-      //   onClick={onClick}
-      className="flex items-center justify-center w-10 h-10 text-gray-400 rounded-md hover:bg-gray-800 hover:text-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-800"
-    >
-      <Icon />
-      <span className="sr-only">{label}</span>
-    </Button>
-  );
+interface IconProps extends LucideProps {
+  icon: keyof typeof dynamicIconImports;
+  onClick: () => void;
 }
+
+export const IconButton = ({ icon, ...props }: IconProps) => {
+  const LucideIcon = dynamic(dynamicIconImports[icon]);
+
+  return (
+    <LucideIcon
+      className="hover:text-gray-300
+  transition-colors duration-200 ease-in-out cursor-pointer
+  hover:bg-gray-700 rounded-md p-1
+  "
+      {...props}
+      width={32}
+      height={32}
+      aria-label={icon}
+    />
+  );
+};
