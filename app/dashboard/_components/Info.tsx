@@ -13,13 +13,19 @@ const getApps = async () => {
   const { error: appError, data: apps } = await supabase.from("apps").select();
 
   if (appError) {
-    return redirect("/dashboard?message=There was an error getting your app metadata.");
+    return redirect(
+      "/dashboard?message=There was an error getting your app metadata.",
+    );
   }
 
   const output = apps.map((app) => {
-    const { data: icon } = supabase.storage.from("app_icon").getPublicUrl(app.icon);
+    const { data: icon } = supabase.storage
+      .from("app_icon")
+      .getPublicUrl(app.icon);
 
-    const { data: manifest } = supabase.storage.from("app_manifest").getPublicUrl(app.name);
+    const { data: manifest } = supabase.storage
+      .from("app_manifest")
+      .getPublicUrl(app.name);
 
     return {
       ...app,
@@ -38,7 +44,7 @@ export default async function Info() {
     <div className="flex flex-col items-center justify-center w-full h-full space-y-4">
       {apps.length === 0 && (
         <div className="flex flex-col items-center justify-center w-full h-full space-y-4">
-          <p>You don't have any apps yet.</p>
+          <p>You don&apos;t have any apps yet.</p>
           <p>Click the button below to create one.</p>
           <Button asChild>
             <Link href="/dashboard/manifest">Create App</Link>
@@ -46,11 +52,23 @@ export default async function Info() {
         </div>
       )}
       {apps.map(({ iconURL, name, description, manifestURL }) => (
-        <div className="flex flex-col items-center justify-center w-full h-full space-y-4" key={name}>
-          <Image src={iconURL} alt="App Icon" width={128} height={128} className="rounded-md" />
+        <div
+          className="flex flex-col items-center justify-center w-full h-full space-y-4"
+          key={name}
+        >
+          <Image
+            src={iconURL}
+            alt="App Icon"
+            width={128}
+            height={128}
+            className="rounded-md"
+          />
           <p>{name}</p>
           <p>{description}</p>
-          <CodeSnippet code={`<link rel="manifest" href="${manifestURL}" />`} description="Copy this and paste between the <head> tags of your app." />
+          <CodeSnippet
+            code={`<link rel="manifest" href="${manifestURL}" />`}
+            description="Copy this and paste between the <head> tags of your app."
+          />
         </div>
       ))}
     </div>

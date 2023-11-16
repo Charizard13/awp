@@ -57,12 +57,14 @@ function getIcons(iconPath: string, fileExtension: string) {
 }
 
 function getIconUrl(iconPath: string, size: number) {
-  const { data } = supabaseWebClient.storage.from("app_icon").getPublicUrl(iconPath, {
-    transform: {
-      width: size,
-      height: size,
-    },
-  });
+  const { data } = supabaseWebClient.storage
+    .from("app_icon")
+    .getPublicUrl(iconPath, {
+      transform: {
+        width: size,
+        height: size,
+      },
+    });
 
   return data.publicUrl;
 }

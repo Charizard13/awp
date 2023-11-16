@@ -11,7 +11,11 @@ export default function Install() {
     case "idle":
     case "unSupported":
       return (
-        <Button className="px-6 py-2 bg-blue-500 text-white rounded-md shadow-md hover:bg-blue-600 " variant="default" onClick={openInstallDialog}>
+        <Button
+          className="px-6 py-2 bg-blue-500 text-white rounded-md shadow-md hover:bg-blue-600 "
+          variant="default"
+          onClick={openInstallDialog}
+        >
           Install App
           <Download />
         </Button>
@@ -20,14 +24,18 @@ export default function Install() {
     case "installing":
       return (
         <div className="border border-gray-200 dark:border-gray-700 p-4 rounded-md">
-          <p className="text-sm text-gray-600 dark:text-gray-400">Your app is installing...</p>
+          <p className="text-sm text-gray-600 dark:text-gray-400">
+            Your app is installing...
+          </p>
         </div>
       );
 
     case "installed":
       return (
         <div className="border border-gray-200 dark:border-gray-700 p-4 rounded-md">
-          <p className="text-sm text-gray-600 dark:text-gray-400">Your app is installed!</p>
+          <p className="text-sm text-gray-600 dark:text-gray-400">
+            Your app is installed!
+          </p>
         </div>
       );
   }

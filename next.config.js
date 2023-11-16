@@ -1,18 +1,18 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-    images: {
-        remotePatterns: [
-            {
-                protocol: 'https',
-                hostname: 'rsgchglqhbpfmrvsjark.supabase.co',
-                port: "",
-            }
-        ]
-    },
-    experimental: {
-        typedRoutes: true,
-    },
-    transpilePackages: ['lucide-react']
-}
+  images: {
+    remotePatterns: [
+      {
+        protocol: "https",
+        hostname: "rsgchglqhbpfmrvsjark.supabase.co",
+        port: "",
+      },
+    ],
+  },
+  experimental: {
+    typedRoutes: true,
+  },
+  transpilePackages: ["lucide-react"],
+};
 
-module.exports = nextConfig
+module.exports = nextConfig;

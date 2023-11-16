@@ -9,8 +9,12 @@ export default function HomePage() {
         <div className="container px-4 md:px-6">
           <div className="flex flex-col items-center space-y-4 text-center">
             <div className="space-y-2">
-              <h1 className="text-3xl font-bold tracking-tighter sm:text-5xl md:text-6xl/none">Welcome to Awp</h1>
-              <p className="mx-auto max-w-[700px] text-zinc-500 md:text-xl dark:text-zinc-400">Transform any website into a PWA in seconds.</p>
+              <h1 className="text-3xl font-bold tracking-tighter sm:text-5xl md:text-6xl/none">
+                Welcome to Awp
+              </h1>
+              <p className="mx-auto max-w-[700px] text-zinc-500 md:text-xl dark:text-zinc-400">
+                Transform any website into a PWA in seconds.
+              </p>
             </div>
             <div className="space-x-2">
               <Button variant="default" asChild>
@@ -24,7 +28,9 @@ export default function HomePage() {
         <div className="container px-4 md:px-6">
           <div className="flex flex-col justify-center items-center text-center space-y-4">
             <div className="space-y-2">
-              <div className="inline-block rounded-lg bg-zinc-50 px-3 py-1 text-sm dark:bg-zinc-800">Key Features</div>
+              <div className="inline-block rounded-lg bg-zinc-50 px-3 py-1 text-sm dark:bg-zinc-800">
+                Key Features
+              </div>
               <ul className="grid gap-2 py-4">
                 <li className="flex gap-2">
                   <Check />
@@ -47,7 +53,9 @@ export default function HomePage() {
         <div className="container px-4 md:px-6">
           <div className="flex flex-col justify-center items-center text-center space-y-4">
             <div className="space-y-2">
-              <div className="inline-block rounded-lg bg-zinc-100 px-3 py-1 text-sm dark:bg-zinc-800">Benefits</div>
+              <div className="inline-block rounded-lg bg-zinc-100 px-3 py-1 text-sm dark:bg-zinc-800">
+                Benefits
+              </div>
               <ul className="grid gap-2 py-4">
                 <li className="flex gap-2 w-full">
                   <Check />
