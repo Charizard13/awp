@@ -1,6 +1,6 @@
 import { App } from "@/types";
-import { getURL } from "@/utils/helpers";
-import { supabaseWebClient } from "@/utils/supabase/client";
+import { getSiteUrl } from "@/lib/utils";
+import { supabaseWebClient } from "@/lib/supabase/client";
 import { MetadataRoute } from "next";
 
 export function generateManifest(app: App, fileExtension: string) {
@@ -10,7 +10,7 @@ export function generateManifest(app: App, fileExtension: string) {
     name: app.name,
     short_name: shortName,
     icons: icons,
-    start_url: getURL(),
+    start_url: getSiteUrl(),
     id: "/",
     display: "standalone",
     description: app.description ?? undefined,
@@ -71,7 +71,7 @@ function getProtocols() {
   return [
     {
       protocol: "web+pwa",
-      url: `${getURL()}?pwaprotocolredirect=%s`,
+      url: `${getSiteUrl()}?pwaprotocolredirect=%s`,
     },
   ];
 }

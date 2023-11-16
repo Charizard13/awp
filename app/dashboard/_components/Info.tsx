@@ -1,6 +1,6 @@
 import CodeSnippet from "@/components/CodeSnippet";
 import { Button } from "@/components/ui/button";
-import { createServerClient } from "@/utils/supabase/server";
+import { createServerClient } from "@/lib/supabase/server";
 import { cookies } from "next/headers";
 import Image from "next/image";
 import Link from "next/link";

@@ -4,9 +4,9 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
 import { cookies } from "next/headers";
-import { createServerClient } from "@/utils/supabase/server";
+import { createServerClient } from "@/lib/supabase/server";
 import { redirect } from "next/navigation";
-import { generateManifest } from "@/lib/metadata";
+import { generateManifest } from "@/lib/pwa/manifest";
 
 export default function MetaData({ searchParams }: { searchParams: { message: string } }) {
   const handleSubmit = async (formData: FormData) => {

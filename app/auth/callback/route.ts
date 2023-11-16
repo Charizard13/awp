@@ -1,5 +1,5 @@
-import { getURL } from "@/utils/helpers";
-import { createServerClient } from "@/utils/supabase/server";
+import { getSiteUrl } from "@/lib/utils";
+import { createServerClient } from "@/lib/supabase/server";
 import { cookies } from "next/headers";
 import { NextResponse } from "next/server";
 
@@ -14,7 +14,7 @@ export async function GET(request: Request) {
   if (code) {
     const { error } = await supabase.auth.exchangeCodeForSession(code);
     if (!error) {
-      const url = getURL();
+      const url = getSiteUrl();
       return NextResponse.redirect(url);
     }
   }

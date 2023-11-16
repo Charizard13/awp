@@ -1,9 +1,9 @@
 import { cookies } from "next/headers";
-import { createServerClient } from "@/utils/supabase/server";
+import { createServerClient } from "@/lib/supabase/server";
 import { redirect } from "next/navigation";
 import { Provider } from "@supabase/supabase-js";
 import { Button } from "@/components/ui/button";
-import { getURL } from "@/utils/helpers";
+import { getSiteUrl } from "@/lib/utils";
 
 export default function Login({ searchParams }: { searchParams: { message: string } }) {
   const signIn = async (formData: FormData) => {
@@ -16,7 +16,7 @@ export default function Login({ searchParams }: { searchParams: { message: strin
     const { error, data } = await supabase.auth.signInWithOAuth({
       provider,
       options: {
-        redirectTo: getURL() + "auth/callback",
+        redirectTo: getSiteUrl() + "auth/callback",
       },
     });
 
