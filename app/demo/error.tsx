@@ -14,7 +14,7 @@ export default function Error() {
       </CardContent>
       <CardFooter>
         <Button asChild>
-          <Link href="/">Retry</Link>
+          <Link href="/demo">Retry</Link>
         </Button>
       </CardFooter>
     </Card>
