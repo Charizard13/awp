@@ -1,11 +1,11 @@
 import { getURL } from "@/utils/helpers";
-import { createClient } from "@/utils/supabase/server";
+import { createServerClient } from "@/utils/supabase/server";
 import { cookies } from "next/headers";
 import { NextResponse } from "next/server";
 
 export async function GET(request: Request) {
   const cookieStore = cookies();
-  const supabase = createClient(cookieStore);
+  const supabase = createServerClient(cookieStore);
 
   const { searchParams } = new URL(request.url);
   const code = searchParams.get("code");

@@ -1,12 +1,12 @@
 import CodeSnippet from "@/components/CodeSnippet";
-import { createClient } from "@/utils/supabase/server";
+import { createServerClient } from "@/utils/supabase/server";
 import { cookies } from "next/headers";
 import Image from "next/image";
 import { redirect } from "next/navigation";
 
 const getApps = async () => {
   const cookieStore = cookies();
-  const supabase = createClient(cookieStore);
+  const supabase = createServerClient(cookieStore);
 
   const { error: appError, data: apps } = await supabase.from("apps").select();
 

@@ -1,6 +1,6 @@
 import { App } from "@/types";
 import { getURL } from "@/utils/helpers";
-import { createClient } from "@/utils/supabase/client";
+import { supabaseWebClient } from "@/utils/supabase/client";
 import { MetadataRoute } from "next";
 
 export function generateManifest(app: App, fileExtension: string) {
@@ -57,8 +57,7 @@ function getIcons(iconPath: string, fileExtension: string) {
 }
 
 function getIconUrl(iconPath: string, size: number) {
-  const supabase = createClient();
-  const { data } = supabase.storage.from("app_icon").getPublicUrl(iconPath, {
+  const { data } = supabaseWebClient.storage.from("app_icon").getPublicUrl(iconPath, {
     transform: {
       width: size,
       height: size,

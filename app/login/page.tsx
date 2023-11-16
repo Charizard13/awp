@@ -1,5 +1,5 @@
 import { cookies } from "next/headers";
-import { createClient } from "@/utils/supabase/server";
+import { createServerClient } from "@/utils/supabase/server";
 import { redirect } from "next/navigation";
 import { Provider } from "@supabase/supabase-js";
 import { Button } from "@/components/ui/button";
@@ -11,7 +11,7 @@ export default function Login({ searchParams }: { searchParams: { message: strin
 
     const provider = formData.get("provider") as Provider;
     const cookieStore = cookies();
-    const supabase = createClient(cookieStore);
+    const supabase = createServerClient(cookieStore);
 
     const { error, data } = await supabase.auth.signInWithOAuth({
       provider,

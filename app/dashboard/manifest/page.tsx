@@ -4,7 +4,7 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
 import { cookies } from "next/headers";
-import { createClient } from "@/utils/supabase/server";
+import { createServerClient } from "@/utils/supabase/server";
 import { redirect } from "next/navigation";
 import { generateManifest } from "@/lib/metadata";
 
@@ -16,7 +16,7 @@ export default function MetaData({ searchParams }: { searchParams: { message: st
     const name = formData.get("name") as string;
     const description = formData.get("description") as string;
     const cookieStore = cookies();
-    const supabase = createClient(cookieStore);
+    const supabase = createServerClient(cookieStore);
     const user = await supabase.auth.getUser();
     const userId = user?.data?.user?.id;
     const route = "/dashboard/manifest";
