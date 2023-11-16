@@ -8,7 +8,10 @@ const nextConfig = {
                 port: "",
             }
         ]
-    }
+    },
+    experimental: {
+        typedRoutes: true,
+    },
 }
 
 module.exports = nextConfig
