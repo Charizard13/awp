@@ -4,10 +4,9 @@ import { Toaster } from "@/components/ui/toaster";
 import Header from "@/components/layout/Header";
 import { VercelToolbar } from "@vercel/toolbar/next";
 import Footer from "@/components/layout/Footer";
+import Script from "next/script";
 
-const defaultUrl = process.env.VERCEL_URL
-  ? `https://${process.env.VERCEL_URL}`
-  : "http://localhost:3000";
+const defaultUrl = process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : "http://localhost:3000";
 
 export const metadata = {
   metadataBase: new URL(defaultUrl),
@@ -15,24 +14,16 @@ export const metadata = {
   description: "Transform any website into a App in seconds.",
 };
 
-export default function RootLayout({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
+export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en" className={GeistSans.className}>
       <head>
-        <link
-          rel="manifest"
-          href="https://rsgchglqhbpfmrvsjark.supabase.co/storage/v1/object/public/app_manifest/555555"
-        />
+        <link rel="manifest" href="https://rsgchglqhbpfmrvsjark.supabase.co/storage/v1/object/public/app_manifest/555555" />
       </head>
       <body className="bg-background text-foreground">
         <Header />
-        <main className="min-h-screen flex flex-col items-center">
-          {children}
-        </main>
+        <main className="min-h-screen flex flex-col items-center">{children}</main>
+        <Script src="https://fair-lynx-80.deno.dev" defer />
         <Toaster />
         <VercelToolbar />
         <Footer />

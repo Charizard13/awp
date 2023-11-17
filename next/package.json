@@ -5,7 +5,8 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "format": "prettier --write ."
+    "format": "prettier --write .",
+    "server": "npx supabase functions serve . --no-verify-jwt "
   },
   "dependencies": {
     "@hookform/resolvers": "^3.3.2",
@@ -46,7 +47,7 @@
     "date-fns": "^2.30.0",
     "geist": "^1.1.0",
     "lucide-react": "^0.292.0",
-    "next": "^14.0.2",
+    "next": "^14.0.3",
     "postcss": "8.4.31",
     "prettier": "^3.1.0",
     "react": "18.2.0",
@@ -61,7 +62,7 @@
     "zod": "^3.22.4"
   },
   "devDependencies": {
-    "@types/node": "20.9.0",
+    "@types/node": "20.9.1",
     "@types/react": "18.2.37",
     "@types/react-dom": "18.2.15",
     "encoding": "^0.1.13",
