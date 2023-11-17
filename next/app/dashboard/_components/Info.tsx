@@ -47,7 +47,7 @@ export default async function Info() {
       )}
       {apps.map(({ iconURL, name, description, manifestURL }) => (
         <div className="flex flex-col items-center justify-center w-full h-full space-y-4" key={name}>
-          <Image src={iconURL} alt="App Icon" height={128} className="rounded-md" />
+          <Image src={iconURL} alt="App Icon" height={128} width={128} className="rounded-md" />
           <p>{name}</p>
           <p>{description}</p>
           <CodeSnippet code={`<link rel="manifest" href="${manifestURL}" />`} description="Copy this and paste between the <head> tags of your app." />
