@@ -7,7 +7,6 @@ import { cookies } from "next/headers";
 import { createServerClient } from "@/lib/supabase/server";
 import { redirect } from "next/navigation";
 import { generateManifest } from "@/lib/pwa/manifest";
-import { generateScript } from "@/lib/pwa/script";
 
 export default function MetaData({ searchParams }: { searchParams: { message: string } }) {
   const handleSubmit = async (formData: FormData) => {
@@ -52,7 +51,6 @@ export default function MetaData({ searchParams }: { searchParams: { message: st
     }
 
     const appManifest = generateManifest(data, pngIcon.type);
-    const appScript = generateScript();
 
     const { error: manifestError } = await supabase.storage.from("app_manifest").upload(name, appManifest, {
       upsert: true,
@@ -61,15 +59,6 @@ export default function MetaData({ searchParams }: { searchParams: { message: st
     if (manifestError) {
       return redirect(`${route}?message=There was an error creating your manifest.`);
     }
-
-    const { error: scriptError } = await supabase.storage.from("app_script").upload(name, appScript, {
-      upsert: true,
-    });
-
-    if (scriptError) {
-      return redirect(`${route}?message=There was an error creating your script.`);
-    }
-
     redirect("/dashboard");
   };
 

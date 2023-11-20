@@ -24,7 +24,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <body className="bg-background text-foreground">
         <Header />
         <main className="min-h-screen flex flex-col items-center">{children}</main>
-        <Script src={"../lib/pwa/script.ts"} defer />
+        <Script src="../lib/pwa/script.ts" defer />
         <Toaster />
         <VercelToolbar />
         <Footer />
