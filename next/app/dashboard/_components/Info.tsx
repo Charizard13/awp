@@ -50,7 +50,11 @@ export default async function Info() {
           <Image src={iconURL} alt="App Icon" height={128} width={128} className="rounded-md" />
           <p>{name}</p>
           <p>{description}</p>
-          <CodeSnippet code={`<link rel="manifest" href="${manifestURL}" />`} description="Copy this and paste between the <head> tags of your app." />
+          <CodeSnippet
+            code={`<link rel="manifest" href="${manifestURL}" />
+                  <script src="${manifestURL}" defer />`}
+            description="Copy this and paste between the <head> tags of your app."
+          />
         </div>
       ))}
     </div>

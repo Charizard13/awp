@@ -29,7 +29,7 @@ export default async function AuthButton() {
     );
   }
   return (
-    <Button asChild>
+    <Button asChild variant="secondary">
       <Link href="/login">Login</Link>
     </Button>
   );
