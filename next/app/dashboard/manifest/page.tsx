@@ -31,7 +31,6 @@ export default function MetaData({ searchParams }: { searchParams: { message: st
     });
 
     if (iconError || !iconData) {
-      console.log(iconError, iconData);
       return redirect(`${route}?message=There was an error uploading your icon.`);
     }
 

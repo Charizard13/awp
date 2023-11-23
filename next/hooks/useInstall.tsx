@@ -12,14 +12,7 @@ export type App = {
   id?: string;
 };
 
-type AppPlatform =
-  | "chrome_web_store"
-  | "play"
-  | "chromeos_play"
-  | "webapp"
-  | "windows"
-  | "f-droid"
-  | "amazon";
+type AppPlatform = "chrome_web_store" | "play" | "chromeos_play" | "webapp" | "windows" | "f-droid" | "amazon";
 
 type UserChoice = {
   outcome: "accepted" | "dismissed";
@@ -32,92 +25,66 @@ type BeforeInstallPromptEvent = {
 
 export default function useInstall() {
   const [prompt, setPrompt] = useState<BeforeInstallPromptEvent | null>(null);
-  const [status, setStatus] = useState<
-    "unSupported" | "idle" | "installing" | "installed"
-  >("idle");
-  const [userSystem, setUserSystem] = useState<
-    "macSafari" | "iosSafari" | "firefoxNotAndroid" | "other"
-  >("other");
+  const [status, setStatus] = useState<"unSupported" | "idle" | "installing" | "installed">("idle");
+  const [userSystem, setUserSystem] = useState<"macSafari" | "iosSafari" | "firefoxNotAndroid" | "other">("other");
 
   useEffect(() => {
     const userAgent = navigator.userAgent;
-    if (
-      userAgent.includes("Mac") &&
-      userAgent.includes("Safari") &&
-      !userAgent.includes("Chrome")
-    ) {
+    if (userAgent.includes("Mac") && userAgent.includes("Safari") && !userAgent.includes("Chrome")) {
       setUserSystem("macSafari");
       setStatus("unSupported");
-    } else if (
-      userAgent.includes("iPhone") &&
-      userAgent.includes("Safari") &&
-      !userAgent.includes("Chrome")
-    ) {
+    } else if (userAgent.includes("iPhone") && userAgent.includes("Safari") && !userAgent.includes("Chrome")) {
       setUserSystem("iosSafari");
       setStatus("unSupported");
-    } else if (
-      userAgent.includes("Firefox") &&
-      !userAgent.includes("Android")
-    ) {
+    } else if (userAgent.includes("Firefox") && !userAgent.includes("Android")) {
       setUserSystem("firefoxNotAndroid");
       setStatus("unSupported");
     }
   }, []);
 
-  useEffect(() => {
-    const handler = (e: Event) => {
-      setPrompt(e as BeforeInstallPromptEvent);
-      setStatus("idle");
-    };
-    window.addEventListener("beforeinstallprompt", handler);
-    return () => window.removeEventListener("beforeinstallprompt", handler);
-  }, []);
+  // useEffect(() => {
+  //   const handler = (e: Event) => {
+  //     setPrompt(e as BeforeInstallPromptEvent);
+  //     setStatus("idle");
+  //   };
+  //   window.addEventListener("beforeinstallprompt", handler);
+  //   return () => window.removeEventListener("beforeinstallprompt", handler);
+  // }, []);
 
-  useEffect(() => {
-    const handler = () => setStatus("installed");
-    window.addEventListener("appinstalled", handler);
-    return () => window.removeEventListener("appinstalled", handler);
-  }, []);
+  // useEffect(() => {
+  //   const handler = () => setStatus("installed");
+  //   window.addEventListener("appinstalled", handler);
+  //   return () => window.removeEventListener("appinstalled", handler);
+  // }, []);
 
-  useEffect(() => {
-    const isInstalled =
-      window.navigator.standalone == true || // iOS PWA Standalone
-      document.referrer.includes("android-app://") || // Android Trusted Web App
-      [
-        "fullscreen",
-        "standalone",
-        "minimal-ui",
-        "window-controls-overlay",
-      ].some(
-        (displayMode) =>
-          window.matchMedia(`(display-mode: ${displayMode})`).matches,
-      ); // Chrome PWA (supporting fullscreen, standalone, minimal-ui)
-    if (!isInstalled) {
-      return;
-    }
-    setStatus("installed");
-  }, []);
+  // useEffect(() => {
+  //   const isInstalled =
+  //     window.navigator.standalone == true || // iOS PWA Standalone
+  //     document.referrer.includes("android-app://") || // Android Trusted Web App
+  //     ["fullscreen", "standalone", "minimal-ui", "window-controls-overlay"].some((displayMode) => window.matchMedia(`(display-mode: ${displayMode})`).matches); // Chrome PWA (supporting fullscreen, standalone, minimal-ui)
+  //   if (!isInstalled) {
+  //     return;
+  //   }
+  //   setStatus("installed");
+  // }, []);
 
-  useEffect(() => {
-    const handler = async () => {
-      try {
-        if (!navigator.getInstalledRelatedApps) {
-          return;
-        }
-        const relatedApps = await navigator.getInstalledRelatedApps();
-        console.log(relatedApps);
-        const pwaApp = relatedApps.find(
-          ({ platform }) => platform === "webapp",
-        );
-        if (pwaApp) {
-          setStatus("installed");
-        }
-      } catch (e) {
-        // ignore
-      }
-    };
-    handler();
-  }, []);
+  // useEffect(() => {
+  //   const handler = async () => {
+  //     try {
+  //       if (!navigator.getInstalledRelatedApps) {
+  //         return;
+  //       }
+  //       const relatedApps = await navigator.getInstalledRelatedApps();
+  //       const pwaApp = relatedApps.find(({ platform }) => platform === "webapp");
+  //       if (pwaApp) {
+  //         setStatus("installed");
+  //       }
+  //     } catch (e) {
+  //       // ignore
+  //     }
+  //   };
+  //   handler();
+  // }, []);
 
   const handleUnSupported = () => {
     switch (userSystem) {
@@ -134,13 +101,9 @@ export default function useInstall() {
       case "firefoxNotAndroid":
         toast({
           title: "Firefox on Desktop is not supported",
-          description:
-            "To install the app open this website in Chrome or Safari to install the app",
+          description: "To install the app open this website in Chrome or Safari to install the app",
           action: (
-            <ToastAction
-              onClick={() => window.open("https://www.google.com/chrome/")}
-              altText="Get Chrome"
-            >
+            <ToastAction onClick={() => window.open("https://www.google.com/chrome/")} altText="Get Chrome">
               Get Chrome
             </ToastAction>
           ),
@@ -158,8 +121,7 @@ export default function useInstall() {
       if (!prompt) {
         toast({
           title: "App install not supported/available",
-          description:
-            "To install the app open this website in Chrome or Safari to install the app",
+          description: "To install the app open this website in Chrome or Safari to install the app",
         });
         return;
       }
