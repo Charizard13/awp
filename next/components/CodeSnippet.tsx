@@ -1,14 +1,8 @@
 "use client";
-import {
-  CardTitle,
-  CardDescription,
-  CardHeader,
-  CardContent,
-  Card,
-} from "@/components/ui/card";
-import { IconButton } from "./ui/iconButton";
+import { CardTitle, CardDescription, CardHeader, CardContent, Card } from "@/components/ui/card";
 import { toast } from "./ui/use-toast";
-
+import { Button } from "./ui/button";
+import { CopyIcon } from "lucide-react";
 type CodeSnippetProps = {
   code: string;
   description: string;
@@ -29,7 +23,9 @@ export default function CodeSnippet({ code, description }: CodeSnippetProps) {
         <CardTitle>Code Snippet</CardTitle>
         <CardDescription className="flex items-center justify-between">
           <span>{description} </span>
-          <IconButton icon="copy" onClick={handleCopy} />
+          <Button variant="outline" size="icon">
+            <CopyIcon onClick={handleCopy} />
+          </Button>
         </CardDescription>
       </CardHeader>
       <CardContent className="p-6 bg-gray-800 text-white rounded-md ">

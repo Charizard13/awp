@@ -9,8 +9,9 @@ import { redirect } from "next/navigation";
 import { generateManifest } from "@/lib/pwa/manifest";
 import { generateScript } from "@/lib/pwa/script";
 import { appAssets } from "@/lib/consts";
+import SubmitButton from "@/components/SubmitButton";
 
-export default function MetaData({ searchParams }: { searchParams: { message: string } }) {
+export default function CreateAppPage({ searchParams }: { searchParams: { message: string } }) {
   const handleSubmit = async (formData: FormData) => {
     "use server";
 
@@ -21,7 +22,7 @@ export default function MetaData({ searchParams }: { searchParams: { message: st
     const supabase = createServerClient(cookieStore);
     const user = await supabase.auth.getUser();
     const userId = user?.data?.user?.id;
-    const route = "/dashboard/manifest";
+    const route = "/dashboard/createApp";
 
     if (!userId) {
       return redirect(`${route}?message=You must be logged in to create metadata.`);
@@ -51,7 +52,7 @@ export default function MetaData({ searchParams }: { searchParams: { message: st
     const [iconData, manifestData, scriptData] = await Promise.all([uploadIcon, uploadManifest, uploadScript]);
 
     if (iconData.error || manifestData.error || scriptData.error) {
-      console.error(iconData.error, manifestData.error, scriptData.error);
+      await supabase.from("apps").delete().match({ id: app.id });
       return redirect(`${route}?message=There was an error uploading your metadata.`);
     }
 
@@ -85,9 +86,7 @@ export default function MetaData({ searchParams }: { searchParams: { message: st
             </div>
           </CardContent>
           <CardFooter>
-            <Button className="ml-auto" type="submit">
-              Create Metadata
-            </Button>
+            <SubmitButton className="ml-auto">Create App</SubmitButton>
           </CardFooter>
         </form>
       </Card>

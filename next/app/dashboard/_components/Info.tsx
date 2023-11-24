@@ -39,7 +39,7 @@ export default async function Info() {
         <div className="flex flex-col items-center justify-center w-full h-full space-y-4">
           <p>You don&apos;t have any apps yet.</p>
           <Button asChild>
-            <Link href="/dashboard/manifest">Create App</Link>
+            <Link href="/dashboard/apps/create">Create App</Link>
           </Button>
         </div>
       )}
