@@ -7,6 +7,8 @@ import { cookies } from "next/headers";
 import { createServerClient } from "@/lib/supabase/server";
 import { redirect } from "next/navigation";
 import { generateManifest } from "@/lib/pwa/manifest";
+import { generateScript } from "@/lib/pwa/script";
+import { appAssets } from "@/lib/consts";
 
 export default function MetaData({ searchParams }: { searchParams: { message: string } }) {
   const handleSubmit = async (formData: FormData) => {
@@ -25,22 +27,12 @@ export default function MetaData({ searchParams }: { searchParams: { message: st
       return redirect(`${route}?message=You must be logged in to create metadata.`);
     }
 
-    const pngIcon = new Blob([icon], { type: "image/png" });
-    const { data: iconData, error: iconError } = await supabase.storage.from("app_icon").upload(name, pngIcon, {
-      upsert: true,
-    });
-
-    if (iconError || !iconData) {
-      return redirect(`${route}?message=There was an error uploading your icon.`);
-    }
-
     const { error, data } = await supabase
       .from("apps")
       .insert({
         name,
         description,
         user_id: userId,
-        icon: iconData.path,
       })
       .select()
       .single();
@@ -49,15 +41,19 @@ export default function MetaData({ searchParams }: { searchParams: { message: st
       return redirect(`${route}?message=There was an error creating your metadata.`);
     }
 
+    const pngIcon = new Blob([icon], { type: "image/png" });
+    const uploadIcon = supabase.storage.from("apps").upload(`${userId}/${appAssets.icon}`, pngIcon);
     const appManifest = generateManifest(data, pngIcon.type);
+    const uploadManifest = supabase.storage.from("apps").upload(`${userId}/${appAssets.manifest}`, appManifest);
+    const appScript = generateScript();
+    const uploadScript = supabase.storage.from("apps").upload(`${userId}/${appAssets.script}`, appScript);
 
-    const { error: manifestError } = await supabase.storage.from("app_manifest").upload(name, appManifest, {
-      upsert: true,
-    });
+    const [iconData, manifestData, scriptData] = await Promise.all([uploadIcon, uploadManifest, uploadScript]);
 
-    if (manifestError) {
-      return redirect(`${route}?message=There was an error creating your manifest.`);
+    if (iconData.error || manifestData.error || scriptData.error) {
+      return redirect(`${route}?message=There was an error uploading your metadata.`);
     }
+
     redirect("/dashboard");
   };
 

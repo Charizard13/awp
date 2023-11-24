@@ -1,10 +1,11 @@
-import { App } from "@/types";
-import { getSiteUrl } from "@/lib/utils";
+import type { App } from "@/types";
+import { getSiteUrl } from "@/lib/url";
 import { supabaseWebClient } from "@/lib/supabase/client";
 import { MetadataRoute } from "next";
+import { appAssets } from "../consts";
 
 export function generateManifest(app: App, fileExtension: string) {
-  const icons = getIcons(app.icon, fileExtension);
+  const icons = getIcons(appAssets.icon, fileExtension);
   const shortName = getShortName(app.name);
   const manifest: MetadataRoute.Manifest = {
     name: app.name,
@@ -57,7 +58,7 @@ function getIcons(iconPath: string, fileExtension: string) {
 }
 
 function getIconUrl(iconPath: string, size: number) {
-  const { data } = supabaseWebClient.storage.from("app_icon").getPublicUrl(iconPath, {
+  const { data } = supabaseWebClient.storage.from("apps").getPublicUrl(iconPath, {
     transform: {
       width: size,
       height: size,

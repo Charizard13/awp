@@ -1,10 +1,4 @@
-export type Json =
-  | string
-  | number
-  | boolean
-  | null
-  | { [key: string]: Json | undefined }
-  | Json[];
+export type Json = string | number | boolean | null | { [key: string]: Json | undefined } | Json[];
 
 export interface Database {
   public: {
@@ -13,7 +7,6 @@ export interface Database {
         Row: {
           created_at: string;
           description: string | null;
-          icon: string;
           id: string;
           name: string;
           updated_at: string;
@@ -22,7 +15,6 @@ export interface Database {
         Insert: {
           created_at?: string;
           description?: string | null;
-          icon: string;
           id?: string;
           name: string;
           updated_at?: string;
@@ -31,7 +23,6 @@ export interface Database {
         Update: {
           created_at?: string;
           description?: string | null;
-          icon?: string;
           id?: string;
           name?: string;
           updated_at?: string;
@@ -63,4 +54,5 @@ export interface Database {
   };
 }
 
-export type App = Database["public"]["Tables"]["apps"]["Row"];
+export type Table = Database["public"]["Tables"];
+export type App = Table["apps"]["Row"];

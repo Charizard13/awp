@@ -6,7 +6,8 @@
     "start": "next start",
     "lint": "next lint",
     "format": "prettier --write .",
-    "server": "npx supabase functions serve . --no-verify-jwt "
+    "server": "npx supabase functions serve . --no-verify-jwt",
+    "types": "npx supabase gen types typescript --project-id rsgchglqhbpfmrvsjark --schema public > types/supabase.ts"
   },
   "dependencies": {
     "@hookform/resolvers": "^3.3.2",
@@ -62,7 +63,7 @@
     "zod": "^3.22.4"
   },
   "devDependencies": {
-    "@types/node": "20.9.4",
+    "@types/node": "20.9.5",
     "@types/react": "18.2.38",
     "@types/react-dom": "18.2.17",
     "encoding": "^0.1.13",
