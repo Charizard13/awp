@@ -18,8 +18,8 @@ export function getAppAssetsUrls(appId: string) {
   const script = supabaseWebClient.storage.from("apps").getPublicUrl(`${appId}/script.js`);
 
   return {
-    manifestUrl,
-    iconUrl,
-    script,
+    manifestUrl: manifestUrl.data.publicUrl,
+    iconUrl: iconUrl.data.publicUrl,
+    scriptUrl: script.data.publicUrl,
   };
 }

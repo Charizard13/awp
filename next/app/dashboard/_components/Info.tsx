@@ -1,6 +1,7 @@
 import CodeSnippet from "@/components/CodeSnippet";
 import { Button } from "@/components/ui/button";
 import { createServerClient } from "@/lib/supabase/server";
+import { getAppAssetsUrls } from "@/lib/url";
 import { cookies } from "next/headers";
 import Image from "next/image";
 import Link from "next/link";
@@ -17,14 +18,12 @@ const getApps = async () => {
   }
 
   const output = apps.map((app) => {
-    const { data: icon } = supabase.storage.from("app_icon").getPublicUrl(app.icon);
-
-    const { data: manifest } = supabase.storage.from("app_manifest").getPublicUrl(app.name);
-
+    const { iconUrl, manifestUrl, scriptUrl } = getAppAssetsUrls(app.id);
     return {
       ...app,
-      iconURL: icon.publicUrl,
-      manifestURL: manifest.publicUrl,
+      iconUrl,
+      manifestUrl,
+      scriptUrl,
     };
   });
 
@@ -45,14 +44,14 @@ export default async function Info() {
           </Button>
         </div>
       )}
-      {apps.map(({ iconURL, name, description, manifestURL }) => (
+      {apps.map(({ iconUrl, name, description, manifestUrl, scriptUrl }) => (
         <div className="flex flex-col items-center justify-center w-full h-full space-y-4" key={name}>
-          <Image src={iconURL} alt="App Icon" height={128} width={128} className="rounded-md" />
+          <Image src={iconUrl} alt="App Icon" height={128} width={128} className="rounded-md" />
           <p>{name}</p>
           <p>{description}</p>
           <CodeSnippet
-            code={`<link rel="manifest" href="${manifestURL}" />
-                  <script src="${manifestURL}" defer />`}
+            code={`<link rel="manifest" href="${manifestUrl}" />
+                  <script src="${scriptUrl}" defer />`}
             description="Copy this and paste between the <head> tags of your app."
           />
         </div>
