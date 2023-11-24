@@ -9,11 +9,19 @@ type BeforeInstallPromptEvent = {
   userChoice: Promise<UserChoice>;
 } & Event;
 
+// const template = document.createElement("template");
+// template.innerHTML = `
+//   <button>
+//   <slot></slot>
+//   </button>
+// `;
 export class InstallButton extends HTMLElement {
   promptEvent: BeforeInstallPromptEvent | null = null;
   appStatus: "no-support" | "installed" | "not-installed" = "not-installed";
   constructor() {
     super();
+    // this.attachShadow({ mode: "open" });
+    // this.shadowRoot!.appendChild(template.content.cloneNode(true));
     this.isInstalled();
   }
 

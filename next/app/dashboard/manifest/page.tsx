@@ -51,6 +51,7 @@ export default function MetaData({ searchParams }: { searchParams: { message: st
     const [iconData, manifestData, scriptData] = await Promise.all([uploadIcon, uploadManifest, uploadScript]);
 
     if (iconData.error || manifestData.error || scriptData.error) {
+      console.error(iconData.error, manifestData.error, scriptData.error);
       return redirect(`${route}?message=There was an error uploading your metadata.`);
     }
 

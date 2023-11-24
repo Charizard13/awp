@@ -1,8 +1,9 @@
-import { InstallButton } from "@/components/web/InstallButton";
-export function generateScript() {
-  const jsonString = JSON.stringify(InstallButton);
+import fs from "fs";
 
-  const blob = new Blob([jsonString], { type: "application/javascript" });
+export function generateScript() {
+  const jsCode = fs.readFileSync("./components/web/InstallButton.js", "utf8");
+
+  const blob = new Blob([jsCode], { type: "text/javascript" });
 
   return blob;
 }

@@ -2,11 +2,7 @@ import Link from "next/link";
 import AuthButton from "../AuthButton";
 import { Button } from "@/components/ui/button";
 import { ArrowDown, CloudIcon } from "lucide-react";
-import {
-  HoverCard,
-  HoverCardContent,
-  HoverCardTrigger,
-} from "@/components/ui/hover-card";
+import { HoverCard, HoverCardContent, HoverCardTrigger } from "@/components/ui/hover-card";
 import { dashboardRoutes } from "@/app/dashboard/_components/SideBar";
 export default function Header() {
   return (
@@ -14,20 +10,14 @@ export default function Header() {
       <div className="flex items-center justify-between gap-2 max-w-screen-2xl m-auto">
         <Link className="flex items-center" href={"/"}>
           <CloudIcon />
-          <h1 className="ml-2 text-2xl font-semibold text-gray-900 dark:text-gray-100">
-            Awp
-          </h1>
+          <h1 className="ml-2 text-2xl font-semibold text-gray-900 dark:text-gray-100">Awp</h1>
         </Link>
         <div className="flex items-center gap-2">
           <HoverCard openDelay={100}>
             <HoverCardTrigger className="hidden md:block">
               <Button variant="ghost">
                 Dashboard
-                <ArrowDown
-                  className="ml-1 hover:rotate-180 transition-transform"
-                  width={12}
-                  height={12}
-                />
+                <ArrowDown className="ml-1 hover:rotate-180 transition-transform" width={12} height={12} />
               </Button>
             </HoverCardTrigger>
             <HoverCardContent>
@@ -47,6 +37,9 @@ export default function Header() {
               </li>
             </HoverCardContent>
           </HoverCard>
+          <Button variant="ghost" asChild>
+            <Link href="/demo">Demo</Link>
+          </Button>
           <Button variant="ghost" disabled>
             Docs
           </Button>
