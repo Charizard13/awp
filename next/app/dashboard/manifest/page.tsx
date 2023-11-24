@@ -27,7 +27,7 @@ export default function MetaData({ searchParams }: { searchParams: { message: st
       return redirect(`${route}?message=You must be logged in to create metadata.`);
     }
 
-    const { error, data } = await supabase
+    const { error, data: app } = await supabase
       .from("apps")
       .insert({
         name,
@@ -42,11 +42,11 @@ export default function MetaData({ searchParams }: { searchParams: { message: st
     }
 
     const pngIcon = new Blob([icon], { type: "image/png" });
-    const uploadIcon = supabase.storage.from("apps").upload(`${userId}/${appAssets.icon}`, pngIcon);
-    const appManifest = generateManifest(data, pngIcon.type);
-    const uploadManifest = supabase.storage.from("apps").upload(`${userId}/${appAssets.manifest}`, appManifest);
+    const uploadIcon = supabase.storage.from("apps").upload(`${app.id}/${appAssets.icon}`, pngIcon);
+    const appManifest = generateManifest(app, pngIcon.type);
+    const uploadManifest = supabase.storage.from("apps").upload(`${app.id}/${appAssets.manifest}`, appManifest);
     const appScript = generateScript();
-    const uploadScript = supabase.storage.from("apps").upload(`${userId}/${appAssets.script}`, appScript);
+    const uploadScript = supabase.storage.from("apps").upload(`${app.id}/${appAssets.script}`, appScript);
 
     const [iconData, manifestData, scriptData] = await Promise.all([uploadIcon, uploadManifest, uploadScript]);
 

@@ -17,12 +17,13 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="en" className={GeistSans.className}>
       <head>
-        <link rel="manifest" href="https://rsgchglqhbpfmrvsjark.supabase.co/storage/v1/object/public/app_manifest/dwdwdwd" />
+        <link rel="manifest" href="https://rsgchglqhbpfmrvsjark.supabase.co/storage/v1/object/public/apps/a7be9575-1535-4c19-8678-57a63a536a40/manifest.json" />
       </head>
       <body className="bg-background text-foreground">
         <Header />
         <main className="min-h-screen flex flex-col items-center">{children}</main>
         <Toaster />
+        <Script src="https://rsgchglqhbpfmrvsjark.supabase.co/storage/v1/object/public/apps/a7be9575-1535-4c19-8678-57a63a536a40/script.js" defer strategy="afterInteractive" />
         <VercelToolbar />
         <Footer />
       </body>

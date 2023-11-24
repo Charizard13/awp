@@ -1,3 +1,5 @@
+"use client";
+
 type UserChoice = {
   outcome: "accepted" | "dismissed";
 };
@@ -22,6 +24,7 @@ export class InstallButton extends HTMLElement {
       ["fullscreen", "standalone", "minimal-ui", "window-controls-overlay"].some((displayMode) => window.matchMedia(`(display-mode: ${displayMode})`).matches) // Chrome PWA (supporting fullscreen, standalone, minimal-ui)
     ) {
       this.appStatus = "installed";
+      this.hidden = true;
       return;
     }
     this.appStatus = "not-installed";
@@ -48,7 +51,10 @@ export class InstallButton extends HTMLElement {
 
     window.addEventListener("beforeinstallprompt", (event) => {
       if (this.appStatus === "installed") return;
-      if (!event) this.appStatus = "no-support";
+      if (!event) {
+        this.appStatus = "no-support";
+        return;
+      }
       this.promptEvent = event as BeforeInstallPromptEvent;
       this.hidden = false;
     });

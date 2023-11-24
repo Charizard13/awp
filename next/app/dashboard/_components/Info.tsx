@@ -38,7 +38,6 @@ export default async function Info() {
       {apps.length === 0 && (
         <div className="flex flex-col items-center justify-center w-full h-full space-y-4">
           <p>You don&apos;t have any apps yet.</p>
-          <p>Click the button below to create one.</p>
           <Button asChild>
             <Link href="/dashboard/manifest">Create App</Link>
           </Button>

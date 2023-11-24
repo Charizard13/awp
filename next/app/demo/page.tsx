@@ -3,6 +3,8 @@ import type { App } from "@/hooks/useInstall";
 import Install from "./_components/Install";
 import { Button } from "@/components/ui/button";
 import useNotifications from "@/hooks/useNotifications";
+// import { useEffect } from "react";
+// import { InstallButton } from "@/components/web/InstallButton";
 
 declare global {
   interface Window {
@@ -16,6 +18,9 @@ declare global {
 
 export default function DemoPage() {
   const { openNotificationsDialog } = useNotifications();
+  // useEffect(() => {
+  //   const installButton = new InstallButton();
+  // }, []);
 
   return (
     <div className="flex flex-col items-center justify-center flex-grow text-center p-4 space-y-8">

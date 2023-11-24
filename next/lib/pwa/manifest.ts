@@ -5,7 +5,7 @@ import { MetadataRoute } from "next";
 import { appAssets } from "../consts";
 
 export function generateManifest(app: App, fileExtension: string) {
-  const icons = getIcons(appAssets.icon, fileExtension);
+  const icons = getIcons(app.id, fileExtension);
   const shortName = getShortName(app.name);
   const manifest: MetadataRoute.Manifest = {
     name: app.name,
@@ -40,9 +40,9 @@ function getShortName(name: string) {
 
 const sizes = [192, 384, 512, 1024];
 
-function getIcons(iconPath: string, fileExtension: string) {
+function getIcons(appId: string, fileExtension: string) {
   const icons: MetadataRoute.Manifest["icons"] = sizes.map((size) => ({
-    src: getIconUrl(iconPath, size),
+    src: getIconUrl(appId, size),
     sizes: `${size}x${size}`,
     type: fileExtension,
   }));
@@ -57,8 +57,9 @@ function getIcons(iconPath: string, fileExtension: string) {
   return icons;
 }
 
-function getIconUrl(iconPath: string, size: number) {
-  const { data } = supabaseWebClient.storage.from("apps").getPublicUrl(iconPath, {
+function getIconUrl(appId: string, size: number) {
+  const path = `${appId}/${appAssets.icon}`;
+  const { data } = supabaseWebClient.storage.from("apps").getPublicUrl(path, {
     transform: {
       width: size,
       height: size,

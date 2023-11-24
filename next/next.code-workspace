@@ -12,7 +12,8 @@
   "settings": {
     "files.exclude": {
       "supabase/functions/": true
-    }
+    },
+    "cSpell.words": ["supabase"]
     // "deno.importMap": "./supabase/functions/import_map.json"
   }
 }
