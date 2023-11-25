@@ -10,11 +10,18 @@ type SubmitButtonProps = {
   [key: string]: unknown;
 };
 
-export default function SubmitButton({ children, ...props }: SubmitButtonProps) {
+export default function SubmitButton({
+  children,
+  ...props
+}: SubmitButtonProps) {
   const { pending } = useFormStatus();
 
   return (
-    <Button className="flex items-center justify-center" {...props} type="submit">
+    <Button
+      className="flex items-center justify-center"
+      {...props}
+      type="submit"
+    >
       {pending ? <Loader2Icon className="animate-spin" /> : children}
     </Button>
   );

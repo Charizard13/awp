@@ -13,9 +13,15 @@ export function getSiteUrl() {
 }
 
 export function getAppAssetsUrls(appId: string) {
-  const manifestUrl = supabaseWebClient.storage.from("apps").getPublicUrl(`${appId}/manifest.json`);
-  const iconUrl = supabaseWebClient.storage.from("apps").getPublicUrl(`${appId}/icon.png`);
-  const script = supabaseWebClient.storage.from("apps").getPublicUrl(`${appId}/script.js`);
+  const manifestUrl = supabaseWebClient.storage
+    .from("apps")
+    .getPublicUrl(`${appId}/manifest.json`);
+  const iconUrl = supabaseWebClient.storage
+    .from("apps")
+    .getPublicUrl(`${appId}/icon.png`);
+  const script = supabaseWebClient.storage
+    .from("apps")
+    .getPublicUrl(`${appId}/script.js`);
 
   return {
     manifestUrl: manifestUrl.data.publicUrl,

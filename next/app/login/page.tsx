@@ -3,7 +3,7 @@ import { createServerClient } from "@/lib/supabase/server";
 import { redirect } from "next/navigation";
 import { Provider } from "@supabase/supabase-js";
 import { Button } from "@/components/ui/button";
-import { getSiteUrl } from "@/lib/utils";
+import { getSiteUrl } from "@/lib/url";
 
 export default function Login({
   searchParams,

@@ -1,14 +1,23 @@
 "use client";
-import { CardTitle, CardDescription, CardHeader, CardContent, Card } from "@/components/ui/card";
+import {
+  CardTitle,
+  CardDescription,
+  CardHeader,
+  CardContent,
+  Card,
+} from "@/components/ui/card";
 import { toast } from "./ui/use-toast";
 import { Button } from "./ui/button";
 import { CopyIcon } from "lucide-react";
+
 type CodeSnippetProps = {
   code: string;
   description: string;
 };
 
 export default function CodeSnippet({ code, description }: CodeSnippetProps) {
+  const formattedCodeWithLineBreaks = code.replace(/\/>/g, "/>\n");
+
   const handleCopy = () => {
     navigator.clipboard.writeText(code);
     toast({
@@ -28,8 +37,11 @@ export default function CodeSnippet({ code, description }: CodeSnippetProps) {
           </Button>
         </CardDescription>
       </CardHeader>
-      <CardContent className="p-6 bg-gray-800 text-white rounded-md ">
-        <code>{code}</code>
+      <CardContent
+        className="p-6 bg-gray-800 text-white rounded-md"
+        style={{ whiteSpace: "pre-line" }}
+      >
+        <code>{formattedCodeWithLineBreaks}</code>
       </CardContent>
     </Card>
   );

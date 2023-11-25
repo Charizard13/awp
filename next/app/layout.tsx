@@ -5,7 +5,9 @@ import Header from "@/components/layout/Header";
 import { VercelToolbar } from "@vercel/toolbar/next";
 import Footer from "@/components/layout/Footer";
 import Script from "next/script";
-const defaultUrl = process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : "http://localhost:3000";
+const defaultUrl = process.env.VERCEL_URL
+  ? `https://${process.env.VERCEL_URL}`
+  : "http://localhost:3000";
 
 export const metadata = {
   metadataBase: new URL(defaultUrl),
@@ -13,17 +15,30 @@ export const metadata = {
   description: "Transform any website into a App in seconds.",
 };
 
-export default function RootLayout({ children }: { children: React.ReactNode }) {
+export default function RootLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
   return (
     <html lang="en" className={GeistSans.className}>
       <head>
-        <link rel="manifest" href="https://rsgchglqhbpfmrvsjark.supabase.co/storage/v1/object/public/apps/a5d01215-df70-4055-be1f-3c66bd808343/manifest.json" />
+        <link
+          rel="manifest"
+          href="https://rsgchglqhbpfmrvsjark.supabase.co/storage/v1/object/public/apps/a5d01215-df70-4055-be1f-3c66bd808343/manifest.json"
+        />
       </head>
       <body className="bg-background text-foreground">
         <Header />
-        <main className="min-h-screen flex flex-col items-center">{children}</main>
+        <main className="min-h-screen flex flex-col items-center">
+          {children}
+        </main>
         <Toaster />
-        <Script src="https://rsgchglqhbpfmrvsjark.supabase.co/storage/v1/object/public/apps/a5d01215-df70-4055-be1f-3c66bd808343/script.js" defer strategy="afterInteractive" />
+        <Script
+          src="https://rsgchglqhbpfmrvsjark.supabase.co/storage/v1/object/public/apps/a5d01215-df70-4055-be1f-3c66bd808343/script.js"
+          defer
+          strategy="afterInteractive"
+        />
         <VercelToolbar />
         <Footer />
       </body>

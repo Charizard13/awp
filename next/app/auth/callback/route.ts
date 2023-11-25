@@ -1,4 +1,4 @@
-import { getSiteUrl } from "@/lib/utils";
+import { getSiteUrl } from "@/lib/url";
 import { createServerClient } from "@/lib/supabase/server";
 import { cookies } from "next/headers";
 import { NextResponse } from "next/server";

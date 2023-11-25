@@ -14,7 +14,9 @@ const getApps = async () => {
   const { error: appError, data: apps } = await supabase.from("apps").select();
 
   if (appError) {
-    return redirect("/dashboard?message=There was an error getting your app metadata.");
+    return redirect(
+      "/dashboard?message=There was an error getting your app metadata.",
+    );
   }
 
   const output = apps.map((app) => {
@@ -44,8 +46,17 @@ export default async function Info() {
         </div>
       )}
       {apps.map(({ iconUrl, name, description, manifestUrl, scriptUrl }) => (
-        <div className="flex flex-col items-center justify-center w-full h-full space-y-4" key={name}>
-          <Image src={iconUrl} alt="App Icon" height={128} width={128} className="rounded-md" />
+        <div
+          className="flex flex-col items-center justify-center w-full h-full space-y-4"
+          key={name}
+        >
+          <Image
+            src={iconUrl}
+            alt="App Icon"
+            height={128}
+            width={128}
+            className="rounded-md"
+          />
           <p>{name}</p>
           <p>{description}</p>
           <CodeSnippet
