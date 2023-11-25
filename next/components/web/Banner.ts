@@ -53,9 +53,12 @@ export class InstallBanner extends HTMLElement {
   }
 
   disconnectedCallback() {
-    this.shadowRoot!.querySelector(".close")!.removeEventListener("click", () => {
-      this.remove();
-    });
+    this.shadowRoot!.querySelector(".close")!.removeEventListener(
+      "click",
+      () => {
+        this.remove();
+      },
+    );
   }
 
   static get observedAttributes() {
