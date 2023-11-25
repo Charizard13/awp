@@ -24,9 +24,9 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <body className="bg-background text-foreground">
         <Header />
         <main className="min-h-screen flex flex-col items-center">{children}</main>
-        <Analytics />
         <Toaster />
         <Script src="https://rsgchglqhbpfmrvsjark.supabase.co/storage/v1/object/public/apps/a5d01215-df70-4055-be1f-3c66bd808343/script.js" defer strategy="afterInteractive" />
+        <Analytics />
         <VercelToolbar />
         <Footer />
       </body>
