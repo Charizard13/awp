@@ -1,5 +1,5 @@
 import type { App } from "@/types";
-import { getSiteUrl } from "@/lib/url";
+import { getDefaultUrl } from "@/lib/url";
 import { supabaseWebClient } from "@/lib/supabase/client";
 import { MetadataRoute } from "next";
 import { appAssets } from "../consts";
@@ -11,11 +11,11 @@ export function generateManifest(app: App, fileExtension: string) {
     name: app.name,
     short_name: shortName,
     icons: icons,
-    start_url: getSiteUrl(),
+    start_url: getDefaultUrl(),
     id: "/",
     display: "standalone",
     description: app.description ?? undefined,
-    protocol_handlers: getProtocols(),
+    // protocol_handlers: getProtocols(),
   };
 
   const jsonString = JSON.stringify(manifest);
@@ -69,11 +69,11 @@ function getIconUrl(appId: string, size: number) {
   return data.publicUrl;
 }
 
-function getProtocols() {
-  return [
-    {
-      protocol: "web+pwa",
-      url: `${getSiteUrl()}?pwaprotocolredirect=%s`,
-    },
-  ];
-}
+// function getProtocols() {
+//   return [
+//     {
+//       protocol: "web+pwa",
+//       url: `${getSiteUrl()}?pwaprotocolredirect=%s`,
+//     },
+//   ];
+// }

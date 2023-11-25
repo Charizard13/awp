@@ -7,10 +7,10 @@ import Footer from "@/components/layout/Footer";
 import { Analytics } from "@vercel/analytics/react";
 
 import Script from "next/script";
-const defaultUrl = process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : "http://localhost:3000";
+import { getDefaultUrl } from "@/lib/url";
 
 export const metadata = {
-  metadataBase: new URL(defaultUrl),
+  metadataBase: new URL(getDefaultUrl()),
   title: "Awp",
   description: "Transform any website into a App in seconds.",
 };
