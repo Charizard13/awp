@@ -7,10 +7,11 @@ import Footer from "@/components/layout/Footer";
 import { Analytics } from "@vercel/analytics/react";
 
 import Script from "next/script";
-import { getDefaultUrl } from "@/lib/url";
+import Providers from "./providers";
+const defaultUrl = process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : "http://localhost:3000";
 
 export const metadata = {
-  metadataBase: new URL(getDefaultUrl()),
+  metadataBase: new URL(defaultUrl),
   title: "Awp",
   description: "Transform any website into a App in seconds.",
 };
@@ -23,10 +24,12 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       </head>
       <body className="bg-background text-foreground">
         <Header />
-        <main className="min-h-screen flex flex-col items-center">{children}</main>
+        <main className="min-h-screen flex flex-col items-center">
+          <Providers>{children}</Providers>
+        </main>
         <Toaster />
         <Script src="https://rsgchglqhbpfmrvsjark.supabase.co/storage/v1/object/public/apps/a5d01215-df70-4055-be1f-3c66bd808343/script.js" defer strategy="afterInteractive" />
-        <Analytics />
+        {process.env.VERCEL_URL && <Analytics />}
         <VercelToolbar />
         <Footer />
       </body>
