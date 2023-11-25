@@ -1,5 +1,4 @@
 "use client";
-
 export class InstallBanner extends HTMLElement {
   //should pop up after 5 seconds of being on the site from the first visit on top of the page and should be dismissable which the content:
   // "Add to Home Screen" and a close button
@@ -54,12 +53,9 @@ export class InstallBanner extends HTMLElement {
   }
 
   disconnectedCallback() {
-    this.shadowRoot!.querySelector(".close")!.removeEventListener(
-      "click",
-      () => {
-        this.remove();
-      },
-    );
+    this.shadowRoot!.querySelector(".close")!.removeEventListener("click", () => {
+      this.remove();
+    });
   }
 
   static get observedAttributes() {
