@@ -15,7 +15,7 @@ type BeforeInstallPromptEvent = {
 //   <slot></slot>
 //   </button>
 // `;
-export class InstallButton extends HTMLElement {
+export class InstallButton extends HTMLButtonElement {
   promptEvent: BeforeInstallPromptEvent | null = null;
   appStatus: "no-support" | "installed" | "not-installed" = "not-installed";
   constructor() {
@@ -29,15 +29,7 @@ export class InstallButton extends HTMLElement {
     if (
       window.navigator.standalone == true || // iOS PWA Standalone
       document.referrer.includes("android-app://") || // Android Trusted Web App
-      [
-        "fullscreen",
-        "standalone",
-        "minimal-ui",
-        "window-controls-overlay",
-      ].some(
-        (displayMode) =>
-          window.matchMedia(`(display-mode: ${displayMode})`).matches,
-      ) // Chrome PWA (supporting fullscreen, standalone, minimal-ui)
+      ["fullscreen", "standalone", "minimal-ui", "window-controls-overlay"].some((displayMode) => window.matchMedia(`(display-mode: ${displayMode})`).matches) // Chrome PWA (supporting fullscreen, standalone, minimal-ui)
     ) {
       this.appStatus = "installed";
       this.hidden = true;
@@ -82,4 +74,4 @@ export class InstallButton extends HTMLElement {
   }
 }
 
-customElements.define("install-button", InstallButton);
+customElements.define("install-button", InstallButton, { extends: "button" });
