@@ -11,7 +11,7 @@ export function generateManifest(app: App, fileExtension: string) {
     name: app.name,
     short_name: shortName,
     icons: icons,
-    start_url: getDefaultUrl(),
+    start_url: app.url,
     id: "/",
     display: "standalone",
     description: app.description ?? undefined,
