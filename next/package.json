@@ -7,7 +7,8 @@
     "lint": "next lint",
     "format": "prettier --write .",
     "server": "npx supabase functions serve . --no-verify-jwt",
-    "types": "npx supabase gen types typescript --project-id rsgchglqhbpfmrvsjark --schema public > types/supabase.ts"
+    "types": "npx supabase gen types typescript --project-id rsgchglqhbpfmrvsjark --schema public > types/supabase.ts",
+    "knip": "knip --debug"
   },
   "dependencies": {
     "@hookform/resolvers": "^3.3.2",
@@ -40,7 +41,7 @@
     "@radix-ui/react-tooltip": "^1.0.7",
     "@supabase/ssr": "^0.0.10",
     "@supabase/supabase-js": "^2.39.0",
-    "@tanstack/react-query": "^5.8.9",
+    "@tanstack/react-query": "^5.10.0",
     "@vercel/analytics": "^1.1.1",
     "@vercel/toolbar": "^0.1.5",
     "autoprefixer": "10.4.16",
@@ -48,7 +49,7 @@
     "clsx": "^2.0.0",
     "cmdk": "^0.2.0",
     "date-fns": "^2.30.0",
-    "geist": "^1.1.0",
+    "geist": "^1.2.0",
     "lucide-react": "^0.294.0",
     "next": "^14.0.3",
     "postcss": "8.4.31",
@@ -61,7 +62,6 @@
     "tailwind-merge": "^2.0.0",
     "tailwindcss": "3.3.5",
     "tailwindcss-animate": "^1.0.7",
-    "typescript": "5.3.2",
     "zod": "^3.22.4"
   },
   "devDependencies": {
@@ -70,6 +70,8 @@
     "@types/react-dom": "18.2.17",
     "encoding": "^0.1.13",
     "eslint-config-next": "14.0.3",
-    "eslint-config-prettier": "^9.0.0"
+    "eslint-config-prettier": "^9.0.0",
+    "knip": "^3.3.2",
+    "typescript": "^5.3.2"
   }
 }
