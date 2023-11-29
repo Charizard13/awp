@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button";
 import useNotifications from "@/hooks/useNotifications";
 import { useEffect } from "react";
 // import { InstallBanner } from "@/components/web/Banner";
-import { InstallButton } from "@/components/web/InstallButton";
+// import { InstallButton } from "@/components/web/InstallButton";
 
 declare global {
   interface Window {
@@ -26,7 +26,7 @@ declare global {
 export default function DemoPage() {
   const { openNotificationsDialog } = useNotifications();
   useEffect(() => {
-    const installButton = new InstallButton();
+    // const installButton = new InstallButton();
     // const installBanner = new InstallBanner();
   }, []);
 
