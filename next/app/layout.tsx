@@ -7,6 +7,7 @@ import Footer from "@/components/layout/Footer";
 import { Analytics } from "@vercel/analytics/react";
 
 import Providers from "./providers";
+import Script from "next/script";
 const defaultUrl = process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : "http://localhost:3000";
 
 export const metadata = {
@@ -19,7 +20,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="en" className={GeistSans.className}>
       <head>
-        <link rel="manifest" href="https://rsgchglqhbpfmrvsjark.supabase.co/storage/v1/object/public/apps/a5d01215-df70-4055-be1f-3c66bd808343/manifest.json" />
+        <link rel="manifest" href="http://127.0.0.1:54321/storage/v1/object/public/apps/66c61caa-d077-44ea-b1de-6bad54f84b6d/manifest.json" />{" "}
       </head>
       <body className="bg-background text-foreground">
         <Header />
@@ -27,11 +28,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           <Providers>{children}</Providers>
         </main>
         <Toaster />
-        {/* <Script
-          src="https://rsgchglqhbpfmrvsjark.supabase.co/storage/v1/object/public/apps/a5d01215-df70-4055-be1f-3c66bd808343/script.js"
-          defer
-          strategy="afterInteractive"
-        /> */}
+        <Script src="http://127.0.0.1:54321/storage/v1/object/public/apps/f870423a-b5e0-4a72-90cf-35a80ccd804e/script.js" defer strategy="afterInteractive" />
         {process.env.VERCEL_URL && <Analytics />}
         <VercelToolbar />
         <Footer />
