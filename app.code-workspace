@@ -1,0 +1,16 @@
+{
+  "folders": [
+    {
+      "name": "root",
+      "path": "./"
+    },
+    {
+      "name": "client",
+      "path": "next"
+    },
+    {
+      "name": "edge-functions",
+      "path": "supabase"
+    }
+  ]
+}
