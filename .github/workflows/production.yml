@@ -14,7 +14,7 @@ jobs:
     env:
       SUPABASE_ACCESS_TOKEN: ${{ secrets.SUPABASE_ACCESS_TOKEN }}
       SUPABASE_DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
-      STAGING_PROJECT_ID: rsgchglqhbpfmrvsjark
+      SUPABASE_PROJECT_ID: rsgchglqhbpfmrvsjark
 
     steps:
       - name: Get code
