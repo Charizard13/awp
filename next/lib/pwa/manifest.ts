@@ -1,5 +1,4 @@
 import type { App } from "@/types";
-import { getDefaultUrl } from "@/lib/url";
 import { supabaseWebClient } from "@/lib/supabase/client";
 import { MetadataRoute } from "next";
 import { appAssets } from "../consts";

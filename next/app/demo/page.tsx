@@ -4,7 +4,7 @@ import Install from "./_components/Install";
 import { Button } from "@/components/ui/button";
 import useNotifications from "@/hooks/useNotifications";
 import { useEffect } from "react";
-// import { InstallBanner } from "@/components/web/Banner";
+// import { InstallBanner } from "@/components/web/InstallBanner";
 // import { InstallButton } from "@/components/web/InstallButton";
 
 declare global {
@@ -17,14 +17,8 @@ declare global {
   }
   namespace JSX {
     interface IntrinsicElements {
-      "install-button": React.DetailedHTMLProps<
-        React.HTMLAttributes<HTMLElement>,
-        HTMLElement
-      >;
-      "install-banner": React.DetailedHTMLProps<
-        React.HTMLAttributes<HTMLElement>,
-        HTMLElement
-      >;
+      "install-button": React.DetailedHTMLProps<React.HTMLAttributes<HTMLElement>, HTMLElement>;
+      "install-banner": React.DetailedHTMLProps<React.HTMLAttributes<HTMLElement>, HTMLElement>;
     }
   }
 }
@@ -39,13 +33,10 @@ export default function DemoPage() {
   return (
     <div className="flex flex-col items-center justify-center flex-grow text-center p-4 space-y-8">
       <h1 className="text-3xl font-bold">Awp Demo Page</h1>
-      <p className="text-lg text-gray-600 dark:text-gray-400">
-        Explore the features and capabilities of our Progressive Web App (PWA).
-      </p>
+      <p className="text-lg text-gray-600 dark:text-gray-400">Explore the features and capabilities of our Progressive Web App (PWA).</p>
       <Install />
-      <Button onClick={openNotificationsDialog}>
-        Open Notifications Dialog
-      </Button>
+
+      <Button onClick={openNotificationsDialog}>Open Notifications Dialog</Button>
     </div>
   );
 }

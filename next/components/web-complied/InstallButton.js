@@ -6,7 +6,7 @@
 //   <slot></slot>
 //   </button>
 // `;
-export class InstallButton extends HTMLButtonElement {
+class InstallButton extends HTMLButtonElement {
   promptEvent = null;
   appStatus = "not-installed";
   constructor() {

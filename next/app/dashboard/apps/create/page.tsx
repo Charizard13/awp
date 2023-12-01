@@ -48,7 +48,7 @@ export default function CreateAppPage({ searchParams }: { searchParams: { messag
     const uploadIcon = supabase.storage.from("apps").upload(`${app.id}/${appAssets.icon}`, pngIcon);
     const appManifest = generateManifest(app, pngIcon.type);
     const uploadManifest = supabase.storage.from("apps").upload(`${app.id}/${appAssets.manifest}`, appManifest);
-    const appScript = generateScript();
+    const appScript = await generateScript();
     const uploadScript = supabase.storage.from("apps").upload(`${app.id}/${appAssets.script}`, appScript);
 
     const [iconData, manifestData, scriptData] = await Promise.all([uploadIcon, uploadManifest, uploadScript]);
@@ -82,7 +82,7 @@ export default function CreateAppPage({ searchParams }: { searchParams: { messag
               </div>
               <div className="space-y-2">
                 <Label htmlFor="app-url">URL</Label>
-                <Input id="app-url" placeholder="https://example.com" required name="url" maxLength={150} minLength={10} />
+                <Input id="app-url" placeholder="https://www.example.com" required name="url" maxLength={150} minLength={10} />
                 <p className="text-sm text-zinc-500 dark:text-zinc-400">Enter the link of your website.</p>
               </div>
               <div className="space-y-2">
