@@ -13,6 +13,7 @@ import SubmitButton from "@/components/SubmitButton";
 export default function CreateAppPage({ searchParams }: { searchParams: { message: string } }) {
   const handleSubmit = async (formData: FormData) => {
     "use server";
+    const route = "/dashboard/apps/create";
 
     const icon = formData.get("icon") as File;
     const name = formData.get("name") as string;
@@ -23,7 +24,6 @@ export default function CreateAppPage({ searchParams }: { searchParams: { messag
     const supabase = createServerClient(cookieStore);
     const user = await supabase.auth.getUser();
     const userId = user?.data?.user?.id;
-    const route = "/dashboard/apps/create";
 
     if (!userId) {
       return redirect(`${route}?message=You must be logged in to create metadata.`);
@@ -73,23 +73,23 @@ export default function CreateAppPage({ searchParams }: { searchParams: { messag
             <div className="space-y-4">
               <div className="space-y-2">
                 <Label htmlFor="icon-upload">Icon</Label>
-                <Input accept="image/*" id="icon-upload" type="file" name="icon" />
+                <Input accept="image/*" id="icon-upload" type="file" name="icon" required />
                 <p className="text-sm text-zinc-500 dark:text-zinc-400">Upload your app&apos;s icon.</p>
               </div>
               <div className="space-y-2">
                 <Label htmlFor="app-name">Name</Label>
-                <Input id="app-name" placeholder="App Name" required name="name" />
+                <Input id="app-name" placeholder="App Name" required name="name" maxLength={50} minLength={3} />
               </div>
               <div className="space-y-2">
                 <Label htmlFor="app-url">URL</Label>
-                <Input id="app-url" placeholder="https://example.com" required name="url" />
+                <Input id="app-url" placeholder="https://example.com" required name="url" maxLength={150} minLength={10} />
                 <p className="text-sm text-zinc-500 dark:text-zinc-400">Enter the link of your website.</p>
               </div>
               <div className="space-y-2">
                 <Label htmlFor="app-description">App Description (Optional)</Label>
-                <Textarea className="min-h-[100px]" id="app-description" placeholder="Describe your app" name="description" />
+                <Textarea className="min-h-[100px]" id="app-description" placeholder="Describe your app" name="description" maxLength={150} minLength={10} />
               </div>
-              {searchParams?.message && <p className="mt-4 p-4 rounded-sm  bg-foreground/10 text-foreground text-center">{searchParams.message}</p>}
+              {searchParams?.message && <p className="mt-4 p-4 rounded-sm  bg-foreground/10 text-foreground text-center text-red-500">{searchParams.message}</p>}
             </div>
           </CardContent>
           <CardFooter>
