@@ -17,9 +17,11 @@ jobs:
       STAGING_PROJECT_ID: rsgchglqhbpfmrvsjark
 
     steps:
-      - uses: actions/checkout@v3
+      - name: Get code
+        uses: actions/checkout@v3
 
-      - uses: supabase/setup-cli@v1.2.0
+      - name: Deploy migrations
+        uses: supabase/setup-cli@v1.2.0
         with:
           version: latest
 
