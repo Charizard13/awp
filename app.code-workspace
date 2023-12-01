@@ -12,5 +12,8 @@
       "name": "edge-functions",
       "path": "supabase"
     }
-  ]
+  ],
+  "settings": {
+    "cSpell.words": ["supabase"]
+  }
 }

@@ -13,7 +13,6 @@ export default function Login({ searchParams }: { searchParams: { message: strin
     const cookieStore = cookies();
     const supabase = createServerClient(cookieStore);
     const redirectTo = getDefaultUrl() + "auth/callback";
-    console.log(redirectTo);
     const { error, data } = await supabase.auth.signInWithOAuth({
       provider,
       options: { redirectTo },
@@ -26,8 +25,6 @@ export default function Login({ searchParams }: { searchParams: { message: strin
     redirect(data.url);
   };
 
-  console.log(getDefaultUrl() + "auth/callback");
-
   return (
     <div className="flex-1 flex flex-col w-full px-8 sm:max-w-md justify-center gap-2">
       <form className="animate-in flex-1 flex flex-col w-full justify-center gap-2 text-foreground" action={signIn}>
@@ -36,7 +33,7 @@ export default function Login({ searchParams }: { searchParams: { message: strin
         <Button variant="outline" type="submit" name="provider" value="google">
           Google
         </Button>
-        {searchParams?.message && <p className="mt-4 p-4 bg-foreground/10 text-foreground text-center">{searchParams.message}</p>}
+        {searchParams?.message && <p className="mt-4 p-4 rounded-md bg-foreground/10 text-foreground text-center">{searchParams.message}</p>}
       </form>
     </div>
   );

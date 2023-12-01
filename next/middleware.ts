@@ -11,11 +11,13 @@ export async function middleware(request: NextRequest) {
 
     // Refresh session if expired - required for Server Components
     // https://supabase.com/docs/guides/auth/auth-helpers/nextjs#managing-session-with-middleware
-    const session = await supabase.auth.getSession();
-    const userId = session.data.session?.user.id;
-    protectRoute(request, userId);
-
-    return response;
+    const { data } = await supabase.auth.getSession();
+    const userId = data.session?.user.id;
+    const redirect = isAuthorized(request, userId);
+    if (redirect) {
+      const message = `You must be signed in to access ${request.nextUrl.pathname}`;
+      return NextResponse.redirect(new URL(`/login?message=${message}`, request.url));
+    }
   } catch (e) {
     // If you are here, a Supabase client could not be created!
     // This is likely because you have not set up environment variables.
@@ -28,11 +30,6 @@ export async function middleware(request: NextRequest) {
   }
 }
 
-function protectRoute(request: NextRequest, userId: string | undefined) {
-  protectedRoutes.forEach((route) => {
-    if (request.nextUrl.pathname.startsWith(route) && !userId) {
-      const absoluteURL = new URL("/login", request.nextUrl.origin);
-      return NextResponse.redirect(absoluteURL);
-    }
-  });
+function isAuthorized(request: NextRequest, userId: string | undefined) {
+  return protectedRoutes.some((route) => request.nextUrl.pathname.startsWith(route) && !userId);
 }
