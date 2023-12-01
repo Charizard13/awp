@@ -1,14 +1,7 @@
 import Image from "next/image";
 import CodeSnippet from "@/components/CodeSnippet";
 import { App } from "@/types";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
+import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import AppCardFooter from "./AppCardFooter";
 
 type AppCardProps = {
@@ -20,22 +13,17 @@ type AppCardProps = {
 };
 
 export default function AppCard({ app }: AppCardProps) {
-  const { iconUrl, name, description, manifestUrl, scriptUrl } = app;
+  const { iconUrl, name, description, manifestUrl, scriptUrl, url } = app;
 
   return (
     <Card className="w-full max-w-screen-lg">
       <CardHeader>
         <CardTitle>{name}</CardTitle>
+        <CardDescription>{url}</CardDescription>
         <CardDescription>{description}</CardDescription>
       </CardHeader>
       <CardContent>
-        <Image
-          src={iconUrl}
-          alt="App Icon"
-          height={128}
-          width={128}
-          className="rounded-md"
-        />
+        <Image src={iconUrl} alt="App Icon" height={128} width={128} className="rounded-md" />
         <CodeSnippet
           code={`<link rel="manifest" href="${manifestUrl}" />
                 <script src="${scriptUrl}" defer />`}

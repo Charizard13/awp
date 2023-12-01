@@ -12,12 +12,11 @@ export default function Login({ searchParams }: { searchParams: { message: strin
     const provider = formData.get("provider") as Provider;
     const cookieStore = cookies();
     const supabase = createServerClient(cookieStore);
-
+    const redirectTo = getDefaultUrl() + "auth/callback";
+    console.log(redirectTo);
     const { error, data } = await supabase.auth.signInWithOAuth({
       provider,
-      options: {
-        redirectTo: getDefaultUrl() + "auth/callback",
-      },
+      options: { redirectTo },
     });
 
     if (error) {
@@ -26,6 +25,8 @@ export default function Login({ searchParams }: { searchParams: { message: strin
 
     redirect(data.url);
   };
+
+  console.log(getDefaultUrl() + "auth/callback");
 
   return (
     <div className="flex-1 flex flex-col w-full px-8 sm:max-w-md justify-center gap-2">
