@@ -1,14 +1,14 @@
 "use client";
 
 class InstallBanner extends HTMLElement {
-    lastClosedTimestamp;
+  lastClosedTimestamp;
 
-    constructor() {
-        super();
-        this.attachShadow({ mode: "open" });
-        this.lastClosedTimestamp = 0; // Initialize with a default value
-        const display = this.checkDisplay(); // Check whether to display the banner
-        this.shadowRoot.innerHTML = `
+  constructor() {
+    super();
+    this.attachShadow({ mode: "open" });
+    this.lastClosedTimestamp = 0; // Initialize with a default value
+    const display = this.checkDisplay(); // Check whether to display the banner
+    this.shadowRoot.innerHTML = `
       <style>
         :host {
           display: ${display};
@@ -44,6 +44,8 @@ class InstallBanner extends HTMLElement {
         install-button {
           display: block;
           min-width: 100px;
+          margin-left: auto;
+          text-align: center;
           border: 1px solid #000;
           border-radius: 8px;
           padding: 8px 16px;
@@ -93,66 +95,64 @@ class InstallBanner extends HTMLElement {
         </svg>
       </div>
     `;
+    document.body.appendChild(this);
+  }
+
+  connectedCallback() {
+    this.shadowRoot.querySelector(".close").addEventListener("click", () => {
+      this.hideBanner();
+    });
+  }
+
+  hideBanner() {
+    this.remove();
+    this.lastClosedTimestamp = Date.now();
+    // Store the timestamp in local storage
+    localStorage.setItem("installBannerLastClosed", this.lastClosedTimestamp.toString());
+  }
+
+  checkDisplay() {
+    // Retrieve the last closed timestamp from local storage
+    const lastClosedString = localStorage.getItem("installBannerLastClosed");
+    if (lastClosedString) {
+      this.lastClosedTimestamp = parseInt(lastClosedString, 10);
     }
 
-    connectedCallback() {
-        this.shadowRoot.querySelector(".close").addEventListener("click", () => {
-            this.hideBanner();
-        });
+    const threeDaysInMilliseconds = 3 * 24 * 60 * 60 * 1000;
+    const currentTime = Date.now();
+
+    // Check if enough time has passed since the last close
+    const shouldDisplay = currentTime - this.lastClosedTimestamp >= threeDaysInMilliseconds;
+
+    return shouldDisplay ? "flex" : "none";
+  }
+
+  static get observedAttributes() {
+    return ["hidden", "data-button-text", "dir"];
+  }
+
+  attributeChangedCallback(name, oldValue, newValue) {
+    if (name === "hidden") {
+      this.style.display = newValue === "true" ? "none" : "block";
     }
-
-    hideBanner() {
-        this.remove();
-        this.lastClosedTimestamp = Date.now();
-        // Store the timestamp in local storage
-        localStorage.setItem("installBannerLastClosed", this.lastClosedTimestamp.toString());
+    if (name === "data-button-text") {
+      this.shadowRoot.querySelector("install-button").innerHTML = newValue;
     }
-
-    checkDisplay() {
-        // Retrieve the last closed timestamp from local storage
-        const lastClosedString = localStorage.getItem("installBannerLastClosed");
-        if (lastClosedString) {
-            this.lastClosedTimestamp = parseInt(lastClosedString, 10);
-        }
-
-        const threeDaysInMilliseconds = 3 * 24 * 60 * 60 * 1000;
-        const currentTime = Date.now();
-
-        // Check if enough time has passed since the last close
-        const shouldDisplay = currentTime - this.lastClosedTimestamp >= threeDaysInMilliseconds;
-
-        return shouldDisplay ? "flex" : "none";
+    if (name === "dir" && newValue === "rtl") {
+      const installButton = this.shadowRoot.querySelector("install-button");
+      if (!installButton) return;
+      installButton.style.marginRight = "auto";
+      installButton.style.marginLeft = "";
     }
+  }
 
-    static get observedAttributes() {
-        return ["hidden", "data-button-text", "dir"];
-    }
+  get hidden() {
+    return this.getAttribute("hidden") === "true";
+  }
 
-    attributeChangedCallback(name, oldValue, newValue) {
-        if (name === "hidden") {
-            this.style.display = newValue === "true" ? "none" : "block";
-        }
-        if (name === "data-button-text") {
-            this.shadowRoot.querySelector("install-button").innerHTML = newValue;
-        }
-        if (name === "dir") {
-            const installButton = this.shadowRoot.querySelector("install-button");
-            if (!installButton) return;
-            if (newValue === "rtl") {
-                installButton.style.marginRight = "auto";
-            } else {
-                installButton.style.marginLeft = "auto";
-            }
-        }
-    }
-
-    get hidden() {
-        return this.getAttribute("hidden") === "true";
-    }
-
-    set hidden(value) {
-        this.setAttribute("hidden", value ? "true" : "false");
-    }
+  set hidden(value) {
+    this.setAttribute("hidden", value ? "true" : "false");
+  }
 }
 
 customElements.define("install-banner", InstallBanner);

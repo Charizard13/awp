@@ -4,7 +4,6 @@ import Install from "./_components/Install";
 import { Button } from "@/components/ui/button";
 import useNotifications from "@/hooks/useNotifications";
 import { useEffect } from "react";
-// import { InstallBanner } from "@/components/web/InstallBanner";
 // import { InstallButton } from "@/components/web/InstallButton";
 
 declare global {
@@ -27,7 +26,6 @@ export default function DemoPage() {
   const { openNotificationsDialog } = useNotifications();
   useEffect(() => {
     // const installButton = new InstallButton();
-    // const installBanner = new InstallBanner();
   }, []);
 
   return (
@@ -35,7 +33,6 @@ export default function DemoPage() {
       <h1 className="text-3xl font-bold">Awp Demo Page</h1>
       <p className="text-lg text-gray-600 dark:text-gray-400">Explore the features and capabilities of our Progressive Web App (PWA).</p>
       <Install />
-
       <Button onClick={openNotificationsDialog}>Open Notifications Dialog</Button>
     </div>
   );

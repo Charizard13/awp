@@ -44,6 +44,8 @@ export class InstallBanner extends HTMLElement {
         install-button {
           display: block;
           min-width: 100px;
+          margin-left: auto;
+          text-align: center;
           border: 1px solid #000;
           border-radius: 8px;
           padding: 8px 16px;
@@ -74,6 +76,7 @@ export class InstallBanner extends HTMLElement {
         <polyline points="7 10 12 15 17 10"></polyline>
         <line x1="12" x2="12" y1="15" y2="3"></line>
       </svg>
+      Install our app to get notifications on your phone.
       <slot></slot>
       <install-button>Install</install-button>
       <div class="close">
@@ -93,6 +96,7 @@ export class InstallBanner extends HTMLElement {
         </svg>
       </div>
     `;
+    document.body.appendChild(this);
   }
 
   connectedCallback() {
@@ -135,14 +139,11 @@ export class InstallBanner extends HTMLElement {
     if (name === "data-button-text") {
       this.shadowRoot!.querySelector("install-button")!.innerHTML = newValue;
     }
-    if (name === "dir") {
-      const installButton = this.shadowRoot!.querySelector("install-button");
+    const installButton = this.shadowRoot!.querySelector("install-button");
+    if (name === "dir" && newValue === "rtl") {
       if (!installButton) return;
-      if (newValue === "rtl") {
-        installButton.style.marginRight = "auto";
-      } else {
-        installButton.style.marginLeft = "auto";
-      }
+      installButton.style.marginRight = "auto";
+      installButton.style.marginLeft = "";
     }
   }
 
