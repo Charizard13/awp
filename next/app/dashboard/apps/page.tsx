@@ -4,7 +4,7 @@ import { getAppAssetsUrls } from "@/lib/url";
 import { cookies } from "next/headers";
 import Link from "next/link";
 import { redirect } from "next/navigation";
-import AppCard from "./AppCard";
+import AppCard from "./_components/Card";
 
 const getApps = async () => {
   const cookieStore = cookies();
@@ -13,9 +13,7 @@ const getApps = async () => {
   const { error: appError, data: apps } = await supabase.from("apps").select();
 
   if (appError) {
-    return redirect(
-      "/dashboard?message=There was an error getting your app metadata.",
-    );
+    return redirect("/dashboard?message=There was an error getting your app metadata.");
   }
 
   const output = apps.map((app) => {
@@ -31,7 +29,7 @@ const getApps = async () => {
   return output;
 };
 
-export default async function AppsList() {
+export default async function AppsPage() {
   const apps = await getApps();
 
   return (

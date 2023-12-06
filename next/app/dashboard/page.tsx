@@ -1,4 +1,4 @@
-import AppsList from "./_components/apps";
+import AppsList from "./apps/page";
 
 export default function DashBoardPage() {
   return (

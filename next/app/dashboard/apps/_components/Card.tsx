@@ -2,7 +2,7 @@ import Image from "next/image";
 import CodeSnippet from "@/components/CodeSnippet";
 import { App } from "@/types";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
-import AppCardFooter from "./AppCardFooter";
+import AppCardFooter from "./CardFooter";
 
 type AppCardProps = {
   app: App & {

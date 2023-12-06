@@ -9,8 +9,10 @@ import { generateManifest } from "@/lib/pwa/manifest";
 import { generateScript } from "@/lib/pwa/script";
 import { appAssets } from "@/lib/consts";
 import SubmitButton from "@/components/SubmitButton";
+import { Button } from "@/components/ui/button";
+import Link from "next/link";
 
-export default function CreateAppPage({ searchParams }: { searchParams: { message: string } }) {
+export default async function CreateAppPage({ searchParams }: { searchParams: { message: string } }) {
   const handleSubmit = async (formData: FormData) => {
     "use server";
     const route = "/dashboard/apps/create";
@@ -58,8 +60,30 @@ export default function CreateAppPage({ searchParams }: { searchParams: { messag
       return redirect(`${route}?message=There was an error uploading your metadata.`);
     }
 
-    redirect("/dashboard");
+    redirect("/dashboard/apps");
   };
+
+  const cookieStore = cookies();
+  const supabase = createServerClient(cookieStore);
+
+  const { error: appError, data: app } = await supabase.from("apps").select().single();
+
+  if (appError) {
+    redirect("/dashboard?message=There was an error getting your app metadata.");
+  }
+
+  if (app) {
+    return (
+      <div className="flex flex-col items-center justify-center w-full h-full space-y-4">
+        <p>You already have an app.</p>
+        <Button asChild>
+          <Link href="/dashboard/apps">
+            View <q className="m-2">{app.name}</q> App
+          </Link>
+        </Button>
+      </div>
+    );
+  }
 
   return (
     <div className="flex flex-col items-center justify-center w-full h-full space-y-4">
