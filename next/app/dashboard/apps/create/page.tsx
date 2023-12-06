@@ -66,11 +66,7 @@ export default async function CreateAppPage({ searchParams }: { searchParams: { 
   const cookieStore = cookies();
   const supabase = createServerClient(cookieStore);
 
-  const { error: appError, data: app } = await supabase.from("apps").select().single();
-
-  if (appError) {
-    redirect("/dashboard?message=There was an error getting your app metadata.");
-  }
+  const { data: app } = await supabase.from("apps").select().single();
 
   if (app) {
     return (
