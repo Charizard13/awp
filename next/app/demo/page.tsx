@@ -4,7 +4,10 @@ import Install from "./_components/Install";
 import { Button } from "@/components/ui/button";
 import useNotifications from "@/hooks/useNotifications";
 import { useEffect } from "react";
-// import { InstallButton } from "@/components/web/InstallButton";
+import { InstallButton } from "@/components/web/InstallButton";
+import { InstallBanner } from "@/components/web/InstallBanner";
+import { AddToHomeScreen } from "@/components/web/AddTohomeScreen";
+import { AddToDock } from "@/components/web/AddToDock";
 
 declare global {
   interface Window {
@@ -25,7 +28,10 @@ declare global {
 export default function DemoPage() {
   const { openNotificationsDialog } = useNotifications();
   useEffect(() => {
-    // const installButton = new InstallButton();
+    const installButton = new InstallButton();
+    const installBanner = new InstallBanner();
+    const addToHomeScreen = new AddToHomeScreen();
+    const addToDock = new AddToDock();
   }, []);
 
   return (

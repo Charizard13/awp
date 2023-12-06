@@ -28,7 +28,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           <Providers>{children}</Providers>
         </main>
         <Toaster />
-        <Script src="http://127.0.0.1:54321/storage/v1/object/public/apps/f870423a-b5e0-4a72-90cf-35a80ccd804e/script.js" defer strategy="afterInteractive" />
+
         {process.env.VERCEL_URL && <Analytics />}
         <VercelToolbar />
         <Footer />
