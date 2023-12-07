@@ -6,15 +6,16 @@ import { appAssets } from "../consts";
 export function generateManifest(app: App, fileExtension: string) {
   const icons = getIcons(app.id, fileExtension);
   const shortName = getShortName(app.name);
+  const screenshots = getScreenshots(app.id, fileExtension);
   const manifest: MetadataRoute.Manifest = {
     name: app.name,
     short_name: shortName,
     icons: icons,
-    start_url: app.url,
+    start_url: process.env.NODE_ENV === "development" ? "http://127.0.0.1:3000/" : app.url,
     id: "/",
     display: "standalone",
+    screenshots: screenshots,
     description: app.description ?? undefined,
-    // protocol_handlers: getProtocols(),
   };
 
   const jsonString = JSON.stringify(manifest);
@@ -37,21 +38,14 @@ function getShortName(name: string) {
   return shortName.trim();
 }
 
-const sizes = [192, 384, 512, 1024];
+const iconSizes = [192, 384, 512, 1024];
 
 function getIcons(appId: string, fileExtension: string) {
-  const icons: MetadataRoute.Manifest["icons"] = sizes.map((size) => ({
+  const icons: MetadataRoute.Manifest["icons"] = iconSizes.map((size) => ({
     src: getIconUrl(appId, size),
     sizes: `${size}x${size}`,
     type: fileExtension,
   }));
-
-  // icons.push({
-  //   src: getIconUrl(iconPath, 512),
-  //   sizes: `${512}x${512}`,
-  //   type: fileExtension,
-  //   purpose: "maskable",
-  // });
 
   return icons;
 }
@@ -68,11 +62,14 @@ function getIconUrl(appId: string, size: number) {
   return data.publicUrl;
 }
 
-// function getProtocols() {
-//   return [
-//     {
-//       protocol: "web+pwa",
-//       url: `${getSiteUrl()}?pwaprotocolredirect=%s`,
-//     },
-//   ];
-// }
+const screenshotsSizes = [1280, 540];
+function getScreenshots(appId: string, fileExtension: string) {
+  const screenshots: MetadataRoute.Manifest["screenshots"] = screenshotsSizes.map((size) => ({
+    src: getIconUrl(appId, size),
+    sizes: `${size}x${size}`,
+    type: fileExtension,
+    form_factor: size === 1280 ? "wide" : "narrow",
+  }));
+
+  return screenshots;
+}
