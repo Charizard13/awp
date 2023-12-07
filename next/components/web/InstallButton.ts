@@ -9,18 +9,17 @@ type BeforeInstallPromptEvent = {
   userChoice: Promise<UserChoice>;
 } & Event;
 
-const template = document.createElement("template");
-template.innerHTML = `
-  <slot></slot>
-`;
-export class InstallButton extends HTMLButtonElement {
+class InstallButton extends HTMLButtonElement {
   promptEvent: BeforeInstallPromptEvent | null = null;
   appStatus: "no-support" | "installed" | "not-installed" = "not-installed";
   constructor() {
     super();
-    const shadow = this.attachShadow({ mode: "open" });
-    shadow.appendChild(template.content.cloneNode(true));
     this.isInstalled();
+
+    const template = document.createElement("template");
+    template.innerHTML = `
+  <slot></slot>
+`;
   }
 
   isInstalled() {
@@ -31,18 +30,8 @@ export class InstallButton extends HTMLButtonElement {
     if (document.referrer.includes("android-app://")) {
       displayMode = "standalone-android";
     }
-    const displays = [
-      "fullscreen",
-      "standalone",
-      "minimal-ui",
-      "window-controls-overlay",
-    ];
-    if (
-      displays.some(
-        (displayMode) =>
-          window.matchMedia(`(display-mode: ${displayMode})`).matches,
-      )
-    ) {
+    const displays = ["fullscreen", "standalone", "minimal-ui", "window-controls-overlay"];
+    if (displays.some((displayMode) => window.matchMedia(`(display-mode: ${displayMode})`).matches)) {
       displayMode = "standalone-chrome";
     }
 
@@ -72,19 +61,11 @@ export class InstallButton extends HTMLButtonElement {
           this.promptEvent = null;
         });
       }
-      if (
-        navigator.userAgent.includes("Mac OS") &&
-        navigator.userAgent.includes("Safari") &&
-        !navigator.userAgent.includes("Chrome")
-      ) {
+      if (navigator.userAgent.includes("Mac OS") && navigator.userAgent.includes("Safari") && !navigator.userAgent.includes("Chrome")) {
         document.body.appendChild(document.createElement("add-to-dock"));
         return;
       }
-      if (
-        navigator.userAgent.includes("Mobile/") &&
-        navigator.userAgent.includes("Safari") &&
-        !navigator.userAgent.includes("Chrome")
-      ) {
+      if (navigator.userAgent.includes("Mobile/") && navigator.userAgent.includes("Safari") && !navigator.userAgent.includes("Chrome")) {
         document.body.appendChild(document.createElement("add-to-home-screen"));
       }
       return;

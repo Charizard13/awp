@@ -1,76 +1,82 @@
 "use client";
 
-// const template = document.createElement("template");
-// template.innerHTML = `
-//   <button>
-//   <slot></slot>
-//   </button>
-// `;
+
+const template = document.createElement("template");
+template.innerHTML = `
+  <slot></slot>
+`;
 class InstallButton extends HTMLButtonElement {
-  promptEvent = null;
-  appStatus = "not-installed";
-  constructor() {
-    super();
-    // this.attachShadow({ mode: "open" });
-    // this.shadowRoot!.appendChild(template.content.cloneNode(true));
-    this.isInstalled();
-  }
-
-  isInstalled() {
-    if (
-      window.navigator.standalone == true || // iOS PWA Standalone
-      document.referrer.includes("android-app://") || // Android Trusted Web App
-      [
-        "fullscreen",
-        "standalone",
-        "minimal-ui",
-        "window-controls-overlay",
-      ].some(
-        (displayMode) =>
-          window.matchMedia(`(display-mode: ${displayMode})`).matches,
-      ) // Chrome PWA (supporting fullscreen, standalone, minimal-ui)
-    ) {
-      this.appStatus = "installed";
-      this.hidden = true;
-      return;
+    promptEvent = null;
+    appStatus = "not-installed";
+    constructor() {
+        super();
+        this.isInstalled();
     }
-    this.appStatus = "not-installed";
-  }
 
-  connectedCallback() {
-    this.addEventListener("click", () => {
-      if (!this.promptEvent) {
-        alert("Your browser does not support this feature");
-        return;
-      }
-      this.promptEvent.prompt();
-      this.promptEvent.userChoice.then((choice) => {
-        if (choice.outcome === "accepted") {
-          this.appStatus = "installed";
-          this.hidden = true;
-        } else {
-          this.appStatus = "not-installed";
-          this.hidden = false;
+    isInstalled() {
+        let displayMode = "browser tab";
+        if (navigator.standalone) {
+            displayMode = "standalone-ios";
         }
-        this.promptEvent = null;
-      });
-    });
+        if (document.referrer.includes("android-app://")) {
+            displayMode = "standalone-android";
+        }
+        const displays = ["fullscreen", "standalone", "minimal-ui", "window-controls-overlay"];
+        if (displays.some((displayMode) => window.matchMedia(`(display-mode: ${displayMode})`).matches)) {
+            displayMode = "standalone-chrome";
+        }
 
-    window.addEventListener("beforeinstallprompt", (event) => {
-      if (this.appStatus === "installed") return;
-      if (!event) {
-        this.appStatus = "no-support";
-        return;
-      }
-      this.promptEvent = event;
-      this.hidden = false;
-    });
+        if (displayMode !== "browser tab") {
+            this.appStatus = "installed";
+            this.hidden = true;
+            return;
+        }
+    }
 
-    window.addEventListener("appinstalled", () => {
-      this.appStatus = "installed";
-      this.hidden = true;
-    });
-  }
+    connectedCallback() {
+        this.addEventListener("click", () => {
+            if (this.appStatus === "installed") {
+                alert("App is already installed");
+                return;
+            }
+            if (this.promptEvent) {
+                this.promptEvent.prompt();
+                this.promptEvent.userChoice.then((choice) => {
+                    if (choice.outcome === "accepted") {
+                        this.appStatus = "installed";
+                        this.hidden = true;
+                    } else {
+                        this.appStatus = "not-installed";
+                        this.hidden = false;
+                    }
+                    this.promptEvent = null;
+                });
+            }
+            if (navigator.userAgent.includes("Mac OS") && navigator.userAgent.includes("Safari") && !navigator.userAgent.includes("Chrome")) {
+                document.body.appendChild(document.createElement("add-to-dock"));
+                return;
+            }
+            if (navigator.userAgent.includes("Mobile/") && navigator.userAgent.includes("Safari") && !navigator.userAgent.includes("Chrome")) {
+                document.body.appendChild(document.createElement("add-to-home-screen"));
+            }
+            return;
+        });
+
+        window.addEventListener("beforeinstallprompt", (event) => {
+            if (this.appStatus === "installed") return;
+            if (!event) {
+                this.appStatus = "no-support";
+                return;
+            }
+            this.promptEvent = event;
+            this.hidden = false;
+        });
+
+        window.addEventListener("appinstalled", () => {
+            this.appStatus = "installed";
+            this.hidden = true;
+        });
+    }
 }
 
 customElements.define("install-button", InstallButton, { extends: "button" });

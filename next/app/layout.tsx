@@ -20,7 +20,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="en" className={GeistSans.className}>
       <head>
-        <link rel="manifest" href="http://127.0.0.1:54321/storage/v1/object/public/apps/b58897ec-0666-4304-8840-0ff13ad4b7d5/manifest.json" />
+        <link rel="manifest" href="http://127.0.0.1:54321/storage/v1/object/public/apps/cde4c8c0-a5b5-429a-8577-826cacabc83d/manifest.json" />
       </head>
       <body className="bg-background text-foreground">
         <Header />
@@ -28,9 +28,10 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           <Providers>{children}</Providers>
         </main>
         <Toaster />
-        <Script src="http://127.0.0.1:54321/storage/v1/object/public/apps/b58897ec-0666-4304-8840-0ff13ad4b7d5/script.js" defer strategy="afterInteractive" />
         {process.env.VERCEL_URL && <Analytics />}
-        <VercelToolbar />
+        <Script src="http://127.0.0.1:54321/storage/v1/object/public/apps/cde4c8c0-a5b5-429a-8577-826cacabc83d/script.js" defer strategy="afterInteractive" />
+
+        {/* <VercelToolbar /> */}
         <Footer />
       </body>
     </html>
