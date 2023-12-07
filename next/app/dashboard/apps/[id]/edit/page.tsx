@@ -39,6 +39,7 @@ export default async function EditAppPage({ params }: { params: { message: strin
       const pngIcon = new Blob([icon], { type: "image/png" });
       supabase.storage.from("apps").upload(`${app.id}/${appAssets.icon}`, pngIcon, {
         upsert: true,
+        contentType: "Blob",
       });
     }
 
@@ -50,6 +51,7 @@ export default async function EditAppPage({ params }: { params: { message: strin
 
     const appManifest = generateManifest(app, icon?.type);
     const { error: manifestError } = await supabase.storage.from("apps").upload(`${app.id}/${appAssets.manifest}`, appManifest, {
+      contentType: "Blob",
       upsert: true,
     });
 
@@ -59,6 +61,7 @@ export default async function EditAppPage({ params }: { params: { message: strin
 
     const appScript = await generateScript();
     const { error: scriptError } = await supabase.storage.from("apps").upload(`${app.id}/${appAssets.script}`, appScript, {
+      contentType: "Blob",
       upsert: true,
     });
 

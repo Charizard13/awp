@@ -47,11 +47,13 @@ export default async function CreateAppPage({ searchParams }: { searchParams: { 
     }
 
     const pngIcon = new Blob([icon], { type: "image/png" });
-    const uploadIcon = supabase.storage.from("apps").upload(`${app.id}/${appAssets.icon}`, pngIcon);
+    const uploadOptions = { contentType: "Blob" };
+    const uploadIcon = supabase.storage.from("apps").upload(`${app.id}/${appAssets.icon}`, pngIcon, uploadOptions);
+
     const appManifest = generateManifest(app, pngIcon.type);
-    const uploadManifest = supabase.storage.from("apps").upload(`${app.id}/${appAssets.manifest}`, appManifest);
+    const uploadManifest = supabase.storage.from("apps").upload(`${app.id}/${appAssets.manifest}`, appManifest, uploadOptions);
     const appScript = await generateScript();
-    const uploadScript = supabase.storage.from("apps").upload(`${app.id}/${appAssets.script}`, appScript);
+    const uploadScript = supabase.storage.from("apps").upload(`${app.id}/${appAssets.script}`, appScript, uploadOptions);
 
     const [iconData, manifestData, scriptData] = await Promise.all([uploadIcon, uploadManifest, uploadScript]);
 
