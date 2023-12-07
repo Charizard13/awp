@@ -85,7 +85,9 @@ export class AddToHomeScreen extends HTMLElement {
   }
 
   connectedCallback() {
-    this.shadowRoot!.querySelector(".close")!.addEventListener("click", () => this.remove());
+    this.shadowRoot!.querySelector(".close")!.addEventListener("click", () =>
+      this.remove(),
+    );
   }
 }
 

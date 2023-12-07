@@ -108,7 +108,10 @@ class InstallBanner extends HTMLElement {
     this.remove();
     this.lastClosedTimestamp = Date.now();
     // Store the timestamp in local storage
-    localStorage.setItem("installBannerLastClosed", this.lastClosedTimestamp.toString());
+    localStorage.setItem(
+      "installBannerLastClosed",
+      this.lastClosedTimestamp.toString(),
+    );
   }
 
   checkDisplay() {
@@ -122,7 +125,8 @@ class InstallBanner extends HTMLElement {
     const currentTime = Date.now();
 
     // Check if enough time has passed since the last close
-    const shouldDisplay = currentTime - this.lastClosedTimestamp >= threeDaysInMilliseconds;
+    const shouldDisplay =
+      currentTime - this.lastClosedTimestamp >= threeDaysInMilliseconds;
 
     return shouldDisplay ? "flex" : "none";
   }

@@ -16,7 +16,9 @@ export async function middleware(request: NextRequest) {
     const redirect = isAuthorized(request, userId);
     if (redirect) {
       const message = `You must be signed in to access ${request.nextUrl.pathname}`;
-      return NextResponse.redirect(new URL(`/login?message=${message}`, request.url));
+      return NextResponse.redirect(
+        new URL(`/login?message=${message}`, request.url),
+      );
     }
   } catch (e) {
     // If you are here, a Supabase client could not be created!
@@ -31,5 +33,7 @@ export async function middleware(request: NextRequest) {
 }
 
 function isAuthorized(request: NextRequest, userId: string | undefined) {
-  return protectedRoutes.some((route) => request.nextUrl.pathname.startsWith(route) && !userId);
+  return protectedRoutes.some(
+    (route) => request.nextUrl.pathname.startsWith(route) && !userId,
+  );
 }

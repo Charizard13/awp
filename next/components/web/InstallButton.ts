@@ -31,8 +31,18 @@ export class InstallButton extends HTMLButtonElement {
     if (document.referrer.includes("android-app://")) {
       displayMode = "standalone-android";
     }
-    const displays = ["fullscreen", "standalone", "minimal-ui", "window-controls-overlay"];
-    if (displays.some((displayMode) => window.matchMedia(`(display-mode: ${displayMode})`).matches)) {
+    const displays = [
+      "fullscreen",
+      "standalone",
+      "minimal-ui",
+      "window-controls-overlay",
+    ];
+    if (
+      displays.some(
+        (displayMode) =>
+          window.matchMedia(`(display-mode: ${displayMode})`).matches,
+      )
+    ) {
       displayMode = "standalone-chrome";
     }
 
@@ -62,11 +72,19 @@ export class InstallButton extends HTMLButtonElement {
           this.promptEvent = null;
         });
       }
-      if (navigator.userAgent.includes("Mac OS") && navigator.userAgent.includes("Safari") && !navigator.userAgent.includes("Chrome")) {
+      if (
+        navigator.userAgent.includes("Mac OS") &&
+        navigator.userAgent.includes("Safari") &&
+        !navigator.userAgent.includes("Chrome")
+      ) {
         document.body.appendChild(document.createElement("add-to-dock"));
         return;
       }
-      if (navigator.userAgent.includes("Mobile/") && navigator.userAgent.includes("Safari") && !navigator.userAgent.includes("Chrome")) {
+      if (
+        navigator.userAgent.includes("Mobile/") &&
+        navigator.userAgent.includes("Safari") &&
+        !navigator.userAgent.includes("Chrome")
+      ) {
         document.body.appendChild(document.createElement("add-to-home-screen"));
       }
       return;

@@ -8,7 +8,9 @@ import { Analytics } from "@vercel/analytics/react";
 
 import Providers from "./providers";
 import Script from "next/script";
-const defaultUrl = process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : "http://localhost:3000";
+const defaultUrl = process.env.VERCEL_URL
+  ? `https://${process.env.VERCEL_URL}`
+  : "http://localhost:3000";
 
 export const metadata = {
   metadataBase: new URL(defaultUrl),
@@ -16,11 +18,18 @@ export const metadata = {
   description: "Transform any website into a App in seconds.",
 };
 
-export default function RootLayout({ children }: { children: React.ReactNode }) {
+export default function RootLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
   return (
     <html lang="en" className={GeistSans.className}>
       <head>
-        <link rel="manifest" href="http://127.0.0.1:54321/storage/v1/object/public/apps/66c61caa-d077-44ea-b1de-6bad54f84b6d/manifest.json" />{" "}
+        <link
+          rel="manifest"
+          href="http://127.0.0.1:54321/storage/v1/object/public/apps/66c61caa-d077-44ea-b1de-6bad54f84b6d/manifest.json"
+        />{" "}
       </head>
       <body className="bg-background text-foreground">
         <Header />

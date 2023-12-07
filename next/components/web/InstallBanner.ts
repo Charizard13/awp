@@ -112,7 +112,10 @@ export class InstallBanner extends HTMLElement {
     this.remove();
     this.lastClosedTimestamp = Date.now();
     // Store the timestamp in local storage
-    localStorage.setItem("installBannerLastClosed", this.lastClosedTimestamp.toString());
+    localStorage.setItem(
+      "installBannerLastClosed",
+      this.lastClosedTimestamp.toString(),
+    );
   }
 
   checkDisplay() {
@@ -126,7 +129,8 @@ export class InstallBanner extends HTMLElement {
     const currentTime = Date.now();
 
     // Check if enough time has passed since the last close
-    const shouldDisplay = currentTime - this.lastClosedTimestamp >= threeDaysInMilliseconds;
+    const shouldDisplay =
+      currentTime - this.lastClosedTimestamp >= threeDaysInMilliseconds;
 
     return !shouldDisplay ? "flex" : "none";
   }
@@ -142,7 +146,9 @@ export class InstallBanner extends HTMLElement {
     if (name === "data-button-text") {
       this.shadowRoot!.querySelector("install-button")!.innerHTML = newValue;
     }
-    const installButton = this.shadowRoot!.querySelector("install-button") as HTMLElement;
+    const installButton = this.shadowRoot!.querySelector(
+      "install-button",
+    ) as HTMLElement;
     if (name === "dir" && newValue === "rtl" && installButton) {
       installButton.style.marginRight = "auto";
       installButton.style.marginLeft = "";

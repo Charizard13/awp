@@ -13,7 +13,9 @@ const getApps = async () => {
   const { error: appError, data: apps } = await supabase.from("apps").select();
 
   if (appError) {
-    return redirect("/dashboard?message=There was an error getting your app metadata.");
+    return redirect(
+      "/dashboard?message=There was an error getting your app metadata.",
+    );
   }
 
   const output = apps.map((app) => {
