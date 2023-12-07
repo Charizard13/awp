@@ -32,16 +32,19 @@ const getApps = async () => {
 export default async function AppsPage() {
   const apps = await getApps();
 
+  if (apps.length === 0) {
+    return (
+      <div className="flex flex-col items-center justify-center w-full h-full space-y-4">
+        <p>You don&apos;t have any apps yet.</p>
+        <Button asChild>
+          <Link href="/dashboard/apps/create">Create App</Link>
+        </Button>
+      </div>
+    );
+  }
+
   return (
     <div className="flex flex-col items-center justify-center w-full h-full space-y-4">
-      {apps.length === 0 && (
-        <div className="flex flex-col items-center justify-center w-full h-full space-y-4">
-          <p>You don&apos;t have any apps yet.</p>
-          <Button asChild>
-            <Link href="/dashboard/apps/create">Create App</Link>
-          </Button>
-        </div>
-      )}
       {apps.map((app) => (
         <AppCard key={app.id} app={app} />
       ))}

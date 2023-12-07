@@ -3,6 +3,7 @@ import Link from "next/link";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 import { Button } from "./ui/button";
+import SubmitButton from "./SubmitButton";
 
 export default async function AuthButton() {
   const cookieStore = cookies();
@@ -24,7 +25,7 @@ export default async function AuthButton() {
   if (user) {
     return (
       <form action={signOut}>
-        <Button variant="ghost">Logout</Button>
+        <SubmitButton variant="ghost">Logout</SubmitButton>
       </form>
     );
   }

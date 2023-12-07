@@ -43,9 +43,6 @@ export default function Header() {
           <Button variant="ghost" disabled>
             Docs
           </Button>
-          <Button variant="ghost" disabled>
-            Components
-          </Button>
         </div>
         <AuthButton />
       </div>

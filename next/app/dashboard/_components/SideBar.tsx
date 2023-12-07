@@ -13,21 +13,6 @@ export const dashboardRoutes = [
     href: "/dashboard/apps/create" as const,
     icon: ClipboardIcon,
   },
-  // {
-  //   name: "Service Workers",
-  //   href: "/dashboard/service-workers" as const,
-  //   icon: SendToBackIcon,
-  // },
-  // {
-  //   name: "Design",
-  //   href: "/dashboard/design" as const,
-  //   icon: PaletteIcon,
-  // },
-  // {
-  //   name: "Settings",
-  //   href: "/dashboard/settings" as const,
-  //   icon: SettingsIcon,
-  // },
 ];
 
 export default function SideBar() {

@@ -73,7 +73,7 @@ export default async function CreateAppPage({ searchParams }: { searchParams: { 
   if (app) {
     return (
       <div className="flex flex-col items-center justify-center w-full h-full space-y-4">
-        <p>You already have an app.</p>
+        <p>You can only create one app.</p>
         <Button asChild>
           <Link href="/dashboard/apps">
             View <q className="m-2">{app.name}</q> App
