@@ -13,7 +13,7 @@ const template = document.createElement("template");
 template.innerHTML = `
   <slot></slot>
 `;
-class InstallButton extends HTMLButtonElement {
+export class InstallButton extends HTMLButtonElement {
   promptEvent: BeforeInstallPromptEvent | null = null;
   appStatus: "no-support" | "installed" | "not-installed" = "not-installed";
   constructor() {
