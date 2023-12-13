@@ -7,7 +7,6 @@ import Footer from "@/components/layout/Footer";
 import { Analytics } from "@vercel/analytics/react";
 
 import Providers from "./providers";
-import Script from "next/script";
 const defaultUrl = process.env.VERCEL_URL
   ? `https://${process.env.VERCEL_URL}`
   : "http://localhost:3000";
@@ -38,7 +37,6 @@ export default function RootLayout({
         </main>
         <Toaster />
         {process.env.VERCEL_URL && <Analytics />}
-        {/* <Script src="http://127.0.0.1:54321/storage/v1/object/public/apps/dae334ca-8138-4d72-af70-00238cac801b/script.js" defer strategy="afterInteractive" />{" "} */}
         {process.env.NODE_ENV !== "production" && <VercelToolbar />}
         <Footer />
       </body>
