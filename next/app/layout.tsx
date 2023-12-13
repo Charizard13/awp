@@ -5,7 +5,7 @@ import Header from "@/components/layout/Header";
 import { VercelToolbar } from "@vercel/toolbar/next";
 import Footer from "@/components/layout/Footer";
 import { Analytics } from "@vercel/analytics/react";
-
+import { SpeedInsights } from "@vercel/speed-insights/next";
 import Providers from "./providers";
 const defaultUrl = process.env.VERCEL_URL
   ? `https://${process.env.VERCEL_URL}`
@@ -37,6 +37,7 @@ export default function RootLayout({
         </main>
         <Toaster />
         {process.env.VERCEL_URL && <Analytics />}
+        {process.env.VERCEL_URL && <SpeedInsights />}
         {process.env.NODE_ENV !== "production" && <VercelToolbar />}
         <Footer />
       </body>
