@@ -1,5 +1,11 @@
-const addToDockTemplate = document.createElement("template");
-addToDockTemplate.innerHTML = `
+"use client";
+
+export class AddToDock extends HTMLElement {
+  constructor() {
+    super();
+    const shadow = this.attachShadow({ mode: "open" });
+    const addToDockTemplate = document.createElement("template");
+    addToDockTemplate.innerHTML = `
 <style>
 .container {
    display: flex;
@@ -38,6 +44,12 @@ addToDockTemplate.innerHTML = `
   white-space: nowrap;
   color: #3b82f6;
 }
+.close {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  cursor: pointer;
+}
 </style>
 <div class="container">
 <div class="close">
@@ -57,24 +69,17 @@ addToDockTemplate.innerHTML = `
         </svg>
       </div>
   <ol>
-    <li>Click the File option on the top left of your screen.</li>
-    <li>Click the Add to Dock option.</li>
+    <li>Click the <q><b>File</b></q> option on the top left of your screen.</li>
+    <li>Click the <q><b>Add to Dock</b></q> option.</li>
   </ol>
   <slot></slot>
 </div>
 `;
-
-export class AddToDock extends HTMLElement {
-  constructor() {
-    super();
-    const shadow = this.attachShadow({ mode: "open" });
     shadow.appendChild(addToDockTemplate.content.cloneNode(true));
   }
 
   connectedCallback() {
-    this.shadowRoot!.querySelector(".close")!.addEventListener("click", () =>
-      this.remove(),
-    );
+    this.shadowRoot!.querySelector(".close")!.addEventListener("click", () => this.remove());
   }
 }
 

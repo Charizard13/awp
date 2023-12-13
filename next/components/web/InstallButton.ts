@@ -9,17 +9,18 @@ type BeforeInstallPromptEvent = {
   userChoice: Promise<UserChoice>;
 } & Event;
 
-class InstallButton extends HTMLButtonElement {
+const template = document.createElement("template");
+template.innerHTML = `<slot></slot>`;
+
+export class InstallButton extends HTMLElement {
   promptEvent: BeforeInstallPromptEvent | null = null;
   appStatus: "no-support" | "installed" | "not-installed" = "not-installed";
+
   constructor() {
     super();
     this.isInstalled();
-
-    const template = document.createElement("template");
-    template.innerHTML = `
-  <slot></slot>
-`;
+    const shadow = this.attachShadow({ mode: "open" });
+    shadow.appendChild(template.content.cloneNode(true));
   }
 
   isInstalled() {
@@ -30,8 +31,18 @@ class InstallButton extends HTMLButtonElement {
     if (document.referrer.includes("android-app://")) {
       displayMode = "standalone-android";
     }
-    const displays = ["fullscreen", "standalone", "minimal-ui", "window-controls-overlay"];
-    if (displays.some((displayMode) => window.matchMedia(`(display-mode: ${displayMode})`).matches)) {
+    const displays = [
+      "fullscreen",
+      "standalone",
+      "minimal-ui",
+      "window-controls-overlay",
+    ];
+    if (
+      displays.some(
+        (displayMode) =>
+          window.matchMedia(`(display-mode: ${displayMode})`).matches,
+      )
+    ) {
       displayMode = "standalone-chrome";
     }
 
@@ -61,12 +72,24 @@ class InstallButton extends HTMLButtonElement {
           this.promptEvent = null;
         });
       }
-      if (navigator.userAgent.includes("Mac OS") && navigator.userAgent.includes("Safari") && !navigator.userAgent.includes("Chrome")) {
-        document.body.appendChild(document.createElement("add-to-dock"));
+
+      if (
+        navigator.userAgent.includes("Mobile/") &&
+        navigator.userAgent.includes("Safari") &&
+        !navigator.userAgent.includes("Chrome")
+      ) {
+        if (document.querySelector("add-to-home-screen")) return;
+        document.body.appendChild(document.createElement("add-to-home-screen"));
         return;
       }
-      if (navigator.userAgent.includes("Mobile/") && navigator.userAgent.includes("Safari") && !navigator.userAgent.includes("Chrome")) {
-        document.body.appendChild(document.createElement("add-to-home-screen"));
+      if (
+        navigator.userAgent.includes("Mac OS") &&
+        navigator.userAgent.includes("Safari") &&
+        !navigator.userAgent.includes("Chrome")
+      ) {
+        if (document.querySelector("add-to-dock")) return;
+        document.body.appendChild(document.createElement("add-to-dock"));
+        return;
       }
       return;
     });
@@ -88,4 +111,4 @@ class InstallButton extends HTMLButtonElement {
   }
 }
 
-customElements.define("install-button", InstallButton, { extends: "button" });
+customElements.define("install-button", InstallButton);

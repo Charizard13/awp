@@ -1,16 +1,27 @@
 "use client";
 
 
+const slot = `<slot></slot>`;
+const button = `
+<style>
+  button {
+     display: flex;
+  }
+</style>
+<button><slot></slot></button>`;
+
 const template = document.createElement("template");
-template.innerHTML = `
-  <slot></slot>
-`;
-class InstallButton extends HTMLButtonElement {
+template.innerHTML = button;
+
+class InstallButton extends HTMLElement {
     promptEvent = null;
     appStatus = "not-installed";
+
     constructor() {
         super();
         this.isInstalled();
+        const shadow = this.attachShadow({ mode: "open" });
+        shadow.appendChild(template.content.cloneNode(true));
     }
 
     isInstalled() {
@@ -52,12 +63,16 @@ class InstallButton extends HTMLButtonElement {
                     this.promptEvent = null;
                 });
             }
-            if (navigator.userAgent.includes("Mac OS") && navigator.userAgent.includes("Safari") && !navigator.userAgent.includes("Chrome")) {
-                document.body.appendChild(document.createElement("add-to-dock"));
+
+            if (navigator.userAgent.includes("Mobile/") && navigator.userAgent.includes("Safari") && !navigator.userAgent.includes("Chrome")) {
+                if (document.querySelector("add-to-home-screen")) return;
+                document.body.appendChild(document.createElement("add-to-home-screen"));
                 return;
             }
-            if (navigator.userAgent.includes("Mobile/") && navigator.userAgent.includes("Safari") && !navigator.userAgent.includes("Chrome")) {
-                document.body.appendChild(document.createElement("add-to-home-screen"));
+            if (navigator.userAgent.includes("Mac OS") && navigator.userAgent.includes("Safari") && !navigator.userAgent.includes("Chrome")) {
+                if (document.querySelector("add-to-dock")) return;
+                document.body.appendChild(document.createElement("add-to-dock"));
+                return;
             }
             return;
         });
@@ -77,6 +92,25 @@ class InstallButton extends HTMLButtonElement {
             this.hidden = true;
         });
     }
+
+    static get observedAttributes() {
+        return ["asChild", "className"];
+    }
+
+    attributeChangedCallback(name, oldValue, newValue) {
+        if (!this.shadowRoot) {
+            return;
+        }
+        if (name === "asChild") {
+            this.shadowRoot.innerHTML = newValue !== null ? slot : button;
+        }
+        if (name === "className" && newValue) {
+            const button = this.shadowRoot.querySelector("button");
+            if (button) {
+                button.className = newValue;
+            }
+        }
+    }
 }
 
-customElements.define("install-button", InstallButton, { extends: "button" });
+customElements.define("install-button", InstallButton);

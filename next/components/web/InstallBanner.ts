@@ -1,10 +1,11 @@
 "use client";
 
-const template = document.createElement("template");
-template.innerHTML = `
+const getTemplate = (display: "none" | "flex") => {
+  const template = document.createElement("template");
+  template.innerHTML = `
 <style>
 :host {
-  display:  flex;
+  display: ${display};
   position: fixed;
   top: 0;
   left: 0;
@@ -34,7 +35,7 @@ template.innerHTML = `
   width: 1.5rem;
 }
 
-install-button {
+button {
   display: block;
   min-width: 100px;
   margin-left: auto;
@@ -71,7 +72,7 @@ stroke-linejoin="round"
 </svg>
 Install our app to get notifications on your phone.
 <slot></slot>
-<install-button>Install</install-button>
+<button is="install-button">Install</button>
 <div class="close">
 <svg
   xmlns="http://www.w3.org/2000/svg"
@@ -89,17 +90,17 @@ Install our app to get notifications on your phone.
 </svg>
 </div>
 `;
+  return template;
+};
 
-export class InstallBanner extends HTMLElement {
+class InstallBanner extends HTMLElement {
   private lastClosedTimestamp: number = 0;
 
   constructor() {
     super();
     const shadow = this.attachShadow({ mode: "open" });
-    const display = this.checkDisplay();
+    const template = getTemplate(this.checkDisplay());
     shadow.appendChild(template.content.cloneNode(true));
-    this.style.display = display;
-    document.body.appendChild(this);
   }
 
   connectedCallback() {
@@ -111,16 +112,11 @@ export class InstallBanner extends HTMLElement {
   hideBanner() {
     this.remove();
     this.lastClosedTimestamp = Date.now();
-    // Store the timestamp in local storage
-    localStorage.setItem(
-      "installBannerLastClosed",
-      this.lastClosedTimestamp.toString(),
-    );
+    localStorage.setItem("awp-install-banner-closed-time", this.lastClosedTimestamp.toString());
   }
 
   checkDisplay() {
-    // Retrieve the last closed timestamp from local storage
-    const lastClosedString = localStorage.getItem("installBannerLastClosed");
+    const lastClosedString = localStorage.getItem("awp-install-banner-closed-time");
     if (lastClosedString) {
       this.lastClosedTimestamp = parseInt(lastClosedString, 10);
     }
@@ -128,11 +124,9 @@ export class InstallBanner extends HTMLElement {
     const threeDaysInMilliseconds = 3 * 24 * 60 * 60 * 1000;
     const currentTime = Date.now();
 
-    // Check if enough time has passed since the last close
-    const shouldDisplay =
-      currentTime - this.lastClosedTimestamp >= threeDaysInMilliseconds;
+    const shouldDisplay = currentTime - this.lastClosedTimestamp >= threeDaysInMilliseconds;
 
-    return !shouldDisplay ? "flex" : "none";
+    return shouldDisplay ? "flex" : "none";
   }
 
   static get observedAttributes() {
@@ -144,11 +138,9 @@ export class InstallBanner extends HTMLElement {
       this.style.display = newValue === "true" ? "none" : "block";
     }
     if (name === "data-button-text") {
-      this.shadowRoot!.querySelector("install-button")!.innerHTML = newValue;
+      this.shadowRoot!.querySelector("button")!.innerHTML = newValue;
     }
-    const installButton = this.shadowRoot!.querySelector(
-      "install-button",
-    ) as HTMLElement;
+    const installButton = this.shadowRoot!.querySelector("button") as HTMLElement;
     if (name === "dir" && newValue === "rtl" && installButton) {
       installButton.style.marginRight = "auto";
       installButton.style.marginLeft = "";
@@ -165,3 +157,6 @@ export class InstallBanner extends HTMLElement {
 }
 
 customElements.define("install-banner", InstallBanner);
+
+const installBanner = new InstallBanner();
+document.body.appendChild(installBanner);

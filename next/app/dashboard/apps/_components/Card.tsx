@@ -39,7 +39,7 @@ export default function AppCard({ app }: AppCardProps) {
         </svg>
       ),
       code: `<link rel="manifest" href="${manifestUrl}" />
-            <Script src="${scriptUrl}" defer strategy="afterInteractive"`,
+            <Script src="${scriptUrl}" defer strategy="afterInteractive" />`,
       instructions: `Add the following code to the <head> of your Next.js app. You can do this by editing your _document.js file.`,
     },
     {

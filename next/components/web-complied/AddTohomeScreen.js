@@ -1,4 +1,3 @@
-"use client";
 const addToHomeScreenTemplate = document.createElement("template");
 addToHomeScreenTemplate.innerHTML = `
 <style>
@@ -78,7 +77,7 @@ addToHomeScreenTemplate.innerHTML = `
 </div>
 `;
 
-export class AddToHomeScreen extends HTMLElement {
+class AddToHomeScreen extends HTMLElement {
   constructor() {
     super();
     const shadow = this.attachShadow({ mode: "open" });
@@ -86,8 +85,12 @@ export class AddToHomeScreen extends HTMLElement {
   }
 
   connectedCallback() {
-    this.shadowRoot!.querySelector(".close")!.addEventListener("click", () => this.remove());
+    this.shadowRoot.querySelector(".close").addEventListener("click", () =>
+      this.remove(),
+    );
   }
 }
 
 customElements.define("add-to-home-screen", AddToHomeScreen);
+
+
