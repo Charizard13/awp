@@ -57,7 +57,11 @@ export default function DemoPage() {
         Explore the features and capabilities of our Progressive Web App (PWA).
       </p>
 
-      <install-button className="bg-blue-500 hover:bg-blue-600">
+      <install-button
+        onClick={() => {
+          console.log("clicked");
+        }}
+      >
         Install App
       </install-button>
     </div>

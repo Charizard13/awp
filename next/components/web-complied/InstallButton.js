@@ -4,11 +4,29 @@
 const slot = `<slot></slot>`;
 const button = `
 <style>
-  button {
-     display: flex;
-  }
+button {
+  display: block;
+  min-width: 100px;
+  margin-left: auto;
+  text-align: center;
+  border: 1px solid #000;
+  border-radius: 8px;
+  padding: 8px 16px;
+  background: #000;
+  color: #fff;
+  border-radius: 0.375rem;
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+  font-weight: 500;
+  white-space: nowrap;
+  transition-duration: 300ms;
+  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+  cursor: pointer;
+}
 </style>
-<button><slot></slot></button>`;
+<button>
+  <slot></slot>
+</button>`;
 
 const template = document.createElement("template");
 template.innerHTML = button;

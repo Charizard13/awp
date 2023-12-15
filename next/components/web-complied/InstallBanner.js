@@ -33,25 +33,6 @@ const getTemplate = (display) => {
   width: 1.5rem;
 }
 
-button {
-  display: block;
-  min-width: 100px;
-  margin-left: auto;
-  text-align: center;
-  border: 1px solid #000;
-  border-radius: 8px;
-  padding: 8px 16px;
-  background: #000;
-  color: #fff;
-  border-radius: 0.375rem;
-  font-size: 0.875rem;
-  line-height: 1.25rem;
-  font-weight: 500;
-  white-space: nowrap;
-  transition-duration: 300ms;
-  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
-  cursor: pointer;
-}
 </style>
 <svg
 xmlns="http://www.w3.org/2000/svg"
@@ -70,7 +51,7 @@ stroke-linejoin="round"
 </svg>
 Install our app to get notifications on your phone.
 <slot></slot>
-<button is="install-button">Install</button>
+<install-button>Install</install-button>
 <div class="close">
 <svg
   xmlns="http://www.w3.org/2000/svg"

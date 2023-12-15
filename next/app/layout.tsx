@@ -7,6 +7,7 @@ import Footer from "@/components/layout/Footer";
 import { Analytics } from "@vercel/analytics/react";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import Providers from "./providers";
+import Script from "next/script";
 const defaultUrl = process.env.VERCEL_URL
   ? `https://${process.env.VERCEL_URL}`
   : "http://localhost:3000";
@@ -27,7 +28,13 @@ export default function RootLayout({
       <head>
         <link
           rel="manifest"
-          href="http://127.0.0.1:54321/storage/v1/object/public/apps/dae334ca-8138-4d72-af70-00238cac801b/manifest.json"
+          href="http://127.0.0.1:54321/storage/v1/object/public/apps/db3d32d0-7290-4508-8b39-18d7a4919b5b/manifest.json"
+        />
+
+        <Script
+          src="http://127.0.0.1:54321/storage/v1/object/public/apps/db3d32d0-7290-4508-8b39-18d7a4919b5b/script.js"
+          defer
+          strategy="afterInteractive"
         />
       </head>
       <body className="bg-background text-foreground">
@@ -38,7 +45,8 @@ export default function RootLayout({
         <Toaster />
         {process.env.VERCEL_URL && <Analytics />}
         {process.env.VERCEL_URL && <SpeedInsights />}
-        {process.env.NODE_ENV !== "production" && <VercelToolbar />}
+        <VercelToolbar />
+
         <Footer />
       </body>
     </html>
