@@ -1,9 +1,13 @@
-type GoogleIconProps = {
-  className?: string;
-};
-export default function GoogleIcon({ className }: GoogleIconProps) {
+import { SvgIconProps } from "./WhatsApp";
+
+export default function GoogleIcon({ className }: SvgIconProps) {
   return (
-    <svg xmlns="http://www.w3.org/2000/svg" xmlnsXlink="http://www.w3.org/1999/xlink" viewBox="0 0 48 48" className={className}>
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      xmlnsXlink="http://www.w3.org/1999/xlink"
+      viewBox="0 0 48 48"
+      className={className}
+    >
       <defs>
         <path
           id="a"
@@ -14,8 +18,16 @@ export default function GoogleIcon({ className }: GoogleIconProps) {
         <use xlinkHref="#a" overflow="visible" />
       </clipPath>
       <path clipPath="url(#b)" fill="#FBBC05" d="M0 37V11l17 13z" />
-      <path clipPath="url(#b)" fill="#EA4335" d="M0 11l17 13 7-6.1L48 14V0H0z" />
-      <path clipPath="url(#b)" fill="#34A853" d="M0 37l30-23 7.9 1L48 0v48H0z" />
+      <path
+        clipPath="url(#b)"
+        fill="#EA4335"
+        d="M0 11l17 13 7-6.1L48 14V0H0z"
+      />
+      <path
+        clipPath="url(#b)"
+        fill="#34A853"
+        d="M0 37l30-23 7.9 1L48 0v48H0z"
+      />
       <path clipPath="url(#b)" fill="#4285F4" d="M48 48L17 24l-4-3 35-10z" />
     </svg>
   );

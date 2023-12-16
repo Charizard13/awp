@@ -11,24 +11,19 @@ import Link from "next/link";
 export const dashboardRoutes = [
   {
     name: "Home",
-    href: "/dashboard/apps" as const,
+    href: "/dashboard/brands" as const,
     icon: HomeIcon,
-  },
-  {
-    name: "Create App",
-    href: "/dashboard/apps/create" as const,
-    icon: ClipboardIcon,
   },
 ];
 
 export default function SideBar() {
   return (
-    <ul className="flex flex-col md:gap-2 border-r border-gray-300 p-2 md:p-4">
+    <ul className="flex flex-col border-r border-gray-300 p-2 md:gap-2 md:p-4">
       {dashboardRoutes.map((item) => (
         <li key={item.name}>
           <Link
             href={item.href}
-            className="flex items-center py-2 px-2 text-gray-600 dark:text-gray-400 hover:bg-gray-200 dark:hover:bg-gray-700 rounded-md md:px-4"
+            className="flex items-center rounded-md px-2 py-2 text-gray-600 hover:bg-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 md:px-4"
           >
             <span className="mx-2 font-normal">
               <item.icon />

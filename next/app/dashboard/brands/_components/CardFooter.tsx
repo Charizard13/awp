@@ -15,7 +15,7 @@ export default function AppCardFooter({ app }: AppCardFooterProps) {
   return (
     <CardFooter className="flex justify-end gap-4">
       <Button variant="secondary" asChild>
-        <Link href={`/dashboard/apps/${app.id}/edit`}>Edit</Link>
+        <Link href={`/dashboard/brands/${app.id}/edit`}>Edit</Link>
       </Button>
       <DeleteButton appId={app.id} />
     </CardFooter>

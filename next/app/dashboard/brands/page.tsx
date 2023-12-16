@@ -10,7 +10,9 @@ const getApps = async () => {
   const cookieStore = cookies();
   const supabase = createServerClient(cookieStore);
 
-  const { error: appError, data: apps } = await supabase.from("apps").select();
+  const { error: appError, data: apps } = await supabase
+    .from("brands")
+    .select();
 
   if (appError) {
     return redirect(
@@ -36,17 +38,17 @@ export default async function AppsPage() {
 
   if (apps.length === 0) {
     return (
-      <div className="flex flex-col items-center justify-center w-full h-full space-y-4">
+      <div className="flex h-full w-full flex-col items-center justify-center space-y-4">
         <p>You don&apos;t have any apps yet.</p>
         <Button asChild>
-          <Link href="/dashboard/apps/create">Create App</Link>
+          <Link href="/dashboard/brands/create">Create App</Link>
         </Button>
       </div>
     );
   }
 
   return (
-    <div className="flex flex-col items-center justify-center w-full h-full space-y-4">
+    <div className="flex h-full w-full flex-col items-center justify-center space-y-4">
       {apps.map((app) => (
         <AppCard key={app.id} app={app} />
       ))}
