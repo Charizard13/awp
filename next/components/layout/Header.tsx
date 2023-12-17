@@ -1,13 +1,20 @@
 import Link from "next/link";
 import AuthButton from "../AuthButton";
 import { Button } from "@/components/ui/button";
-import { ArrowDown, CloudIcon } from "lucide-react";
+import { ArrowDown, CloudIcon, HomeIcon } from "lucide-react";
 import {
   HoverCard,
   HoverCardContent,
   HoverCardTrigger,
 } from "@/components/ui/hover-card";
-import { dashboardRoutes } from "@/app/dashboard/_components/SideBar";
+
+const headerRoutes = [
+  {
+    name: "My brands",
+    href: "/dashboard/brands" as const,
+    icon: HomeIcon,
+  },
+];
 export default function Header() {
   return (
     <header className="h-16 bg-white p-4 shadow-sm dark:bg-gray-800">
@@ -32,7 +39,7 @@ export default function Header() {
             </HoverCardTrigger>
             <HoverCardContent>
               <li className="flex flex-col gap-2">
-                {dashboardRoutes.map((item) => (
+                {headerRoutes.map((item) => (
                   <Link
                     key={item.name}
                     href={item.href}
@@ -47,12 +54,6 @@ export default function Header() {
               </li>
             </HoverCardContent>
           </HoverCard>
-          <Button variant="ghost" asChild>
-            <Link href="/demo">Demo</Link>
-          </Button>
-          <Button variant="ghost" disabled>
-            Docs
-          </Button>
         </div>
         <AuthButton />
       </div>

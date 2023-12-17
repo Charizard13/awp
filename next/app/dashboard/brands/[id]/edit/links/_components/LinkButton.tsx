@@ -3,7 +3,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { PlusIcon, StoreIcon, Trash2Icon } from "lucide-react";
 import React, { useState } from "react";
-import { WhatAppIcon } from "../../../../components/icons/WhatsApp";
+import { WhatAppIcon } from "../../../../../../../components/icons/WhatsApp";
 
 type LinkButton = {
   name: string;

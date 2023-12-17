@@ -1,23 +1,21 @@
-import { App } from "@/types";
+import { Tables } from "@/types";
 import { CardFooter } from "@/components/ui/card";
 import DeleteButton from "./DeleteButton";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
-type AppCardFooterProps = {
-  app: App & {
+type BrandCardFooterProps = {
+  brand: Tables<"brands"> & {
     iconUrl: string;
-    manifestUrl: string;
-    scriptUrl: string;
   };
 };
 
-export default function AppCardFooter({ app }: AppCardFooterProps) {
+export default function BrandCardFooter({ brand }: BrandCardFooterProps) {
   return (
     <CardFooter className="flex justify-end gap-4">
       <Button variant="secondary" asChild>
-        <Link href={`/dashboard/brands/${app.id}/edit`}>Edit</Link>
+        <Link href={`/dashboard/brands/${brand.id}/edit`}>Edit</Link>
       </Button>
-      <DeleteButton appId={app.id} />
+      <DeleteButton brandId={brand.id} />
     </CardFooter>
   );
 }

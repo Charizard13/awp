@@ -1,6 +1,6 @@
 import Image from "next/image";
 import CodeSnippet, { Framework } from "@/components/CodeSnippet";
-import { App } from "@/types";
+import { Tables } from "@/types";
 import {
   Card,
   CardContent,
@@ -8,18 +8,16 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import AppCardFooter from "./CardFooter";
+import BrandCardFooter from "./CardFooter";
 
-type AppCardProps = {
-  app: App & {
+type BrandCardProps = {
+  brand: Tables<"brands"> & {
     iconUrl: string;
-    manifestUrl: string;
-    scriptUrl: string;
   };
 };
 
-export default function AppCard({ app }: AppCardProps) {
-  const { iconUrl, name, description, manifestUrl, scriptUrl, url } = app;
+export default function BrandCard({ brand }: BrandCardProps) {
+  const { iconUrl, name, description, url } = brand;
 
   return (
     <Card className="w-full max-w-screen-lg">
@@ -31,13 +29,13 @@ export default function AppCard({ app }: AppCardProps) {
       <CardContent className="flex flex-col gap-4">
         <Image
           src={iconUrl}
-          alt="App Icon"
+          alt="Brand Icon"
           height={128}
           width={128}
           className="rounded-md"
         />
       </CardContent>
-      <AppCardFooter app={app} />
+      <BrandCardFooter brand={brand} />
     </Card>
   );
 }

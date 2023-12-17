@@ -4,26 +4,26 @@ import { getAppAssetsUrls } from "@/lib/url";
 import { cookies } from "next/headers";
 import Link from "next/link";
 import { redirect } from "next/navigation";
-import AppCard from "./_components/Card";
+import BrandCard from "./_components/Card";
 
-const getApps = async () => {
+const getBrands = async () => {
   const cookieStore = cookies();
   const supabase = createServerClient(cookieStore);
 
-  const { error: appError, data: apps } = await supabase
+  const { error: brandError, data: brands } = await supabase
     .from("brands")
     .select();
 
-  if (appError) {
+  if (brandError) {
     return redirect(
-      "/dashboard?message=There was an error getting your app metadata.",
+      "/dashboard?message=There was an error getting your brand metadata.",
     );
   }
 
-  const output = apps.map((app) => {
-    const { iconUrl, manifestUrl, scriptUrl } = getAppAssetsUrls(app.id);
+  const output = brands.map((brand) => {
+    const { iconUrl, manifestUrl, scriptUrl } = getAppAssetsUrls(brand.id);
     return {
-      ...app,
+      ...brand,
       iconUrl,
       manifestUrl,
       scriptUrl,
@@ -33,15 +33,15 @@ const getApps = async () => {
   return output;
 };
 
-export default async function AppsPage() {
-  const apps = await getApps();
+export default async function BrandsPage() {
+  const brands = await getBrands();
 
-  if (apps.length === 0) {
+  if (brands.length === 0) {
     return (
       <div className="flex h-full w-full flex-col items-center justify-center space-y-4">
-        <p>You don&apos;t have any apps yet.</p>
+        <p>You don&apos;t have any brands yet.</p>
         <Button asChild>
-          <Link href="/dashboard/brands/create">Create App</Link>
+          <Link href="/dashboard/brands/create">Create Brand</Link>
         </Button>
       </div>
     );
@@ -49,8 +49,8 @@ export default async function AppsPage() {
 
   return (
     <div className="flex h-full w-full flex-col items-center justify-center space-y-4">
-      {apps.map((app) => (
-        <AppCard key={app.id} app={app} />
+      {brands.map((brand) => (
+        <BrandCard key={brand.id} brand={brand} />
       ))}
     </div>
   );

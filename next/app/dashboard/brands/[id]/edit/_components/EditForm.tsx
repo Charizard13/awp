@@ -3,7 +3,7 @@ import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { CardContent } from "@/components/ui/card";
-import LinkButton from "../../../_components/LinkButton";
+import LinkButton from "../links/_components/LinkButton";
 import { CardTitle, CardHeader, CardFooter, Card } from "@/components/ui/card";
 
 import SubmitButton from "@/components/SubmitButton";
@@ -23,7 +23,7 @@ export default function EditForm({ brand, setNextBrand }: EditProfileProps) {
   return (
     <Card className="m-auto max-w-sm">
       <CardHeader>
-        <CardTitle className="text-xl">Edit App</CardTitle>
+        <CardTitle className="text-xl">Edit Profile</CardTitle>
       </CardHeader>
       <CardContent>
         <div className="space-y-4">
@@ -72,7 +72,6 @@ export default function EditForm({ brand, setNextBrand }: EditProfileProps) {
               defaultValue={brand.description ?? undefined}
             />
           </div>
-          <LinkButton />
         </div>
       </CardContent>
       <CardFooter>

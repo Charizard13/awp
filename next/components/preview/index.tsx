@@ -18,11 +18,7 @@ type PreviewProps = {
 export default function Preview({ brand }: PreviewProps) {
   const { iconUrl, name, description, url } = brand;
   return (
-    <Card
-      className="flex w-full max-w-screen-sm
-flex-grow flex-col items-center self-auto text-center xl:shadow-md
-"
-    >
+    <Card className="flex w-full max-w-screen-sm flex-grow flex-col items-center self-auto text-center xl:shadow-md">
       <CardHeader>
         <Image
           src={iconUrl}

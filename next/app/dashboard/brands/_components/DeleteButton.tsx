@@ -19,27 +19,29 @@ import SubmitButton from "@/components/SubmitButton";
 import { appAssets } from "@/lib/consts";
 
 type DeleteButtonProps = {
-  appId: string;
+  brandId: string;
 };
 
-export default function DeleteButton({ appId }: DeleteButtonProps) {
+export default function DeleteButton({ brandId }: DeleteButtonProps) {
   const handleDelete = async () => {
     "use server";
 
     const cookieStore = cookies();
     const supabase = createServerClient(cookieStore);
-    const { error } = await supabase.from("apps").delete().match({ id: appId });
+    const { error } = await supabase
+      .from("brands")
+      .delete()
+      .match({ id: brandId });
 
     if (error) {
-      throw new Error("Could not delete app");
+      throw new Error("Could not delete brand");
     }
 
-    const manifestPath = `${appId}/${appAssets.manifest}`;
-    const scriptPath = `${appId}/${appAssets.script}`;
-    const iconPath = `${appId}/${appAssets.icon}`;
-    await supabase.storage.from("apps").remove([manifestPath, scriptPath, iconPath]);
+    const manifestPath = `${brandId}/${appAssets.manifest}`;
 
-    return revalidatePath("/dashboard/apps");
+    await supabase.storage.from("brands").remove([manifestPath]);
+
+    return revalidatePath("/dashboard/brands");
   };
   return (
     <AlertDialog>
@@ -49,7 +51,10 @@ export default function DeleteButton({ appId }: DeleteButtonProps) {
       <AlertDialogContent>
         <AlertDialogHeader>
           <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
-          <AlertDialogDescription>This action cannot be undone. This will permanently delete app and remove relevant data from our servers.</AlertDialogDescription>
+          <AlertDialogDescription>
+            This action cannot be undone. This will permanently delete brand and
+            remove relevant data from our servers.
+          </AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter>
           <AlertDialogCancel>Cancel</AlertDialogCancel>
