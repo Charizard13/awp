@@ -48,7 +48,7 @@ export default function EditAppPage({
   return (
     <div className="flex h-full w-full items-center justify-center space-y-4">
       <EditForm brand={nextBrand} setNextBrand={setNextBrand} />
-      <Preview brand={nextBrand} />
+      <Preview brand={nextBrand} isPreviewMode={false} />
     </div>
   );
 }

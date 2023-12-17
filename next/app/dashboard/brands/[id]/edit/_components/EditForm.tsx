@@ -16,9 +16,21 @@ type EditProfileProps = {
 };
 
 export default function EditForm({ brand, setNextBrand }: EditProfileProps) {
-  const handleOnChangeEvent = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleOnChangeEvent = (
+    event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
+  ) => {
     const { name, value } = event.target;
     setNextBrand({ ...brand, [name]: value });
+  };
+
+  const handleImageUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const { files } = event.target;
+    if (files && files.length > 0) {
+      //make icon a local path
+      const icon = files[0];
+      const iconUrl = URL.createObjectURL(icon);
+      setNextBrand({ ...brand, iconUrl });
+    }
   };
   return (
     <Card className="m-auto max-w-sm">
@@ -29,7 +41,13 @@ export default function EditForm({ brand, setNextBrand }: EditProfileProps) {
         <div className="space-y-4">
           <div className="space-y-2">
             <Label htmlFor="icon-upload">Icon</Label>
-            <Input accept="image/*" id="icon-upload" type="file" name="icon" />
+            <Input
+              accept="image/*"
+              id="icon-upload"
+              type="file"
+              name="icon"
+              onChange={handleImageUpload}
+            />
           </div>
           <div className="space-y-2">
             <Label htmlFor="app-name">Name</Label>
@@ -69,13 +87,14 @@ export default function EditForm({ brand, setNextBrand }: EditProfileProps) {
               name="description"
               maxLength={150}
               minLength={10}
-              defaultValue={brand.description ?? undefined}
+              value={brand.description ?? undefined}
+              onChange={handleOnChangeEvent}
             />
           </div>
         </div>
       </CardContent>
       <CardFooter>
-        <SubmitButton className="ml-auto">Update App</SubmitButton>
+        <SubmitButton className="ml-auto">Save Changes</SubmitButton>
       </CardFooter>
     </Card>
   );
