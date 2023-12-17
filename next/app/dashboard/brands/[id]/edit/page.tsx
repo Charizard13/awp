@@ -7,6 +7,9 @@ import { useQuery } from "@tanstack/react-query";
 import EditForm from "./_components/EditForm";
 import { useEffect, useState } from "react";
 import Preview from "@/components/preview";
+import { useSearchParams } from "next/navigation";
+import LinksForm from "./_components/LinksForm";
+
 export default function EditAppPage({
   params,
 }: {
@@ -18,7 +21,7 @@ export default function EditAppPage({
       const supabase = createWebClient();
       const { error: appError, data: brand } = await supabase
         .from("brands")
-        .select()
+        .select("*, links(*)")
         .eq("id", params.id)
         .single();
       if (appError || !brand) {
@@ -35,6 +38,8 @@ export default function EditAppPage({
   });
 
   const [nextBrand, setNextBrand] = useState(brand);
+  const searchParams = useSearchParams();
+  const section = searchParams.get("section") ?? "profile";
 
   useEffect(() => {
     if (isLoading) return;
@@ -47,7 +52,10 @@ export default function EditAppPage({
 
   return (
     <div className="flex h-full w-full items-center justify-center space-y-4">
-      <EditForm brand={nextBrand} setNextBrand={setNextBrand} />
+      {section === "links" && <LinksForm />}
+      {section === "profile" && (
+        <EditForm brand={nextBrand} setNextBrand={setNextBrand} />
+      )}
       <Preview brand={nextBrand} isPreviewMode={false} />
     </div>
   );

@@ -26,13 +26,13 @@ export default function SideBar() {
     dashboardRoutes.push({
       name: "Profile",
       // @ts-ignore
-      href: `/dashboard/brands/${brandId}/edit` as const,
+      href: `/dashboard/brands/${brandId}/edit?section=profile` as const,
       icon: SettingsIcon,
     });
     dashboardRoutes.push({
       name: "Links",
       // @ts-ignore
-      href: `/dashboard/brands/${brandId}/edit/links` as const,
+      href: `/dashboard/brands/${brandId}/edit?section=links` as const,
       icon: SendToBackIcon,
     });
   }

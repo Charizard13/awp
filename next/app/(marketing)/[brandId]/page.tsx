@@ -76,7 +76,7 @@ export default async function EditAppPage({ params }: BrandProps) {
 
   return (
     <div className="flex h-screen justify-center p-8">
-      <Preview brand={app} />
+      <Preview brand={app} isPreviewMode={false} />
     </div>
   );
 }

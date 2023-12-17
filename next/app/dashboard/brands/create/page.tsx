@@ -16,7 +16,7 @@ import { appAssets } from "@/lib/consts";
 import SubmitButton from "@/components/SubmitButton";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
-import LinkButton from "../[id]/edit/links/_components/LinkButton";
+import LinksForm from "../[id]/edit/_components/LinksForm";
 
 export default async function CreateBrandPage({
   searchParams,

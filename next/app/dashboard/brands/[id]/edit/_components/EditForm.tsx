@@ -3,7 +3,7 @@ import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { CardContent } from "@/components/ui/card";
-import LinkButton from "../links/_components/LinkButton";
+import LinksForm from "./LinksForm";
 import { CardTitle, CardHeader, CardFooter, Card } from "@/components/ui/card";
 
 import SubmitButton from "@/components/SubmitButton";
@@ -26,7 +26,6 @@ export default function EditForm({ brand, setNextBrand }: EditProfileProps) {
   const handleImageUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { files } = event.target;
     if (files && files.length > 0) {
-      //make icon a local path
       const icon = files[0];
       const iconUrl = URL.createObjectURL(icon);
       setNextBrand({ ...brand, iconUrl });
