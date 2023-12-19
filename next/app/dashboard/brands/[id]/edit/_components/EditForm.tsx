@@ -8,14 +8,22 @@ import { CardTitle, CardHeader, CardFooter, Card } from "@/components/ui/card";
 
 import SubmitButton from "@/components/SubmitButton";
 import { Tables } from "@/types/supabase.gen";
+import { useMutation } from "@tanstack/react-query";
+import { createWebClient } from "@/lib/supabase/client";
+import { useState } from "react";
+import LoadingButton from "@/components/LoadingButton";
+import { useToast } from "@/components/ui/use-toast";
 type EditProfileProps = {
   brand: Tables<"brands"> & {
-    iconUrl: string;
+    logoUrl: string;
   };
   setNextBrand: (brand: any) => void;
 };
 
 export default function EditForm({ brand, setNextBrand }: EditProfileProps) {
+  const [iconFile, setIconFile] = useState<File | null>(null);
+  const { toast } = useToast();
+
   const handleOnChangeEvent = (
     event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
   ) => {
@@ -29,8 +37,51 @@ export default function EditForm({ brand, setNextBrand }: EditProfileProps) {
       const icon = files[0];
       const iconUrl = URL.createObjectURL(icon);
       setNextBrand({ ...brand, iconUrl });
+      setIconFile(icon);
     }
   };
+
+  const { mutateAsync: updateBrandProfile, isPending } = useMutation({
+    mutationKey: ["brand", brand.id],
+    mutationFn: async () => {
+      const supabase = createWebClient();
+      const { error } = await supabase
+        .from("brands")
+        .update({
+          name: brand.name,
+          description: brand.description,
+          url: brand.url,
+        })
+        .eq("id", brand.id)
+        .single();
+      if (error) {
+        throw new Error(error.message);
+      }
+      if (!iconFile) {
+        return;
+      }
+      const { error: iconError } = await supabase.storage
+        .from("brands")
+        .upload(`${brand.id}/logo`, iconFile, {
+          upsert: true,
+          contentType: "Blob",
+        });
+      if (iconError) {
+        throw new Error(iconError.message);
+      }
+    },
+    onSuccess: () =>
+      toast({
+        title: "Brand updated",
+        description: "Your brand has been updated successfully",
+      }),
+    onError: (e) =>
+      toast({
+        title: "Error",
+        description: e.message,
+      }),
+  });
+
   return (
     <Card className="m-auto max-w-sm">
       <CardHeader>
@@ -93,7 +144,13 @@ export default function EditForm({ brand, setNextBrand }: EditProfileProps) {
         </div>
       </CardContent>
       <CardFooter>
-        <SubmitButton className="ml-auto">Save Changes</SubmitButton>
+        <LoadingButton
+          isLoading={isPending}
+          onClick={updateBrandProfile}
+          className="ml-auto"
+        >
+          Save Changes
+        </LoadingButton>
       </CardFooter>
     </Card>
   );

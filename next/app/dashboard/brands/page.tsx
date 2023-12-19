@@ -1,6 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { createServerClient } from "@/lib/supabase/server";
-import { getAppAssetsUrls } from "@/lib/url";
+import { getBrandAssetsUrls } from "@/lib/url";
 import { cookies } from "next/headers";
 import Link from "next/link";
 import { redirect } from "next/navigation";
@@ -21,12 +21,10 @@ const getBrands = async () => {
   }
 
   const output = brands.map((brand) => {
-    const { iconUrl, manifestUrl, scriptUrl } = getAppAssetsUrls(brand.id);
+    const { logoUrl } = getBrandAssetsUrls(brand.id);
     return {
       ...brand,
-      iconUrl,
-      manifestUrl,
-      scriptUrl,
+      logoUrl,
     };
   });
 

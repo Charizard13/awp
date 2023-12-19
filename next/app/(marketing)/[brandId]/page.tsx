@@ -1,6 +1,6 @@
 import { createServerClient } from "@/lib/supabase/server";
 import { cookies } from "next/headers";
-import { getAppAssetsUrls } from "@/lib/url";
+import { getBrandAssetsUrls } from "@/lib/url";
 import Preview from "@/components/preview";
 import { Metadata, ResolvingMetadata } from "next/types";
 
@@ -28,7 +28,7 @@ export async function generateMetadata(
     throw new Error("Could not find your app");
   }
 
-  const { iconUrl } = getAppAssetsUrls(brand.id);
+  const { logoUrl } = getBrandAssetsUrls(brand.id);
 
   const { name } = brand;
   const description = brand.description ?? undefined;
@@ -37,13 +37,13 @@ export async function generateMetadata(
     title: name,
     description: description,
     keywords: keywords,
-    icons: iconUrl,
+    icons: logoUrl,
     openGraph: {
       title: name,
       description: description,
       images: [
         {
-          url: iconUrl,
+          url: logoUrl,
           width: 800,
           height: 600,
           alt: name,
@@ -59,7 +59,7 @@ export default async function EditAppPage({ params }: BrandProps) {
 
   const { error: appError, data: brand } = await supabase
     .from("brands")
-    .select()
+    .select("*, links(*)")
     .eq("name", params.brandId)
     .single();
 
@@ -67,16 +67,14 @@ export default async function EditAppPage({ params }: BrandProps) {
     throw new Error("Could not find your app");
   }
 
-  const { iconUrl } = getAppAssetsUrls(brand.id);
-
-  const app = {
+  const { logoUrl } = getBrandAssetsUrls(brand.id);
+  const brandData = {
     ...brand,
-    iconUrl,
+    logoUrl,
   };
-
   return (
     <div className="flex h-screen justify-center p-8">
-      <Preview brand={app} isPreviewMode={false} />
+      <Preview brand={brandData} isPreviewMode={false} />
     </div>
   );
 }

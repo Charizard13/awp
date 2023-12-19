@@ -1,6 +1,6 @@
 "use client";
 
-import { getAppAssetsUrls } from "@/lib/url";
+import { getBrandAssetsUrls } from "@/lib/url";
 import { createWebClient } from "@/lib/supabase/client";
 
 import { useQuery } from "@tanstack/react-query";
@@ -9,6 +9,7 @@ import { useEffect, useState } from "react";
 import Preview from "@/components/preview";
 import { useSearchParams } from "next/navigation";
 import LinksForm from "./_components/LinksForm";
+import { Tables } from "@/types";
 
 export default function EditAppPage({
   params,
@@ -27,10 +28,10 @@ export default function EditAppPage({
       if (appError || !brand) {
         throw new Error("Could not find your app");
       }
-      const { iconUrl } = getAppAssetsUrls(brand.id);
+      const { logoUrl } = getBrandAssetsUrls(brand.id);
       const brandData = {
         ...brand,
-        iconUrl,
+        logoUrl,
       };
       return brandData;
     },
@@ -41,18 +42,19 @@ export default function EditAppPage({
   const searchParams = useSearchParams();
   const section = searchParams.get("section") ?? "profile";
 
-  useEffect(() => {
-    if (isLoading) return;
-    setNextBrand(brand);
-  }, [brand, isLoading]);
-
   if (isLoading || !nextBrand) {
     return <div>Loading...</div>;
   }
 
   return (
     <div className="flex h-full w-full items-center justify-center space-y-4">
-      {section === "links" && <LinksForm />}
+      {section === "links" && (
+        <LinksForm
+          links={nextBrand.links}
+          setNextBrand={setNextBrand}
+          brandId={nextBrand.id}
+        />
+      )}
       {section === "profile" && (
         <EditForm brand={nextBrand} setNextBrand={setNextBrand} />
       )}

@@ -12,7 +12,7 @@ import BrandCardFooter from "./CardFooter";
 
 type BrandCardProps = {
   brand: Tables<"brands"> & {
-    iconUrl: string;
+    logoUrl: string;
   };
 };
 

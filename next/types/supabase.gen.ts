@@ -117,7 +117,7 @@ export interface Database {
           description: string;
           icon: string | null;
           id: number;
-          link: string;
+          url: string;
           updated_at: string;
           user_id: string | null;
         };
@@ -127,7 +127,7 @@ export interface Database {
           description: string;
           icon?: string | null;
           id?: number;
-          link: string;
+          url: string;
           updated_at?: string;
           user_id?: string | null;
         };
@@ -137,7 +137,7 @@ export interface Database {
           description?: string;
           icon?: string | null;
           id?: number;
-          link?: string;
+          url?: string;
           updated_at?: string;
           user_id?: string | null;
         };

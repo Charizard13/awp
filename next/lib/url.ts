@@ -12,20 +12,12 @@ export function getDefaultUrl() {
   return url;
 }
 
-export function getAppAssetsUrls(appId: string) {
-  const manifestUrl = supabaseWebClient.storage
-    .from("apps")
-    .getPublicUrl(`${appId}/manifest.json`);
+export function getBrandAssetsUrls(brandId: string) {
   const iconUrl = supabaseWebClient.storage
-    .from("apps")
-    .getPublicUrl(`${appId}/icon.png`);
-  const script = supabaseWebClient.storage
-    .from("apps")
-    .getPublicUrl(`${appId}/script.js`);
+    .from("brands")
+    .getPublicUrl(`${brandId}/logo`);
 
   return {
-    manifestUrl: manifestUrl.data.publicUrl,
-    iconUrl: iconUrl.data.publicUrl,
-    scriptUrl: script.data.publicUrl,
+    logoUrl: iconUrl.data.publicUrl,
   };
 }

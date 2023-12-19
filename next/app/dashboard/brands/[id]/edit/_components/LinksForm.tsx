@@ -2,7 +2,7 @@
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { PlusIcon, StoreIcon, Trash2Icon } from "lucide-react";
-import React, { useState } from "react";
+import React, { Dispatch, SetStateAction, useState } from "react";
 import { WhatAppIcon } from "../../../../../../components/icons/WhatsApp";
 import {
   Card,
@@ -12,52 +12,60 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import SubmitButton from "@/components/SubmitButton";
+import { Tables, TablesInsert } from "@/types";
 
-type LinkButton = {
-  name: string;
-  Icon: React.JSX.Element;
-  url: string | undefined;
-};
-
-const initialLinkButtons: LinkButton[] = [
+const initialLinkButtons: Omit<TablesInsert<"links">, "brand_id">[] = [
   {
-    name: "Store",
-    Icon: <StoreIcon className="ml-2 h-4 w-4" />,
-    url: undefined,
+    description: "Store",
+    url: "",
   },
   {
-    name: "WhatApp",
-    Icon: <WhatAppIcon className="ml-2 h-4  w-4" />,
-    url: undefined,
+    description: "WhatApp",
+    url: "",
   },
 ];
 
-export default function LinksForm() {
-  const [linksButtons, setLinksButtons] =
-    useState<LinkButton[]>(initialLinkButtons);
+const getLinkIcon = (description: string) => {
+  switch (description) {
+    case "Store":
+      return <StoreIcon className="ml-2 h-4 w-4" />;
+    case "WhatApp":
+      return <WhatAppIcon className="ml-2 h-4  w-4" />;
+    default:
+      return <StoreIcon className="ml-2 h-4 w-4" />;
+  }
+};
 
-  const handleInputChange = (
-    e: React.ChangeEvent<HTMLInputElement>,
-    name: string,
-  ) => {
-    const updatedLinksButtons = [...linksButtons];
-    const index = updatedLinksButtons.findIndex(
-      (linkButton) => linkButton.name === name,
-    );
-    updatedLinksButtons[index].url = e.target.value;
-    setLinksButtons(updatedLinksButtons);
+type LinksFormProps = {
+  links: Tables<"links">[];
+  brandId: string;
+  setNextBrand: (value: React.SetStateAction<any>) => void;
+};
+
+export default function LinksForm({
+  links,
+  setNextBrand,
+  brandId,
+}: LinksFormProps) {
+  const setLink = (description: string, url: string, index: number) => {
+    const outputLinks: TablesInsert<"links">[] = structuredClone(links);
+    const link = outputLinks.find((l) => l.description === description);
+    if (link) {
+      if (url === "") {
+        outputLinks.splice(index, 1);
+        return setNextBrand((prev: any) => ({ ...prev, links: outputLinks }));
+      }
+      link.url = url;
+    } else {
+      outputLinks[index] = {
+        description,
+        url,
+        brand_id: brandId,
+      };
+    }
+
+    setNextBrand((prev: any) => ({ ...prev, links: outputLinks }));
   };
-
-  const handleRemoveButton = (index: number) => {
-    //remove url from the button
-    const updatedLinksButtons = [...linksButtons];
-    updatedLinksButtons[index].url = undefined;
-    setLinksButtons(updatedLinksButtons);
-  };
-
-  const completedLinksButtons = linksButtons.filter(
-    (linkButton) => linkButton.url !== undefined,
-  );
   return (
     <Card className="m-auto max-w-sm">
       <CardHeader>
@@ -65,38 +73,23 @@ export default function LinksForm() {
       </CardHeader>
       <CardContent>
         <div className="flex flex-col gap-4">
-          {linksButtons.map((linkButton, index) => (
+          {initialLinkButtons.map((link, index) => (
             <div className="flex gap-4" key={index}>
               <div className="relative flex w-full items-center justify-center">
                 <Input
                   type="text"
-                  value={linkButton.url}
-                  onChange={(e) => handleInputChange(e, linkButton.name)}
-                  placeholder={`${linkButton.name} URL`}
+                  value={
+                    links.find((l) => l.description === link.description)?.url
+                  }
+                  onChange={(e) =>
+                    setLink(link.description, e.target.value, index)
+                  }
+                  placeholder={`${link.description} URL`}
                 />
-                <span className="absolute right-4">{linkButton.Icon}</span>
+                <span className="absolute right-4">
+                  {getLinkIcon(link.description)}
+                </span>
               </div>
-              {completedLinksButtons.includes(linkButton) && (
-                <Button
-                  variant="destructive"
-                  size="icon"
-                  onClick={() => handleRemoveButton(index)}
-                >
-                  <Trash2Icon className="h-4 w-4" />
-                </Button>
-              )}
-            </div>
-          ))}
-          {completedLinksButtons.map(({ name, Icon }, index) => (
-            <div key={index} className="flex gap-4">
-              <Button
-                className="w-full"
-                variant={"outline"}
-                onClick={() => handleRemoveButton(index)}
-              >
-                {name}
-                <span className="ml-2">{Icon}</span>
-              </Button>
             </div>
           ))}
         </div>

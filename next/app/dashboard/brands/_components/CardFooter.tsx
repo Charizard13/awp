@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button";
 import Link from "next/link";
 type BrandCardFooterProps = {
   brand: Tables<"brands"> & {
-    iconUrl: string;
+    logoUrl: string;
   };
 };
 

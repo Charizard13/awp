@@ -12,21 +12,23 @@ import { AspectRatio } from "../ui/aspect-ratio";
 import Link from "next/link";
 import { Link2Icon } from "lucide-react";
 import Footer from "./Footer";
+import Links from "./Links";
 
 type PreviewProps = {
   brand: Tables<"brands"> & {
-    iconUrl: string;
+    logoUrl: string;
+    links: Tables<"links">[];
   };
   isPreviewMode: boolean;
 };
 
 export default function Preview({ brand, isPreviewMode }: PreviewProps) {
-  const { iconUrl, name, description, url } = brand;
+  const { logoUrl, name, description, url } = brand;
   return (
-    <Card className="flex aspect-[9/16] w-full max-w-md flex-col items-center text-center xl:shadow-md">
+    <Card className="flex aspect-[9/16] w-full max-w-md flex-col items-center p-4 text-center xl:shadow-md">
       <CardHeader>
         <Image
-          src={iconUrl}
+          src={logoUrl}
           alt="App Icon"
           height={128}
           width={128}
@@ -43,6 +45,7 @@ export default function Preview({ brand, isPreviewMode }: PreviewProps) {
           Personal Website <Link2Icon className="inline-block h-4 w-4" />
         </a>
       </CardDescription>
+      <Links links={brand.links} />
       {!isPreviewMode && <Footer />}
     </Card>
   );
