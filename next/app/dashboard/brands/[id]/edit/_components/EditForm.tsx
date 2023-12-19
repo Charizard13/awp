@@ -9,7 +9,7 @@ import { CardTitle, CardHeader, CardFooter, Card } from "@/components/ui/card";
 import SubmitButton from "@/components/SubmitButton";
 import { Tables } from "@/types/supabase.gen";
 import { useMutation } from "@tanstack/react-query";
-import { createWebClient } from "@/lib/supabase/client";
+import { createWebClient, supabaseWebClient } from "@/lib/supabase/client";
 import { useState } from "react";
 import LoadingButton from "@/components/LoadingButton";
 import { useToast } from "@/components/ui/use-toast";
@@ -22,6 +22,8 @@ type EditProfileProps = {
 
 export default function EditForm({ brand, setNextBrand }: EditProfileProps) {
   const [iconFile, setIconFile] = useState<File | null>(null);
+  const supabase = createWebClient();
+
   const { toast } = useToast();
 
   const handleOnChangeEvent = (
@@ -44,16 +46,20 @@ export default function EditForm({ brand, setNextBrand }: EditProfileProps) {
   const { mutateAsync: updateBrandProfile, isPending } = useMutation({
     mutationKey: ["brand", brand.id],
     mutationFn: async () => {
-      const supabase = createWebClient();
+      const user = await supabase.auth.getUser();
+      const userId = user?.data?.user?.id;
+      if (!userId) {
+        throw new Error("You must be logged in to update metadata.");
+      }
       const { error } = await supabase
         .from("brands")
-        .update({
+        .upsert({
           name: brand.name,
           description: brand.description,
           url: brand.url,
+          user_id: userId,
         })
-        .eq("id", brand.id)
-        .single();
+        .eq("id", brand.id);
       if (error) {
         throw new Error(error.message);
       }

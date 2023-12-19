@@ -1,8 +1,12 @@
 "use client";
-import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { PlusIcon, StoreIcon, Trash2Icon } from "lucide-react";
-import React, { Dispatch, SetStateAction, useState } from "react";
+import {
+  CalendarIcon,
+  CreditCardIcon,
+  InstagramIcon,
+  StoreIcon,
+} from "lucide-react";
+import React from "react";
 import { WhatAppIcon } from "../../../../../../components/icons/WhatsApp";
 import {
   Card,
@@ -11,28 +15,57 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import SubmitButton from "@/components/SubmitButton";
 import { Tables, TablesInsert } from "@/types";
+import { Label } from "@/components/ui/label";
+import { useMutation } from "@tanstack/react-query";
+import { createWebClient } from "@/lib/supabase/client";
+import { useToast } from "@/components/ui/use-toast";
+import LoadingButton from "@/components/LoadingButton";
+
+const Links = {
+  Store: "Store",
+  WhatsApp: "WhatsApp",
+  Instagram: "Instagram",
+  "Payment Page": "Payment Page",
+  Calender: "Calender",
+} as const;
 
 const initialLinkButtons: Omit<TablesInsert<"links">, "brand_id">[] = [
   {
-    description: "Store",
+    description: Links.Store,
     url: "",
   },
   {
-    description: "WhatApp",
+    description: Links.WhatsApp,
+    url: "",
+  },
+  {
+    description: Links.Instagram,
+    url: "",
+  },
+  {
+    description: Links["Payment Page"],
+    url: "",
+  },
+  {
+    description: Links.Calender,
     url: "",
   },
 ];
 
-const getLinkIcon = (description: string) => {
+export const getLinkIcon = (description: string) => {
   switch (description) {
-    case "Store":
+    case Links.Store:
       return <StoreIcon className="ml-2 h-4 w-4" />;
-    case "WhatApp":
+    case Links.WhatsApp:
       return <WhatAppIcon className="ml-2 h-4  w-4" />;
+    case Links.Instagram:
+      return <InstagramIcon className="ml-2 h-4 w-4" />;
+    case Links["Payment Page"]:
+      return <CreditCardIcon className="ml-2 h-4 w-4" />;
+    case Links.Calender:
+      return <CalendarIcon className="ml-2 h-4 w-4" />;
     default:
-      return <StoreIcon className="ml-2 h-4 w-4" />;
   }
 };
 
@@ -47,6 +80,7 @@ export default function LinksForm({
   setNextBrand,
   brandId,
 }: LinksFormProps) {
+  const { toast } = useToast();
   const setLink = (description: string, url: string, index: number) => {
     const outputLinks: TablesInsert<"links">[] = structuredClone(links);
     const link = outputLinks.find((l) => l.description === description);
@@ -66,15 +100,64 @@ export default function LinksForm({
 
     setNextBrand((prev: any) => ({ ...prev, links: outputLinks }));
   };
+
+  const { mutateAsync: updateBrandLinks, isPending } = useMutation({
+    mutationKey: ["brand", brandId],
+    mutationFn: async () => {
+      const supabase = createWebClient();
+      const user = await supabase.auth.getUser();
+      const userId = user?.data?.user?.id;
+      if (!userId) {
+        throw new Error("You must be logged in to update metadata.");
+      }
+      const outputLinks: TablesInsert<"links">[] = structuredClone(links).map(
+        (l) => ({ ...l, user_id: userId }),
+      );
+      const linksToDelete = outputLinks.filter((l) => l.url === "");
+      const linksToInsert = outputLinks.filter((l) => l.url !== "");
+      if (linksToDelete.length > 0) {
+        const { error } = await supabase
+          .from("links")
+          .delete()
+          .in(
+            "id",
+            linksToDelete.map((l) => l.id),
+          );
+        if (error) {
+          throw new Error(error.message);
+        }
+      }
+      if (linksToInsert.length === 0) {
+        return;
+      }
+      const { error } = await supabase.from("links").upsert(linksToInsert);
+      if (error) {
+        throw new Error(error.message);
+      }
+    },
+    onSuccess: () =>
+      toast({
+        title: "Links updated",
+        description: "Links updated successfully",
+      }),
+    onError: (e) => {
+      toast({
+        title: "Error",
+        description: e.message,
+      }),
+        console.log(e);
+    },
+  });
   return (
     <Card className="m-auto max-w-sm">
       <CardHeader>
-        <CardTitle className="text-xl">Edit Profile</CardTitle>
+        <CardTitle className="text-xl">Edit Links</CardTitle>
       </CardHeader>
       <CardContent>
         <div className="flex flex-col gap-4">
           {initialLinkButtons.map((link, index) => (
-            <div className="flex gap-4" key={index}>
+            <div className="flex flex-col gap-1" key={index}>
+              <Label>{link.description}</Label>
               <div className="relative flex w-full items-center justify-center">
                 <Input
                   type="text"
@@ -95,7 +178,9 @@ export default function LinksForm({
         </div>
       </CardContent>
       <CardFooter>
-        <SubmitButton className="ml-auto">Save Changes</SubmitButton>
+        <LoadingButton onClick={updateBrandLinks} isLoading={isPending}>
+          Save
+        </LoadingButton>
       </CardFooter>
     </Card>
   );

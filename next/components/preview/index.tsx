@@ -36,16 +36,17 @@ export default function Preview({ brand, isPreviewMode }: PreviewProps) {
         />
         <CardTitle>{name}</CardTitle>
       </CardHeader>
-      <CardContent className="flex flex-col gap-4"></CardContent>
-      <CardDescription className="whitespace-pre-wrap">
-        {description}
-      </CardDescription>
-      <CardDescription>
-        <a href={url} target="_blank" rel="noopener noreferrer">
-          Personal Website <Link2Icon className="inline-block h-4 w-4" />
-        </a>
-      </CardDescription>
-      <Links links={brand.links} />
+      <CardContent className="flex flex-col gap-4">
+        <CardDescription className="whitespace-pre-wrap">
+          {description}
+        </CardDescription>
+        <CardDescription>
+          <a href={url} target="_blank" rel="noopener noreferrer">
+            Personal Website <Link2Icon className="inline-block h-4 w-4" />
+          </a>
+        </CardDescription>
+        <Links links={brand.links} />
+      </CardContent>
       {!isPreviewMode && <Footer />}
     </Card>
   );
