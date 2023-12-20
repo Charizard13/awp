@@ -10,7 +10,9 @@ import {
 } from "@/components/ui/card";
 import BrandCardFooter from "./CardFooter";
 import Link from "next/link";
-import { Link2Icon } from "lucide-react";
+import { Link2Icon, ExternalLinkIcon } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { Label } from "@/components/ui/label";
 
 type BrandCardProps = {
   brand: Tables<"brands"> & {
@@ -19,19 +21,21 @@ type BrandCardProps = {
 };
 
 export default function BrandCard({ brand }: BrandCardProps) {
-  const { logoUrl, name, description, url } = brand;
-
+  const { logoUrl, name, description } = brand;
   return (
-    <Card className="w-full max-w-screen-lg">
+    <Card className="mx-auto h-fit flex-1">
       <CardHeader>
-        <CardTitle>{name}</CardTitle>
-        <CardDescription>
-          {url}
-          <Link href={`/${brand.name}`}>
-            Visit My profile <Link2Icon className="inline-block h-4 w-4" />
-          </Link>
-        </CardDescription>
-        <CardDescription>{description}</CardDescription>
+        <div className="flex flex-row items-center justify-between gap-4">
+          <div className="flex flex-col gap-2">
+            <CardTitle>{name}</CardTitle>
+            <CardDescription>{description}</CardDescription>
+          </div>
+          <Button asChild variant="outline" size="icon">
+            <a href={`/${brand.name}`} target="_blank" rel="noreferrer">
+              <ExternalLinkIcon className="h-4 w-4" />
+            </a>
+          </Button>
+        </div>
       </CardHeader>
       <CardContent className="flex flex-col gap-4">
         <Image
@@ -39,7 +43,7 @@ export default function BrandCard({ brand }: BrandCardProps) {
           alt="Brand Icon"
           height={128}
           width={128}
-          className="rounded-md"
+          className="m-auto rounded-full border-2 border-inherit"
         />
       </CardContent>
       <BrandCardFooter brand={brand} />

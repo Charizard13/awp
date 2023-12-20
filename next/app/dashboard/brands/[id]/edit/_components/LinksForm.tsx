@@ -140,16 +140,14 @@ export default function LinksForm({
         title: "Links updated",
         description: "Links updated successfully",
       }),
-    onError: (e) => {
+    onError: (e) =>
       toast({
         title: "Error",
         description: e.message,
       }),
-        console.log(e);
-    },
   });
   return (
-    <Card className="m-auto max-w-sm">
+    <Card className="flex aspect-[9/16] flex-col p-4 xl:shadow-md">
       <CardHeader>
         <CardTitle className="text-xl">Edit Links</CardTitle>
       </CardHeader>
@@ -177,9 +175,13 @@ export default function LinksForm({
           ))}
         </div>
       </CardContent>
-      <CardFooter>
-        <LoadingButton onClick={updateBrandLinks} isLoading={isPending}>
-          Save
+      <CardFooter className="mt-auto">
+        <LoadingButton
+          onClick={updateBrandLinks}
+          isLoading={isPending}
+          className="w-full"
+        >
+          Save Changes
         </LoadingButton>
       </CardFooter>
     </Card>

@@ -21,18 +21,21 @@ type PreviewProps = {
   };
   isPreviewMode: boolean;
 };
+const defaultUrl = process.env.VERCEL_URL
+  ? `https://${process.env.VERCEL_URL}`
+  : "http://localhost:3000";
 
 export default function Preview({ brand, isPreviewMode }: PreviewProps) {
   const { logoUrl, name, description, url } = brand;
   return (
-    <Card className="flex aspect-[9/16] w-full max-w-md flex-col items-center p-4 text-center xl:shadow-md">
+    <Card className="flex aspect-[9/16] min-w-[400px] flex-col items-center p-4 text-center xl:shadow-md">
       <CardHeader>
         <Image
           src={logoUrl}
-          alt="App Icon"
+          alt="Brand Icon"
           height={128}
           width={128}
-          className="m-auto rounded-full object-contain"
+          className="m-auto rounded-full border-2 border-inherit"
         />
         <CardTitle>{name}</CardTitle>
       </CardHeader>
@@ -47,7 +50,7 @@ export default function Preview({ brand, isPreviewMode }: PreviewProps) {
         </CardDescription>
         <Links links={brand.links} />
       </CardContent>
-      {!isPreviewMode && <Footer />}
+      {!isPreviewMode && <Footer brandUrl={`${defaultUrl}/${brand.name}`} />}
     </Card>
   );
 }

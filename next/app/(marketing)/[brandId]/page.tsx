@@ -24,7 +24,6 @@ export async function generateMetadata(
     .single();
 
   if (appError || !brand) {
-    console.log(appError);
     throw new Error("Could not find your brand");
   }
 

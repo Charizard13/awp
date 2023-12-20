@@ -20,7 +20,7 @@ type EditProfileProps = {
   setNextBrand: (brand: any) => void;
 };
 
-export default function EditForm({ brand, setNextBrand }: EditProfileProps) {
+export default function ProfileForm({ brand, setNextBrand }: EditProfileProps) {
   const [iconFile, setIconFile] = useState<File | null>(null);
   const supabase = createWebClient();
 
@@ -89,7 +89,7 @@ export default function EditForm({ brand, setNextBrand }: EditProfileProps) {
   });
 
   return (
-    <Card className="m-auto max-w-sm">
+    <Card className="flex aspect-[9/16] flex-col p-4 xl:shadow-md">
       <CardHeader>
         <CardTitle className="text-xl">Edit Profile</CardTitle>
       </CardHeader>
@@ -149,11 +149,11 @@ export default function EditForm({ brand, setNextBrand }: EditProfileProps) {
           </div>
         </div>
       </CardContent>
-      <CardFooter>
+      <CardFooter className="mt-auto">
         <LoadingButton
           isLoading={isPending}
           onClick={updateBrandProfile}
-          className="ml-auto"
+          className="w-full"
         >
           Save Changes
         </LoadingButton>

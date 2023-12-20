@@ -11,7 +11,7 @@ type BrandCardFooterProps = {
 
 export default function BrandCardFooter({ brand }: BrandCardFooterProps) {
   return (
-    <CardFooter className="flex justify-end gap-4">
+    <CardFooter className="flex justify-between gap-4">
       <Button variant="secondary" asChild>
         <Link href={`/dashboard/brands/${brand.id}/edit`}>Edit</Link>
       </Button>

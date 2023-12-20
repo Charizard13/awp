@@ -37,9 +37,13 @@ export default function DeleteButton({ brandId }: DeleteButtonProps) {
       throw new Error("Could not delete brand");
     }
 
-    const manifestPath = `${brandId}/${appAssets.manifest}`;
+    const { error: deleteError } = await supabase.storage
+      .from("brands")
+      .remove([`${brandId}/${appAssets.logo}`]);
 
-    await supabase.storage.from("brands").remove([manifestPath]);
+    if (deleteError) {
+      throw new Error("Could not delete brand assets");
+    }
 
     return revalidatePath("/dashboard/brands");
   };

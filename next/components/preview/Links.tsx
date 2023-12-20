@@ -8,13 +8,13 @@ type LinksProps = {
 
 export default function Links({ links }: LinksProps) {
   return (
-    <div className="flex w-full flex-col items-center gap-4">
+    <div className="flex w-full flex-col  gap-4">
       {links.map((link) => (
-        <Button key={link.id} variant={"outline"} className="min-w-xs">
+        <Button key={link.id} variant={"outline"} asChild className="min-w-96">
           <a href={link.url} target="_blank" rel="noreferrer">
             {link.description}
+            {getLinkIcon(link.description)}
           </a>
-          {getLinkIcon(link.description)}
         </Button>
       ))}
     </div>
