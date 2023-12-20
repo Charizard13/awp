@@ -61,7 +61,7 @@ export default async function CreateBrandPage({
     }
 
     const pngIcon = new Blob([icon], { type: "image/png" });
-    const uploadOptions = { contentType: "Blob" };
+    const uploadOptions = { contentType: "Blob", upsert: true };
     const uploadIcon = supabase.storage
       .from("brands")
       .upload(`${brand.id}/${appAssets.logo}`, pngIcon, uploadOptions);

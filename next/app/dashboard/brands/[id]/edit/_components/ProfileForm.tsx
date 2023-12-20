@@ -13,6 +13,7 @@ import { createWebClient, supabaseWebClient } from "@/lib/supabase/client";
 import { useState } from "react";
 import LoadingButton from "@/components/LoadingButton";
 import { useToast } from "@/components/ui/use-toast";
+import { appAssets } from "@/lib/consts";
 type EditProfileProps = {
   brand: Tables<"brands"> & {
     logoUrl: string;
@@ -68,7 +69,7 @@ export default function ProfileForm({ brand, setNextBrand }: EditProfileProps) {
       }
       const { error: iconError } = await supabase.storage
         .from("brands")
-        .upload(`${brand.id}/logo`, iconFile, {
+        .upload(`${brand.id}/${appAssets.logo}`, iconFile, {
           upsert: true,
           contentType: "Blob",
         });
