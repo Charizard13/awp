@@ -21,9 +21,9 @@ type BrandCardProps = {
 };
 
 export default function BrandCard({ brand }: BrandCardProps) {
-  const { logoUrl, name, description, url } = brand;
+  const { logoUrl, name, description } = brand;
   return (
-    <Card className="w-full max-w-screen-lg">
+    <Card className="mx-auto h-fit flex-1">
       <CardHeader>
         <div className="flex flex-row items-center justify-between gap-4">
           <div className="flex flex-col gap-2">
