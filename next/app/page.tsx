@@ -13,7 +13,7 @@ export default function HomePage() {
               <h1 className="text-3xl font-bold tracking-tighter sm:text-5xl md:text-6xl/none">
                 Welcome to Awp
               </h1>
-              <p className="mx-auto max-w-[700px] text-zinc-500 md:text-xl dark:text-zinc-400">
+              <p className="mx-auto max-w-[700px] text-zinc-500 dark:text-zinc-400 md:text-xl">
                 Transform any website into a PWA in seconds.
               </p>
             </div>
@@ -25,9 +25,9 @@ export default function HomePage() {
           </div>
         </div>
       </section>
-      <section className="w-full py-12 md:py-24 lg:py-32 bg-zinc-100 dark:bg-zinc-800 ">
+      <section className="w-full bg-zinc-100 py-12 dark:bg-zinc-800 md:py-24 lg:py-32 ">
         <div className="container px-4 md:px-6">
-          <div className="flex flex-col justify-center items-center text-center space-y-4">
+          <div className="flex flex-col items-center justify-center space-y-4 text-center">
             <div className="space-y-2">
               <div className="inline-block rounded-lg bg-zinc-50 px-3 py-1 text-sm dark:bg-zinc-800">
                 Key Features
@@ -37,11 +37,11 @@ export default function HomePage() {
                   <Check />
                   Seamless transformation of websites into PWAs.
                 </li>
-                <li className="flex gap-2 w-full">
+                <li className="flex w-full gap-2">
                   <Check />
                   Quick and efficient process.
                 </li>
-                <li className="flex gap-2 w-full">
+                <li className="flex w-full gap-2">
                   <Check />
                   No coding skills required.
                 </li>
@@ -52,21 +52,21 @@ export default function HomePage() {
       </section>
       <section className="w-full py-12 md:py-24 lg:py-32">
         <div className="container px-4 md:px-6">
-          <div className="flex flex-col justify-center items-center text-center space-y-4">
+          <div className="flex flex-col items-center justify-center space-y-4 text-center">
             <div className="space-y-2">
               <div className="inline-block rounded-lg bg-zinc-100 px-3 py-1 text-sm dark:bg-zinc-800">
                 Benefits
               </div>
               <ul className="grid gap-2 py-4">
-                <li className="flex gap-2 w-full">
+                <li className="flex w-full gap-2">
                   <Check />
                   Enhance user experience with PWA features.
                 </li>
-                <li className="flex gap-2 w-full">
+                <li className="flex w-full gap-2">
                   <Check />
                   Improve website performance and speed.
                 </li>
-                <li className="flex gap-2 w-full">
+                <li className="flex w-full gap-2">
                   <Check />
                   Increase engagement and conversion rates.
                 </li>

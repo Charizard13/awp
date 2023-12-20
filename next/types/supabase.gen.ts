@@ -34,44 +34,6 @@ export interface Database {
   };
   public: {
     Tables: {
-      apps: {
-        Row: {
-          created_at: string;
-          description: string | null;
-          id: string;
-          name: string;
-          updated_at: string;
-          url: string;
-          user_id: string;
-        };
-        Insert: {
-          created_at?: string;
-          description?: string | null;
-          id?: string;
-          name: string;
-          updated_at?: string;
-          url: string;
-          user_id: string;
-        };
-        Update: {
-          created_at?: string;
-          description?: string | null;
-          id?: string;
-          name?: string;
-          updated_at?: string;
-          url?: string;
-          user_id?: string;
-        };
-        Relationships: [
-          {
-            foreignKeyName: "apps_user_id_fkey";
-            columns: ["user_id"];
-            isOneToOne: false;
-            referencedRelation: "users";
-            referencedColumns: ["id"];
-          },
-        ];
-      };
       brands: {
         Row: {
           created_at: string;
@@ -117,8 +79,8 @@ export interface Database {
           description: string;
           icon: string | null;
           id: number;
-          url: string;
           updated_at: string;
+          url: string;
           user_id: string | null;
         };
         Insert: {
@@ -127,8 +89,8 @@ export interface Database {
           description: string;
           icon?: string | null;
           id?: number;
-          url: string;
           updated_at?: string;
+          url: string;
           user_id?: string | null;
         };
         Update: {
@@ -137,8 +99,8 @@ export interface Database {
           description?: string;
           icon?: string | null;
           id?: number;
-          url?: string;
           updated_at?: string;
+          url?: string;
           user_id?: string | null;
         };
         Relationships: [
