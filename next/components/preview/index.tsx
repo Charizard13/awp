@@ -25,7 +25,7 @@ type PreviewProps = {
 export default function Preview({ brand, isPreviewMode }: PreviewProps) {
   const { logoUrl, name, description, url } = brand;
   return (
-    <Card className="flex aspect-[9/16] w-full max-w-md flex-col items-center p-4 text-center xl:shadow-md">
+    <Card className="min-w-96 flex aspect-[9/16] flex-col items-center p-4 text-center xl:shadow-md">
       <CardHeader>
         <Image
           src={logoUrl}

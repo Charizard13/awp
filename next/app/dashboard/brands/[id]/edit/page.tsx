@@ -4,11 +4,12 @@ import { getBrandAssetsUrls } from "@/lib/url";
 import { createWebClient } from "@/lib/supabase/client";
 
 import { useQuery } from "@tanstack/react-query";
-import EditForm from "./_components/EditForm";
+import ProfileForm from "./_components/ProfileForm";
 import { useEffect, useState } from "react";
 import Preview from "@/components/preview";
 import { useSearchParams } from "next/navigation";
 import LinksForm from "./_components/LinksForm";
+import Loading from "@/app/loading";
 
 export default function EditAppPage({
   params,
@@ -46,11 +47,19 @@ export default function EditAppPage({
   }, [brand]);
 
   if (isLoading || !nextBrand) {
-    return <div>Loading...</div>;
+    return <Loading />;
   }
 
   return (
-    <div className="flex h-full w-full items-center justify-center space-y-4">
+    <div
+      className="flex flex-1 flex-col justify-evenly gap-4 p-4 lg:flex-row"
+      style={{
+        maxHeight: "calc(100vh - 4rem)",
+      }}
+    >
+      {section === "profile" && (
+        <ProfileForm brand={nextBrand} setNextBrand={setNextBrand} />
+      )}
       {section === "links" && (
         <LinksForm
           links={nextBrand.links}
@@ -58,10 +67,7 @@ export default function EditAppPage({
           brandId={nextBrand.id}
         />
       )}
-      {section === "profile" && (
-        <EditForm brand={nextBrand} setNextBrand={setNextBrand} />
-      )}
-      <Preview brand={nextBrand} isPreviewMode={false} />
+      <Preview brand={nextBrand} isPreviewMode={true} />
     </div>
   );
 }
