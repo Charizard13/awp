@@ -140,13 +140,11 @@ export default function LinksForm({
         title: "Links updated",
         description: "Links updated successfully",
       }),
-    onError: (e) => {
+    onError: (e) =>
       toast({
         title: "Error",
         description: e.message,
       }),
-        console.log(e);
-    },
   });
   return (
     <Card className="m-auto max-w-sm">

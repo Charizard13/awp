@@ -46,7 +46,7 @@ export default async function BrandsPage() {
   }
 
   return (
-    <div className="flex h-full w-full flex-col items-center justify-center space-y-4">
+    <div className="grid grid-cols-1 gap-4 p-4 sm:grid-cols-3">
       {brands.map((brand) => (
         <BrandCard key={brand.id} brand={brand} />
       ))}

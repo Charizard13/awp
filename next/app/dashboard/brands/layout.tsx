@@ -8,9 +8,11 @@ export default function Layout({
   params: { message: string };
 }) {
   return (
-    <div className="flex h-full w-full">
+    <div className="flex h-full w-full flex-col sm:flex-row">
       <SideBar />
-      <div className="flex-grow p-2">{children}</div>
+      <div className="flex-grow p-2" style={{ flex: "1" }}>
+        {children}
+      </div>
     </div>
   );
 }
