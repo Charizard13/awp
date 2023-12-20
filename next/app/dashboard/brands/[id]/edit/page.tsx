@@ -9,7 +9,6 @@ import { useEffect, useState } from "react";
 import Preview from "@/components/preview";
 import { useSearchParams } from "next/navigation";
 import LinksForm from "./_components/LinksForm";
-import { Tables } from "@/types";
 
 export default function EditAppPage({
   params,
@@ -41,6 +40,10 @@ export default function EditAppPage({
   const [nextBrand, setNextBrand] = useState(brand);
   const searchParams = useSearchParams();
   const section = searchParams.get("section") ?? "profile";
+
+  useEffect(() => {
+    setNextBrand(brand);
+  }, [brand]);
 
   if (isLoading || !nextBrand) {
     return <div>Loading...</div>;

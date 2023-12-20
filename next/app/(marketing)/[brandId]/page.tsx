@@ -16,16 +16,16 @@ export async function generateMetadata(
 ): Promise<Metadata> {
   const cookieStore = cookies();
   const supabase = createServerClient(cookieStore);
-
+  const validBrandName = params.brandId.replace("%20", " ").trim() ?? undefined;
   const { error: appError, data: brand } = await supabase
     .from("brands")
     .select()
-    .eq("name", params.brandId)
+    .eq("name", validBrandName)
     .single();
 
   if (appError || !brand) {
     console.log(appError);
-    throw new Error("Could not find your app");
+    throw new Error("Could not find your brand");
   }
 
   const { logoUrl } = getBrandAssetsUrls(brand.id);
@@ -57,10 +57,12 @@ export default async function EditAppPage({ params }: BrandProps) {
   const cookieStore = cookies();
   const supabase = createServerClient(cookieStore);
 
+  const validBrandName = params.brandId.replace("%20", " ").trim() ?? undefined;
+
   const { error: appError, data: brand } = await supabase
     .from("brands")
     .select("*, links(*)")
-    .eq("name", params.brandId)
+    .eq("name", validBrandName)
     .single();
 
   if (appError || !brand) {
