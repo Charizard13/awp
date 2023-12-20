@@ -1,5 +1,4 @@
 import Image from "next/image";
-import CodeSnippet, { Framework } from "@/components/CodeSnippet";
 import { Tables } from "@/types";
 import {
   Card,
@@ -9,10 +8,8 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import BrandCardFooter from "./CardFooter";
-import Link from "next/link";
-import { Link2Icon, ExternalLinkIcon } from "lucide-react";
+import { ExternalLinkIcon } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { Label } from "@/components/ui/label";
 
 type BrandCardProps = {
   brand: Tables<"brands"> & {
