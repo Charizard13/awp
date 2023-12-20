@@ -4,9 +4,13 @@ import { redirect } from "next/navigation";
 import { Provider } from "@supabase/supabase-js";
 import { getDefaultUrl } from "@/lib/url";
 import SubmitButton from "@/components/SubmitButton";
-import GoogleIcon from "./_components/GoogleIcon";
+import GoogleIcon from "../../components/icons/Google";
 
-export default function Login({ searchParams }: { searchParams: { message: string } }) {
+export default function Login({
+  searchParams,
+}: {
+  searchParams: { message: string };
+}) {
   const signIn = async (formData: FormData) => {
     "use server";
 
@@ -27,14 +31,21 @@ export default function Login({ searchParams }: { searchParams: { message: strin
   };
 
   return (
-    <div className="flex-1 flex flex-col w-full px-8 sm:max-w-md justify-center gap-2">
-      <form className="animate-in flex-1 flex flex-col w-full justify-center gap-2 text-foreground" action={signIn}>
+    <div className="flex w-full flex-1 flex-col justify-center gap-2 px-8 sm:max-w-md">
+      <form
+        className="animate-in text-foreground flex w-full flex-1 flex-col justify-center gap-2"
+        action={signIn}
+      >
         <h1 className="text-3xl font-semibold">Login</h1>
         <h2 className="text-xl font-semibold">Welcome to Awp</h2>
         <SubmitButton variant="outline" name="provider" value="google">
-          <GoogleIcon className="w-6 h-6 mr-2" /> Google
+          <GoogleIcon className="mr-2 h-6 w-6" /> Google
         </SubmitButton>
-        {searchParams?.message && <p className="mt-4 p-4 rounded-md bg-foreground/10 text-foreground text-center">{searchParams.message}</p>}
+        {searchParams?.message && (
+          <p className="bg-foreground/10 text-foreground mt-4 rounded-md p-4 text-center">
+            {searchParams.message}
+          </p>
+        )}
       </form>
     </div>
   );
