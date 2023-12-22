@@ -1,6 +1,6 @@
 import { TablesInsert } from "@/types";
 import { Button } from "../ui/button";
-import { getLinkIcon } from "@/app/(main)/dashboard/brands/[id]/edit/_components/LinksForm";
+import { getLinkIcon } from "@/app/(main)/brands/[id]/edit/_components/LinksForm";
 
 type LinksProps = {
   links: TablesInsert<"links">[];

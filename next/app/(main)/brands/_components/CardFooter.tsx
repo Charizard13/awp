@@ -13,7 +13,7 @@ export default function BrandCardFooter({ brand }: BrandCardFooterProps) {
   return (
     <CardFooter className="flex justify-between gap-4">
       <Button variant="secondary" asChild>
-        <Link href={`/dashboard/brands/${brand.id}/edit`}>Edit</Link>
+        <Link href={`/brands/${brand.id}/edit`}>Edit</Link>
       </Button>
       <DeleteButton brandId={brand.id} />
     </CardFooter>

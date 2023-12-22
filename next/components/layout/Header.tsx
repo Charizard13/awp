@@ -11,7 +11,7 @@ import {
 const headerRoutes = [
   {
     name: "My brands",
-    href: "/dashboard/brands" as const,
+    href: "/brands" as const,
     icon: HomeIcon,
   },
 ];

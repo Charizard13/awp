@@ -25,7 +25,7 @@ export default async function CreateBrandPage({
 }) {
   const handleSubmit = async (formData: FormData) => {
     "use server";
-    const route = "/dashboard/brands/create";
+    const route = "/brands/create";
 
     const icon = formData.get("icon") as File;
     const name = formData.get("name") as string;
@@ -75,7 +75,7 @@ export default async function CreateBrandPage({
       );
     }
 
-    redirect("/dashboard/brands");
+    redirect("/brands");
   };
 
   const cookieStore = cookies();
@@ -88,7 +88,7 @@ export default async function CreateBrandPage({
       <div className="flex h-full w-full flex-col items-center justify-center space-y-4">
         <p>You can only create one brand.</p>
         <Button asChild>
-          <Link href="/dashboard/brands">
+          <Link href="/brands">
             View <q className="m-2">{brand.name}</q> Brand
           </Link>
         </Button>

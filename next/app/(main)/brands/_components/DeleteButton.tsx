@@ -45,7 +45,7 @@ export default function DeleteButton({ brandId }: DeleteButtonProps) {
       throw new Error("Could not delete brand assets");
     }
 
-    return revalidatePath("/dashboard/brands");
+    return revalidatePath("/brands");
   };
   return (
     <AlertDialog>

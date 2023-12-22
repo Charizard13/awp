@@ -19,7 +19,7 @@ export default function Error() {
       </CardContent>
       <CardFooter>
         <Button asChild>
-          <Link href="/dashboard/brands">Visit Dashboard</Link>
+          <Link href="/brands">Visit Dashboard</Link>
         </Button>
       </CardFooter>
     </Card>

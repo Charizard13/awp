@@ -12,7 +12,7 @@ export default function SideBar() {
   const dashboardRoutes = [
     {
       name: "Brands",
-      href: "/dashboard/brands" as const,
+      href: "/brands" as const,
       icon: HomeIcon,
     },
   ];
@@ -21,13 +21,13 @@ export default function SideBar() {
     dashboardRoutes.push({
       name: "Profile",
       // @ts-ignore
-      href: `/dashboard/brands/${brandId}/edit?section=profile` as const,
+      href: `/brands/${brandId}/edit?section=profile` as const,
       icon: SettingsIcon,
     });
     dashboardRoutes.push({
       name: "Links",
       // @ts-ignore
-      href: `/dashboard/brands/${brandId}/edit?section=links` as const,
+      href: `/brands/${brandId}/edit?section=links` as const,
       icon: SendToBackIcon,
     });
   }
