@@ -1,4 +1,3 @@
-import Image from "next/image";
 import { Tables } from "@/types";
 import {
   Card,
@@ -10,6 +9,7 @@ import {
 import BrandCardFooter from "./CardFooter";
 import { ExternalLinkIcon } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 
 type BrandCardProps = {
   brand: Tables<"brands"> & {
@@ -19,6 +19,8 @@ type BrandCardProps = {
 
 export default function BrandCard({ brand }: BrandCardProps) {
   const { logoUrl, name, description } = brand;
+  const capitalShortName = name.slice(0, 2).toUpperCase();
+
   return (
     <Card className="mx-auto h-fit flex-1">
       <CardHeader>
@@ -35,13 +37,10 @@ export default function BrandCard({ brand }: BrandCardProps) {
         </div>
       </CardHeader>
       <CardContent className="flex flex-col gap-4">
-        <Image
-          src={logoUrl}
-          alt="Brand Icon"
-          height={128}
-          width={128}
-          className="m-auto rounded-full border-2 border-inherit"
-        />
+        <Avatar className="size-32 m-auto border-2 border-inherit">
+          <AvatarImage src={logoUrl} alt="Brand Icon" />
+          <AvatarFallback>{capitalShortName}</AvatarFallback>
+        </Avatar>
       </CardContent>
       <BrandCardFooter brand={brand} />
     </Card>

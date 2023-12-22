@@ -147,7 +147,7 @@ export default function LinksForm({
       }),
   });
   return (
-    <Card className="flex aspect-[9/16] flex-col p-4 xl:shadow-md">
+    <Card className="flex aspect-[9/16] min-w-[400px] flex-col p-4 xl:shadow-md">
       <CardHeader>
         <CardTitle className="text-xl">Edit Links</CardTitle>
       </CardHeader>

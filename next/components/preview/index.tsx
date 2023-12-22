@@ -7,12 +7,10 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Tables } from "@/types";
-import Image from "next/image";
-import { AspectRatio } from "../ui/aspect-ratio";
-import Link from "next/link";
 import { Link2Icon } from "lucide-react";
 import Footer from "./Footer";
 import Links from "./Links";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 
 type PreviewProps = {
   brand: Tables<"brands"> & {
@@ -27,16 +25,14 @@ const defaultUrl = process.env.VERCEL_URL
 
 export default function Preview({ brand, isPreviewMode }: PreviewProps) {
   const { logoUrl, name, description, url } = brand;
+  const capitalShortName = name.slice(0, 2).toUpperCase();
   return (
     <Card className="flex aspect-[9/16] min-w-[400px] flex-col items-center p-4 text-center xl:shadow-md">
       <CardHeader>
-        <Image
-          src={logoUrl}
-          alt="Brand Icon"
-          height={128}
-          width={128}
-          className="m-auto rounded-full border-2 border-inherit"
-        />
+        <Avatar className="size-32 border-2 border-inherit">
+          <AvatarImage src={logoUrl} alt="Brand Icon" />
+          <AvatarFallback>{capitalShortName}</AvatarFallback>
+        </Avatar>
         <CardTitle>{name}</CardTitle>
       </CardHeader>
       <CardContent className="flex flex-col gap-4">
