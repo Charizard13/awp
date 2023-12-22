@@ -4,7 +4,7 @@ import { redirect } from "next/navigation";
 import { Provider } from "@supabase/supabase-js";
 import { getDefaultUrl } from "@/lib/url";
 import SubmitButton from "@/components/SubmitButton";
-import GoogleIcon from "../../components/icons/Google";
+import GoogleIcon from "../../../components/icons/Google";
 
 export default function Login({
   searchParams,

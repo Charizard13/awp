@@ -9,7 +9,7 @@ import { useEffect, useState } from "react";
 import Preview from "@/components/preview";
 import { useSearchParams } from "next/navigation";
 import LinksForm from "./_components/LinksForm";
-import Loading from "@/app/loading";
+import Loading from "@/app/(main)/loading";
 
 export default function EditAppPage({
   params,
@@ -51,12 +51,7 @@ export default function EditAppPage({
   }
 
   return (
-    <div
-      className="flex flex-1 flex-col justify-evenly gap-4 p-4 lg:flex-row"
-      style={{
-        maxHeight: "calc(100vh - 4rem)",
-      }}
-    >
+    <div className="flex flex-grow flex-col justify-evenly gap-4 p-4 lg:flex-row">
       {section === "profile" && (
         <ProfileForm brand={nextBrand} setNextBrand={setNextBrand} />
       )}

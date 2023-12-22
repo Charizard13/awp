@@ -7,7 +7,7 @@ import {
   StoreIcon,
 } from "lucide-react";
 import React from "react";
-import { WhatAppIcon } from "../../../../../../components/icons/WhatsApp";
+import { WhatAppIcon } from "../../../../../../../components/icons/WhatsApp";
 import {
   Card,
   CardContent,
