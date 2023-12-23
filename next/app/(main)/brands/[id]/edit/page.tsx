@@ -1,4 +1,5 @@
 "use client";
+import { TablesUpdate } from "@/types";
 
 import { getBrandAssetsUrls } from "@/lib/url";
 import { createWebClient } from "@/lib/supabase/client";
@@ -38,7 +39,13 @@ export default function EditAppPage({
     throwOnError: true,
   });
 
-  const [nextBrand, setNextBrand] = useState(brand);
+  const [nextBrand, setNextBrand] = useState<
+    | (TablesUpdate<"brands"> & {
+        logoUrl: string;
+        links: TablesUpdate<"links">[];
+      })
+    | undefined
+  >(brand);
   const searchParams = useSearchParams();
   const section = searchParams.get("section") ?? "profile";
 
@@ -46,20 +53,24 @@ export default function EditAppPage({
     setNextBrand(brand);
   }, [brand]);
 
-  if (isLoading || !nextBrand) {
+  if (isLoading || !nextBrand || !brand) {
     return <Loading />;
   }
 
   return (
     <div className="flex flex-grow flex-col justify-evenly gap-4 p-4 lg:flex-row">
       {section === "profile" && (
-        <ProfileForm brand={nextBrand} setNextBrand={setNextBrand} />
+        <ProfileForm
+          brand={brand}
+          setNextBrand={setNextBrand}
+          brandId={brand.id}
+        />
       )}
       {section === "links" && (
         <LinksForm
           links={nextBrand.links}
           setNextBrand={setNextBrand}
-          brandId={nextBrand.id}
+          brandId={brand.id}
         />
       )}
       <Preview brand={nextBrand} isPreviewMode={true} />

@@ -1,52 +1,128 @@
 "use client";
-import { Label } from "@/components/ui/label";
+import { useEffect } from "react";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { CardContent } from "@/components/ui/card";
-import LinksForm from "./LinksForm";
 import { CardTitle, CardHeader, CardFooter, Card } from "@/components/ui/card";
-
-import SubmitButton from "@/components/SubmitButton";
-import { Tables } from "@/types/supabase.gen";
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "@/components/ui/form";
+import { TablesInsert, TablesUpdate } from "@/types/supabase.gen";
 import { useMutation } from "@tanstack/react-query";
-import { createWebClient, supabaseWebClient } from "@/lib/supabase/client";
+import { createWebClient } from "@/lib/supabase/client";
 import { useState } from "react";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useForm } from "react-hook-form";
 import LoadingButton from "@/components/LoadingButton";
 import { useToast } from "@/components/ui/use-toast";
 import { appAssets } from "@/lib/consts";
+import * as z from "zod";
+
+const optionalUrl = z.union([
+  z.string().url().max(500).optional(),
+  z.literal(""),
+]);
+const optionalDescription = z.union([
+  z
+    .string()
+    .min(5, {
+      message: "Description must be at least 5 characters long",
+    })
+    .max(150, {
+      message: "Description must be less than 150 characters long",
+    })
+    .optional(),
+  z.literal(""),
+]);
+const formSchema = z.object({
+  name: z
+    .string()
+    .regex(/^[a-zA-Z0-9_]+$/, {
+      message: "Only letters, numbers and underscores are allowed",
+    })
+    .min(3, {
+      message: "Name must be at least 3 characters long",
+    })
+    .max(50, {
+      message: "Name must be less than 50 characters long",
+    }),
+  website: optionalUrl,
+  description: optionalDescription,
+});
+
 type EditProfileProps = {
-  brand: Tables<"brands"> & {
+  brand: TablesInsert<"brands"> & {
     logoUrl: string;
   };
-  setNextBrand: (brand: any) => void;
+  setNextBrand: (
+    value: React.SetStateAction<
+      | (TablesUpdate<"brands"> & {
+          logoUrl: string;
+          links: TablesUpdate<"links">[];
+        })
+      | undefined
+    >,
+  ) => void;
+  brandId: string;
 };
 
-export default function ProfileForm({ brand, setNextBrand }: EditProfileProps) {
+export default function ProfileForm({
+  brand,
+  setNextBrand,
+  brandId,
+}: EditProfileProps) {
   const [iconFile, setIconFile] = useState<File | null>(null);
   const supabase = createWebClient();
-
   const { toast } = useToast();
 
-  const handleOnChangeEvent = (
-    event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
-  ) => {
-    const { name, value } = event.target;
-    setNextBrand({ ...brand, [name]: value });
-  };
+  const form = useForm<z.infer<typeof formSchema>>({
+    resolver: zodResolver(formSchema),
+    defaultValues: {
+      name: brand.name,
+      website: brand.website ?? undefined,
+      description: brand.description ?? undefined,
+    },
+  });
+
+  useEffect(() => {
+    form.watch((values) => {
+      const { name, website, description } = values;
+      setNextBrand((prevState) => {
+        if (!prevState) return;
+        return {
+          ...prevState,
+          name,
+          website,
+          description,
+        };
+      });
+    });
+  }, [form, setNextBrand]);
 
   const handleImageUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { files } = event.target;
     if (files && files.length > 0) {
       const icon = files[0];
       const iconUrl = URL.createObjectURL(icon);
-      setNextBrand({ ...brand, iconUrl });
+      setNextBrand((prevState) => {
+        if (!prevState) return;
+        return {
+          ...prevState,
+          logoUrl: iconUrl,
+        };
+      });
       setIconFile(icon);
     }
   };
 
-  const { mutateAsync: updateBrandProfile, isPending } = useMutation({
-    mutationKey: ["brand", brand.id],
-    mutationFn: async () => {
+  const { mutateAsync, isPending } = useMutation({
+    mutationKey: ["brand", brandId],
+    mutationFn: async (values: z.infer<typeof formSchema>) => {
       const user = await supabase.auth.getUser();
       const userId = user?.data?.user?.id;
       if (!userId) {
@@ -55,12 +131,12 @@ export default function ProfileForm({ brand, setNextBrand }: EditProfileProps) {
       const { error } = await supabase
         .from("brands")
         .upsert({
-          name: brand.name,
-          description: brand.description,
-          url: brand.url,
+          name: values.name,
+          description: values.description,
+          website: values.website,
           user_id: userId,
         })
-        .eq("id", brand.id);
+        .eq("id", brandId);
       if (error) {
         throw new Error(error.message);
       }
@@ -69,7 +145,7 @@ export default function ProfileForm({ brand, setNextBrand }: EditProfileProps) {
       }
       const { error: iconError } = await supabase.storage
         .from("brands")
-        .upload(`${brand.id}/${appAssets.logo}`, iconFile, {
+        .upload(`${brandId}/${appAssets.logo}`, iconFile, {
           upsert: true,
           contentType: "Blob",
         });
@@ -89,76 +165,72 @@ export default function ProfileForm({ brand, setNextBrand }: EditProfileProps) {
       }),
   });
 
+  const onSubmit = async (values: z.infer<typeof formSchema>) =>
+    mutateAsync(values);
+
   return (
-    <Card className="flex aspect-[9/16] flex-col p-4 xl:shadow-md">
+    <Card className="flex flex-col p-4">
       <CardHeader>
-        <CardTitle className="text-xl">Edit Profile</CardTitle>
+        <CardTitle>Edit Profile</CardTitle>
       </CardHeader>
-      <CardContent>
-        <div className="space-y-4">
-          <div className="space-y-2">
-            <Label htmlFor="icon-upload">Icon</Label>
-            <Input
-              accept="image/*"
-              id="icon-upload"
-              type="file"
-              name="icon"
-              onChange={handleImageUpload}
-            />
-          </div>
-          <div className="space-y-2">
-            <Label htmlFor="app-name">Name</Label>
-            <Input
-              id="app-name"
-              placeholder="App Name"
-              required
-              value={brand.name}
-              onChange={handleOnChangeEvent}
+      <Form {...form}>
+        <form onSubmit={form.handleSubmit(onSubmit)}>
+          <CardContent className="flex flex-col gap-4">
+            <FormField
+              control={form.control}
               name="name"
-              maxLength={50}
-              minLength={3}
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Brand Name</FormLabel>
+                  <FormControl>
+                    <Input placeholder="Your public brand name" {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
             />
-          </div>
-          <div className="space-y-2">
-            <Label htmlFor="app-url">URL</Label>
-            <Input
-              id="app-url"
-              placeholder="https://www.example.com"
-              required
-              name="url"
-              onChange={handleOnChangeEvent}
-              value={brand.url}
-              maxLength={150}
-              minLength={10}
+            <FormField
+              control={form.control}
+              name="website"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Personal Website</FormLabel>
+                  <FormControl>
+                    <Input placeholder="https://example.com" {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
             />
-            <p className="text-sm text-zinc-500 dark:text-zinc-400">
-              Enter the link of your website.
-            </p>
-          </div>
-          <div className="space-y-2">
-            <Label htmlFor="app-description">App Description (Optional)</Label>
-            <Textarea
-              className="min-h-[100px]"
-              id="app-description"
-              placeholder="Describe your app"
+            <FormField
+              control={form.control}
               name="description"
-              maxLength={150}
-              minLength={10}
-              value={brand.description ?? undefined}
-              onChange={handleOnChangeEvent}
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Bio</FormLabel>
+                  <FormControl>
+                    <Textarea
+                      className="resize-none"
+                      placeholder="Tell us a little bit about yourself"
+                      {...field}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
             />
-          </div>
-        </div>
-      </CardContent>
-      <CardFooter className="mt-auto">
-        <LoadingButton
-          isLoading={isPending}
-          onClick={updateBrandProfile}
-          className="w-full"
-        >
-          Save Changes
-        </LoadingButton>
-      </CardFooter>
+          </CardContent>
+          <CardFooter className="mt-auto">
+            <LoadingButton
+              isLoading={isPending}
+              type="submit"
+              className="w-full"
+            >
+              Save Changes
+            </LoadingButton>
+          </CardFooter>
+        </form>
+      </Form>
     </Card>
   );
 }

@@ -3,15 +3,21 @@
 import { Loader2Icon } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
-import { useFormStatus } from "react-dom";
 import { useEffect, useState, useId } from "react";
 
-type LoadingButtonProps = {
-  children: React.ReactNode;
-  isLoading: boolean;
-  onClick: () => void;
-  [key: string]: unknown;
-};
+type LoadingButtonProps =
+  | {
+      children: React.ReactNode;
+      isLoading: boolean;
+      onClick: () => void;
+      [key: string]: unknown;
+    }
+  | {
+      children: React.ReactNode;
+      type: "submit";
+      isLoading: boolean;
+      [key: string]: unknown;
+    };
 
 export default function LoadingButton({
   children,

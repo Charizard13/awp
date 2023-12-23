@@ -15,7 +15,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { Tables, TablesInsert } from "@/types";
+import { Tables, TablesInsert, TablesUpdate } from "@/types";
 import { Label } from "@/components/ui/label";
 import { useMutation } from "@tanstack/react-query";
 import { createWebClient } from "@/lib/supabase/client";
@@ -70,7 +70,7 @@ export const getLinkIcon = (description: string) => {
 };
 
 type LinksFormProps = {
-  links: Tables<"links">[];
+  links: TablesUpdate<"links">[];
   brandId: string;
   setNextBrand: (value: React.SetStateAction<any>) => void;
 };
@@ -82,7 +82,7 @@ export default function LinksForm({
 }: LinksFormProps) {
   const { toast } = useToast();
   const setLink = (description: string, url: string, index: number) => {
-    const outputLinks: TablesInsert<"links">[] = structuredClone(links);
+    const outputLinks: TablesUpdate<"links">[] = structuredClone(links);
     const link = outputLinks.find((l) => l.description === description);
     if (link) {
       if (url === "") {
@@ -110,11 +110,14 @@ export default function LinksForm({
       if (!userId) {
         throw new Error("You must be logged in to update metadata.");
       }
-      const outputLinks: TablesInsert<"links">[] = structuredClone(links).map(
+      const outputLinks: TablesUpdate<"links">[] = structuredClone(links).map(
         (l) => ({ ...l, user_id: userId }),
       );
       const linksToDelete = outputLinks.filter((l) => l.url === "");
-      const linksToInsert = outputLinks.filter((l) => l.url !== "");
+      const linksToInsert: TablesInsert<"links">[] = outputLinks.filter(
+        (l) => l.url !== "" || l.url === undefined,
+      );
+
       if (linksToDelete.length > 0) {
         const { error } = await supabase
           .from("links")
