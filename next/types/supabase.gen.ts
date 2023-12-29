@@ -76,9 +76,9 @@ export interface Database {
         Row: {
           brand_id: string
           created_at: string
-          description: string
           icon: string | null
           id: number
+          name: string
           updated_at: string
           url: string
           user_id: string | null
@@ -86,9 +86,9 @@ export interface Database {
         Insert: {
           brand_id: string
           created_at?: string
-          description: string
           icon?: string | null
           id?: number
+          name: string
           updated_at?: string
           url: string
           user_id?: string | null
@@ -96,9 +96,9 @@ export interface Database {
         Update: {
           brand_id?: string
           created_at?: string
-          description?: string
           icon?: string | null
           id?: number
+          name?: string
           updated_at?: string
           url?: string
           user_id?: string | null

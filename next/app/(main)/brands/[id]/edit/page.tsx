@@ -9,7 +9,7 @@ import ProfileForm from "./_components/profile/ProfileForm";
 import { useEffect, useState } from "react";
 import Preview from "@/components/preview";
 import { useSearchParams } from "next/navigation";
-import LinksForm from "./_components/LinksForm";
+import LinksForm from "./_components/links/LinksForm";
 import Loading from "@/app/(main)/loading";
 
 export default function EditAppPage({
