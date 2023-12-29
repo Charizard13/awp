@@ -173,7 +173,7 @@ export default function ProfileForm({
             <FormField
               control={form.control}
               name="logo"
-              render={({ field }) => (
+              render={() => (
                 <FormItem>
                   <FormLabel htmlFor="icon-upload">Logo</FormLabel>
                   <FormControl>
