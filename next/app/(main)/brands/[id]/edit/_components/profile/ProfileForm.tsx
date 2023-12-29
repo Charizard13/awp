@@ -13,7 +13,7 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { TablesInsert, TablesUpdate } from "@/types/supabase.gen";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import { createWebClient } from "@/lib/supabase/client";
 import { useState } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -22,38 +22,8 @@ import LoadingButton from "@/components/LoadingButton";
 import { useToast } from "@/components/ui/use-toast";
 import { appAssets } from "@/lib/consts";
 import * as z from "zod";
-
-const optionalUrl = z.union([
-  z.string().url().max(500).optional(),
-  z.literal(""),
-]);
-const optionalDescription = z.union([
-  z
-    .string()
-    .min(5, {
-      message: "Description must be at least 5 characters long",
-    })
-    .max(150, {
-      message: "Description must be less than 150 characters long",
-    })
-    .optional(),
-  z.literal(""),
-]);
-const formSchema = z.object({
-  name: z
-    .string()
-    .regex(/^[a-zA-Z0-9_]+$/, {
-      message: "Only letters, numbers and underscores are allowed",
-    })
-    .min(3, {
-      message: "Name must be at least 3 characters long",
-    })
-    .max(50, {
-      message: "Name must be less than 50 characters long",
-    }),
-  website: optionalUrl,
-  description: optionalDescription,
-});
+import { formSchema } from "./utils";
+import { useDebounce } from "@/hooks/useDebounce";
 
 type EditProfileProps = {
   brand: TablesInsert<"brands"> & {
@@ -83,9 +53,33 @@ export default function ProfileForm({
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
+      logo: undefined,
       name: brand.name,
       website: brand.website ?? undefined,
       description: brand.description ?? undefined,
+    },
+  });
+
+  const debouncedUsername = useDebounce(form.getValues("name"), 500);
+
+  useQuery({
+    queryKey: ["isNameAvailable", debouncedUsername],
+    queryFn: async () => {
+      if (form.getValues("name") === brand.name) {
+        return;
+      }
+      const { count, error } = await supabase
+        .from("brands")
+        .select("*", { count: "exact", head: true })
+        .eq("name", form.getValues("name"))
+        .single();
+
+      if (!error && count && count > 0) {
+        form.setError("name", {
+          type: "manual",
+          message: "This username is already taken",
+        });
+      }
     },
   });
 
@@ -176,6 +170,25 @@ export default function ProfileForm({
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)}>
           <CardContent className="flex flex-col gap-4">
+            <FormField
+              control={form.control}
+              name="logo"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel htmlFor="icon-upload">Logo</FormLabel>
+                  <FormControl>
+                    <Input
+                      accept="image/*"
+                      id="icon-upload"
+                      type="file"
+                      name="icon"
+                      onChange={handleImageUpload}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
             <FormField
               control={form.control}
               name="name"

@@ -114,9 +114,14 @@ export default function LinksForm({
         (l) => ({ ...l, user_id: userId }),
       );
       const linksToDelete = outputLinks.filter((l) => l.url === "");
-      const linksToInsert: TablesInsert<"links">[] = outputLinks.filter(
-        (l) => l.url !== "" || l.url === undefined,
-      );
+      const linksToInsert: TablesInsert<"links">[] = outputLinks
+        .filter((l) => !!l.url && !!l.description) // Filter out objects where url or description is undefined
+        .map((l) => ({
+          ...l,
+          brand_id: brandId,
+          description: l.description || "", // Provide a default empty string if description is undefined
+          url: l.url || "", // Provide a default empty string if url is undefined
+        }));
 
       if (linksToDelete.length > 0) {
         const { error } = await supabase

@@ -6,7 +6,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { TablesUpdate } from "@/types";
+import { TablesInsert, TablesUpdate } from "@/types";
 import { ExternalLinkIcon } from "lucide-react";
 import Footer from "./Footer";
 import Links from "./Links";
@@ -15,7 +15,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 type PreviewProps = {
   brand: TablesUpdate<"brands"> & {
     logoUrl: string;
-    links: TablesUpdate<"links">[];
+    links: TablesInsert<"links">[] | TablesUpdate<"links">[];
   };
   isPreviewMode: boolean;
 };
