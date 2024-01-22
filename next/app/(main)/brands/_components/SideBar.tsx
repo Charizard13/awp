@@ -32,7 +32,7 @@ export default function SideBar() {
     });
   }
   return (
-    <ul className="flex  gap-4 border-b border-gray-300 p-2 sm:flex-col sm:border-r md:p-4">
+    <ul className="flex gap-4 border-b border-gray-300 p-2 sm:flex-col sm:border-r md:p-4">
       {dashboardRoutes.map((item) => (
         <li key={item.name}>
           <Button asChild variant={"ghost"} className="flex w-full gap-2">
