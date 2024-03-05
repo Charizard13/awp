@@ -21,7 +21,7 @@ export default function Header() {
       <div className="m-auto flex max-w-screen-2xl items-center justify-between gap-2">
         <Link className="flex items-center" href={"/"}>
           <CloudIcon />
-          <h1 className="ml-2 text-2xl font-semibold text-gray-900 dark:text-gray-100">
+          <h1 className="m-4 text-2xl font-semibold text-gray-900 dark:text-gray-100">
             Awp
           </h1>
         </Link>

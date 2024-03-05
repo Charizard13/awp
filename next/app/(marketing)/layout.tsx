@@ -7,7 +7,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" className={GeistSans.className}>
+    <html lang="he" dir="rtl" className={GeistSans.className}>
       <body>{children}</body>
     </html>
   );
