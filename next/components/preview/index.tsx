@@ -12,6 +12,7 @@ import Footer from "./Footer";
 import Links from "./Links";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import IphoneWrapper from "./IPhoneWrapper";
+import { linksKeys } from "@/app/(main)/brands/[id]/edit/_components/socials/consts";
 
 type PreviewProps = {
   brand: TablesUpdate<"brands"> & {
@@ -27,6 +28,10 @@ const defaultUrl = process.env.VERCEL_URL
 export default function Preview({ brand, isPreviewMode }: PreviewProps) {
   const { logoUrl, name, description, website } = brand;
   const capitalShortName = name?.slice(0, 2).toUpperCase();
+  // @ts-ignore
+  const socialLinks = brand.links.filter(({ name}) => name && linksKeys.includes(name));
+
+
   return (
     <IphoneWrapper>
       <Card className="flex aspect-[9/16] min-w-[400px] flex-col items-center p-4 text-center xl:shadow-md">
@@ -57,7 +62,7 @@ export default function Preview({ brand, isPreviewMode }: PreviewProps) {
           )}
           <Links links={brand.links} />
         </CardContent>
-        {!isPreviewMode && <Footer brandUrl={`${defaultUrl}/${brand.name}`} />}
+        {isPreviewMode && <Footer brandUrl={`${defaultUrl}/${brand.name}`} socialLinks={socialLinks} />}
       </Card>
     </IphoneWrapper>
   );

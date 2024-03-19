@@ -9,7 +9,9 @@ import ProfileForm from "./_components/profile/ProfileForm";
 import { useEffect, useState } from "react";
 import Preview from "@/components/preview";
 import { useSearchParams } from "next/navigation";
-import LinksForm from "./_components/links/LinksForm";
+import SocialsLinksForm from "./_components/socials/LinksForm";
+import PaymentsLinksForm from "./_components/payments/LinksForm";
+import MeetingsLinksForm from "./_components/meetings/LinksForm";
 import Loading from "@/app/(main)/loading";
 
 export default function EditAppPage({
@@ -66,8 +68,22 @@ export default function EditAppPage({
           brandId={brand.id}
         />
       )}
-      {section === "links" && (
-        <LinksForm
+      {section === "social" && (
+        <SocialsLinksForm
+          links={nextBrand.links}
+          setNextBrand={setNextBrand}
+          brandId={brand.id}
+        />
+      )}
+      {section === "payments" && (
+        <PaymentsLinksForm
+          links={nextBrand.links}
+          setNextBrand={setNextBrand}
+          brandId={brand.id}
+        />
+      )}
+      {section === "meetings" && (
+        <MeetingsLinksForm
           links={nextBrand.links}
           setNextBrand={setNextBrand}
           brandId={brand.id}

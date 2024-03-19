@@ -1,8 +1,9 @@
 import dynamic from "next/dynamic";
 import { LucideProps } from "lucide-react";
 import dynamicIconImports from "lucide-react/dynamicIconImports";
-import { LinkKey } from "@/app/(main)/brands/[id]/edit/_components/links/consts";
+import { LinkKey } from "@/app/(main)/brands/[id]/edit/_components/socials/consts";
 import { WhatAppIcon } from "./icons/WhatsApp";
+import { TikTokIcon } from "./icons/TikTok";
 
 const convertToKebabCase = (str: string) =>
   str
@@ -17,6 +18,10 @@ interface IconProps extends LucideProps {
 const Icon = ({ name, ...props }: IconProps) => {
   if (name === "whatsApp") {
     return <WhatAppIcon {...props} />;
+  }
+
+  if(name === "TikTok") {
+    return <TikTokIcon {...props} />
   }
 
   const lowerCaseName = convertToKebabCase(

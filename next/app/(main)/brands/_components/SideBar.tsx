@@ -1,7 +1,7 @@
 "use client";
 
 import { useParams } from "next/navigation";
-import { HomeIcon, SendToBackIcon, SettingsIcon } from "lucide-react";
+import { HomeIcon, ScanFaceIcon, CircleDollarSignIcon, PresentationIcon, CircleUserRoundIcon } from "lucide-react";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 
@@ -11,7 +11,7 @@ export default function SideBar() {
 
   const dashboardRoutes = [
     {
-      name: "Brands",
+      name: "Home",
       href: "/brands" as const,
       icon: HomeIcon,
     },
@@ -22,13 +22,25 @@ export default function SideBar() {
       name: "Profile",
       // @ts-ignore
       href: `/brands/${brandId}/edit?section=profile` as const,
-      icon: SettingsIcon,
+      icon: CircleUserRoundIcon,
     });
     dashboardRoutes.push({
-      name: "Links",
+      name: "Socials",
       // @ts-ignore
-      href: `/brands/${brandId}/edit?section=links` as const,
-      icon: SendToBackIcon,
+      href: `/brands/${brandId}/edit?section=social` as const,
+      icon: ScanFaceIcon,
+    });
+    dashboardRoutes.push({
+      name: "Payments",
+      // @ts-ignore
+      href: `/brands/${brandId}/edit?section=payments` as const,
+      icon: CircleDollarSignIcon,
+    });
+    dashboardRoutes.push({
+      name: "Meetings",
+      // @ts-ignore
+      href: `/brands/${brandId}/edit?section=meetings` as const,
+      icon: PresentationIcon,
     });
   }
   return (
