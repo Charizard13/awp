@@ -4,8 +4,8 @@ export default function IphoneWrapper({
   children: React.ReactNode;
 }) {
   return (
-    <div className="flex w-full flex-col">
-      <FrontCamera />
+    <div className="flex w-277 h-600 flex-col">
+      {/* <FrontCamera /> */}
       {children}
     </div>
   );
