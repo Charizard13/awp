@@ -13,7 +13,7 @@ export default function HomePage() {
               <h1 className="text-3xl font-bold tracking-tighter sm:text-5xl md:text-6xl/none">
                 Welcome to Awp
               </h1>
-              <p className="mx-auto max-w-[700px] text-zinc-500 dark:text-zinc-400 md:text-xl">
+              <p className="mx-auto max-w-[700px] text-zinc-500 md:text-xl dark:text-zinc-400">
                 Transform any website into a PWA in seconds.
               </p>
             </div>
@@ -25,7 +25,7 @@ export default function HomePage() {
           </div>
         </div>
       </section>
-      <section className="w-full bg-zinc-100 py-12 dark:bg-zinc-800 md:py-24 lg:py-32 ">
+      <section className="w-full bg-zinc-100 py-12 md:py-24 lg:py-32 dark:bg-zinc-800 ">
         <div className="container px-4 md:px-6">
           <div className="flex flex-col items-center justify-center space-y-4 text-center">
             <div className="space-y-2">

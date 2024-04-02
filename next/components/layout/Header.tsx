@@ -43,7 +43,7 @@ export default function Header() {
                   <Link
                     key={item.name}
                     href={item.href}
-                    className="flex items-center rounded-md px-2 py-2 text-gray-600 hover:bg-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 md:px-4"
+                    className="flex items-center rounded-md px-2 py-2 text-gray-600 hover:bg-gray-200 md:px-4 dark:text-gray-400 dark:hover:bg-gray-700"
                   >
                     <span className="mx-2 text-lg font-normal md:mx-4">
                       <item.icon />

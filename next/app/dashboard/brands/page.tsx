@@ -36,7 +36,7 @@ export default async function BrandsPage() {
 
   if (brands.length === 0) {
     return (
-      <div className="flex flex-col items-center justify-center space-y-4 m-auto">
+      <div className="m-auto flex flex-col items-center justify-center space-y-4">
         <p>You don&apos;t have any brands yet.</p>
         <Button asChild>
           <Link href="/dashboard/brands/create">Create Brand</Link>
