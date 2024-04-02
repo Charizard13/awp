@@ -81,8 +81,8 @@ refresh_token_reuse_interval = 10
 enable_signup = true
 [auth.external.google]
 enabled = true
-client_id = "env.local(SUPABASE_AUTH_EXTERNAL_GOOGLE_CLIENT_ID)"
-secret = "env.local(SUPABASE_AUTH_EXTERNAL_GOOGLE_SECRET)"
+client_id = "env(SUPABASE_AUTH_EXTERNAL_GOOGLE_CLIENT_ID)"
+secret = "env(SUPABASE_AUTH_EXTERNAL_GOOGLE_SECRET)"
 redirect_uri = "http://localhost:54321/auth/v1/callback"
 
 

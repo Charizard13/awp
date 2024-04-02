@@ -1,13 +1,13 @@
 "use client";
 
-import { getBrandAssetsUrls } from "@/lib/url";
-import { createWebClient } from "@/lib/supabase/client";
+import {getBrandAssetsUrls} from "@/lib/url";
+import {createWebClient} from "@/lib/supabase/client";
 
-import { useQuery } from "@tanstack/react-query";
+import {useQuery} from "@tanstack/react-query";
 import ProfileForm from "./_components/ProfileForm";
-import { useEffect, useState } from "react";
+import {useEffect, useState} from "react";
 import Preview from "@/components/preview";
-import { useSearchParams } from "next/navigation";
+import {useSearchParams} from "next/navigation";
 import LinksForm from "./_components/LinksForm";
 import Loading from "@/app/loading";
 
@@ -29,11 +29,10 @@ export default function EditAppPage({
         throw new Error("Could not find your app");
       }
       const { logoUrl } = getBrandAssetsUrls(brand.id);
-      const brandData = {
+      return {
         ...brand,
         logoUrl,
       };
-      return brandData;
     },
     throwOnError: true,
   });
