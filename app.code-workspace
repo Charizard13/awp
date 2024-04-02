@@ -14,6 +14,9 @@
     }
   ],
   "settings": {
-    "cSpell.words": ["supabase"]
+    "cSpell.words": [
+      "knip",
+      "supabase"
+    ]
   }
 }

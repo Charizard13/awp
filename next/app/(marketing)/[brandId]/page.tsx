@@ -52,7 +52,7 @@ export async function generateMetadata(
   };
 }
 
-export default async function EditAppPage({ params }: BrandProps) {
+export default async function BrandPage({ params }: BrandProps) {
   const cookieStore = cookies();
   const supabase = createServerClient(cookieStore);
 
