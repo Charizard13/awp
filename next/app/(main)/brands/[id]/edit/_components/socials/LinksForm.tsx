@@ -22,11 +22,12 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { handleLinks } from "@/lib/links";
+import { linkType } from "@/lib/consts";
 
 const getLinkDefaultValue = (links: TablesUpdate<"links">[], link: string) => {
   const linkValue = links.find((l) => l.description === link)?.url;
   return linkValue ? linkValue : "";
-}
+};
 
 type LinksFormProps = {
   links: TablesUpdate<"links">[];
@@ -52,7 +53,7 @@ export default function LinksForm({
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      whatsApp:  getLinkDefaultValue(links, Links.whatsApp),
+      whatsApp: getLinkDefaultValue(links, Links.whatsApp),
       instagram: getLinkDefaultValue(links, Links.instagram),
       facebook: getLinkDefaultValue(links, Links.facebook),
       twitter: getLinkDefaultValue(links, Links.twitter),
@@ -92,9 +93,15 @@ export default function LinksForm({
   const { mutateAsync: updateBrandLinks, isPending } = useMutation({
     mutationKey: ["brand", brandId],
     mutationFn: async (values: z.infer<typeof formSchema>) => {
-      const supabase = createWebClient();
-      const user = await supabase.auth.getUser();
-      await handleLinks(brandId, values);
+      const output: TablesUpdate<"links">[] = Object.entries(values).map(
+        ([key, value]) => ({
+          type: linkType.social,
+          description: key,
+          url: value,
+          id: links.find((l) => l.description === key)?.id,
+        }),
+      );
+      return await handleLinks(brandId, output, linkType.social);
     },
     onSuccess: () =>
       toast({

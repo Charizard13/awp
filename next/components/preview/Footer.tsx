@@ -17,7 +17,7 @@ type PreviewFooterProps = {
 
 export default function PreviewFooter({ brandUrl, socialLinks }: PreviewFooterProps) {
   const filteredLinks = socialLinks.filter(
-    (link) => link.url && link.name,
+    (link) => link.url && link.description,
   ) as TablesInsert<"links">[];
   return (
     <CardFooter className="mt-auto flex flex-col w-full gap-4">
@@ -25,7 +25,7 @@ export default function PreviewFooter({ brandUrl, socialLinks }: PreviewFooterPr
           {filteredLinks.map((link) =>
           <Button asChild key={link.id} size="icon" variant="ghost" className="hover:cursor-pointer">
             <a href={link.url} target="_blank" rel="noreferrer">
-            <Icon name={link.name} />
+            <Icon name={link.description!} />
            </a>
           </Button>
           )}

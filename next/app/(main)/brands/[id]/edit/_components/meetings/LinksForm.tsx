@@ -21,6 +21,8 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
+import { linkType } from "@/lib/consts";
+import { handleLinks } from "@/lib/links";
 
 type LinksFormProps = {
   links: TablesUpdate<"links">[];
@@ -83,52 +85,16 @@ export default function LinksForm({
   const { mutateAsync: updateBrandLinks, isPending } = useMutation({
     mutationKey: ["brand", brandId],
     mutationFn: async (values: z.infer<typeof formSchema>) => {
-      const supabase = createWebClient();
-      const user = await supabase.auth.getUser();
-      const userId = user?.data?.user?.id;
-      if (!userId) {
-        throw new Error("You must be logged in to update metadata.");
-      }
-
-      const outputLinks: TablesUpdate<"links">[] = Object.entries(values).map(
-        ([description, url]) => ({
-          description,
-          url,
-          brand_id: brandId,
+      const output: TablesUpdate<"links">[] = Object.entries(values).map(
+        ([key, value]) => ({
+          type: linkType.calender,
+          description: key,
+          url: value,
+          id: links.find((l) => l.description === key)?.id,
         }),
       );
-      const linksToDelete = outputLinks.filter((l) => l.url === "");
-      const linksToInsert: TablesInsert<"links">[] = outputLinks
-        .filter((l) => !!l.url && !!l.description) // Filter out objects where url or description is undefined
-        .map((l) => ({
-          ...l,
-          brand_id: brandId,
-          description: l.description || "", // Provide a default empty string if description is undefined
-          url: l.url || "", // Provide a default empty string if url is undefined
-        }));
 
-      if (linksToInsert.length === 0) {
-        return;
-      }
-      const { error } = await supabase.from("links").upsert(linksToInsert);
-      if (error) {
-        console.log(error);
-        throw new Error(error.message);
-      }
-
-      if (linksToDelete.length > 0) {
-        const { error } = await supabase
-          .from("links")
-          .delete()
-          .in(
-            "id",
-            linksToDelete.map((l) => l.id),
-          );
-        if (error) {
-          console.log(error);
-          throw new Error(error.message);
-        }
-      }
+      return await handleLinks(brandId, output, linkType.calender);
     },
     onSuccess: () =>
       toast({
@@ -183,26 +149,3 @@ export default function LinksForm({
     </Card>
   );
 }
-
-// const linksToDelete = outputLinks.filter((l) => l.url === "");
-// const linksToInsert: TablesInsert<"links">[] = outputLinks
-//   .filter((l) => !!l.url && !!l.description) // Filter out objects where url or description is undefined
-//   .map((l) => ({
-//     ...l,
-//     brand_id: brandId,
-//     description: l.description || "", // Provide a default empty string if description is undefined
-//     url: l.url || "", // Provide a default empty string if url is undefined
-//   }));
-
-// if (linksToDelete.length > 0) {
-//   const { error } = await supabase
-//     .from("links")
-//     .delete()
-//     .in(
-//       "id",
-//       linksToDelete.map((l) => l.id),
-//     );
-//   if (error) {
-//     throw new Error(error.message);
-//   }
-// }

@@ -3,7 +3,7 @@ import { Input } from "@/components/ui/input";
 import React from "react";
 
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import {  TablesUpdate } from "@/types";
+import { TablesUpdate } from "@/types";
 import { Links, linksKeys } from "./consts";
 import Footer from "./Footer";
 import { formSchema } from "./utils";
@@ -21,6 +21,7 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { handleLinks } from "@/lib/links";
+import { linkType } from "@/lib/consts";
 
 type LinksFormProps = {
   links: TablesUpdate<"links">[];
@@ -46,6 +47,10 @@ export default function LinksForm({
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
+      payment1: links[0]?.url,
+      payment2: links[1]?.url,
+      payment3: links[2]?.url,
+      payment4: links[3]?.url,
     },
   });
 
@@ -77,7 +82,18 @@ export default function LinksForm({
 
   const { mutateAsync: updateBrandLinks, isPending } = useMutation({
     mutationKey: ["brand", brandId],
-    mutationFn: async (values: z.infer<typeof formSchema>) => handleLinks(brandId, values),
+    mutationFn: async (values: z.infer<typeof formSchema>) => {
+      const output: TablesUpdate<"links">[] = Object.entries(values).map(
+        ([key, value]) => ({
+          type: linkType.payment,
+          description: key,
+          url: value,
+          id: links.find((l) => l.description === key)?.id,
+        }),
+      );
+      return await handleLinks(brandId, output, linkType.payment);
+    },
+
     onSuccess: () =>
       toast({
         title: "Links updated",
@@ -111,7 +127,7 @@ export default function LinksForm({
                     <FormLabel>{Links[link]}</FormLabel>
                     <FormControl>
                       <Input
-                        placeholder={`Enter ${link} link`}
+                        placeholder={`Enter payment link`}
                         {...field}
                         onChange={(e) => {
                           field.onChange(e);

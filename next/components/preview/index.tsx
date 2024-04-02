@@ -6,7 +6,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { Tables } from "@/types";
+import { Tables, TablesInsert, TablesUpdate } from "@/types";
 import Image from "next/image";
 import { AspectRatio } from "../ui/aspect-ratio";
 import Link from "next/link";
@@ -15,9 +15,9 @@ import Footer from "./Footer";
 import Links from "./Links";
 
 type PreviewProps = {
-  brand: Tables<"brands"> & {
+  brand: TablesUpdate<"brands"> & {
     logoUrl: string;
-    links: Tables<"links">[];
+    links: TablesUpdate<"links">[];
   };
   isPreviewMode: boolean;
 };
@@ -26,7 +26,11 @@ const defaultUrl = process.env.VERCEL_URL
   : "http://localhost:3000";
 
 export default function Preview({ brand, isPreviewMode }: PreviewProps) {
-  const { logoUrl, name, description, url } = brand;
+  const { logoUrl, name, description, website, links } = brand;
+  const socialLinks = links.filter(
+    (link) => link.url && link.description,
+  ) as Tables<"links">[];
+
   return (
     <Card className="flex aspect-[9/16] min-w-[400px] flex-col items-center p-4 text-center xl:shadow-md">
       <CardHeader>
@@ -35,7 +39,7 @@ export default function Preview({ brand, isPreviewMode }: PreviewProps) {
           alt="Brand Icon"
           height={128}
           width={128}
-          className="m-auto rounded-full border-2 border-inherit"
+          className="m-auto max-h-[128px] max-w-[128px] rounded-full border-2 border-inherit"
         />
         <CardTitle>{name}</CardTitle>
       </CardHeader>
@@ -43,14 +47,21 @@ export default function Preview({ brand, isPreviewMode }: PreviewProps) {
         <CardDescription className="whitespace-pre-wrap">
           {description}
         </CardDescription>
-        <CardDescription>
-          <a href={url} target="_blank" rel="noopener noreferrer">
-            Personal Website <Link2Icon className="inline-block h-4 w-4" />
-          </a>
-        </CardDescription>
+        {website && (
+          <CardDescription>
+            <a href={website} target="_blank" rel="noopener noreferrer">
+              Personal Website <Link2Icon className="inline-block h-4 w-4" />
+            </a>
+          </CardDescription>
+        )}
         <Links links={brand.links} />
       </CardContent>
-      {!isPreviewMode && <Footer brandUrl={`${defaultUrl}/${brand.name}`} />}
+      {!isPreviewMode && (
+        <Footer
+          brandUrl={`${defaultUrl}/${brand.name}`}
+          socialLinks={socialLinks}
+        />
+      )}
     </Card>
   );
 }

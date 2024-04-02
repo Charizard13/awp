@@ -3,7 +3,7 @@
 import { Loader2Icon } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
-import { useEffect, useState, useId } from "react";
+import React, { useEffect, useState, useId } from "react";
 
 type LoadingButtonProps =
   | {

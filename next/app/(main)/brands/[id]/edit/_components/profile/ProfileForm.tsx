@@ -1,5 +1,5 @@
 "use client";
-import { useEffect } from "react";
+import React, { useEffect } from "react";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { CardContent } from "@/components/ui/card";
@@ -54,9 +54,9 @@ export default function ProfileForm({
     resolver: zodResolver(formSchema),
     defaultValues: {
       logo: undefined,
-      name: brand.description,
-      website: brand.website ?? undefined,
-      description: brand.description ?? undefined,
+      name: brand.name ?? "",
+      description: brand.description ?? "",
+      website: brand.website ?? "",
     },
   });
 
@@ -125,7 +125,7 @@ export default function ProfileForm({
       const { error } = await supabase
         .from("brands")
         .upsert({
-          name: values.description,
+          name: values.name,
           description: values.description,
           website: values.website,
           user_id: userId,
