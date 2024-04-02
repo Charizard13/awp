@@ -13,6 +13,7 @@ import SocialsLinksForm from "./_components/socials/LinksForm";
 import PaymentsLinksForm from "./_components/payments/LinksForm";
 import MeetingsLinksForm from "./_components/meetings/LinksForm";
 import Loading from "@/app/(main)/loading";
+import { linkType } from "@/lib/consts";
 
 export default function EditAppPage({
   params,
@@ -59,6 +60,10 @@ export default function EditAppPage({
     return <Loading />;
   }
 
+  const socialLinks   = nextBrand.links.filter(({ type }) => type === linkType.social);
+  const paymentLinks  = nextBrand.links.filter(({ type }) => type === linkType.payment);
+  const calenderLinks = nextBrand.links.filter(({ type }) => type === linkType.calender);
+
   return (
     <div className="flex flex-grow flex-col justify-evenly gap-4 p-4 lg:flex-row">
       {section === "profile" && (
@@ -70,21 +75,21 @@ export default function EditAppPage({
       )}
       {section === "social" && (
         <SocialsLinksForm
-          links={nextBrand.links}
+          links={socialLinks}
           setNextBrand={setNextBrand}
           brandId={brand.id}
         />
       )}
       {section === "payments" && (
         <PaymentsLinksForm
-          links={nextBrand.links}
+          links={paymentLinks}
           setNextBrand={setNextBrand}
           brandId={brand.id}
         />
       )}
       {section === "meetings" && (
         <MeetingsLinksForm
-          links={nextBrand.links}
+          links={calenderLinks}
           setNextBrand={setNextBrand}
           brandId={brand.id}
         />
