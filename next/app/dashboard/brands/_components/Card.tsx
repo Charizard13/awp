@@ -40,7 +40,7 @@ export default function BrandCard({ brand }: BrandCardProps) {
           alt="Brand Icon"
           height={128}
           width={128}
-          className="m-auto rounded-full border-2 border-inherit"
+          className="m-auto rounded-full border-2 border-inherit max-w-[128px] max-h-[128px]"
         />
       </CardContent>
       <BrandCardFooter brand={brand} />

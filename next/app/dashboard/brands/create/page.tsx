@@ -70,8 +70,9 @@ export default async function CreateBrandPage({
 
     if (iconData.error) {
       await supabase.from("brands").delete().match({ id: brand.id });
+      console.log(iconData.error)
       return redirect(
-        `${route}?message=There was an error uploading your metadata.`,
+        `${route}?message=There was an error uploading your Logo.`,
       );
     }
 
