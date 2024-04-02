@@ -22,19 +22,13 @@ import {
 } from "@/components/ui/form";
 import { linkType } from "@/lib/consts";
 import { handleLinks } from "@/lib/links";
+import { handleOnLinkChange } from "@/app/(main)/brands/[id]/edit/_lib/utils";
+import { SetBrand } from "@/app/(main)/brands/[id]/edit/_lib/types";
 
 type LinksFormProps = {
   links: TablesUpdate<"links">[];
   brandId: string;
-  setNextBrand: (
-    value: React.SetStateAction<
-      | (TablesUpdate<"brands"> & {
-          logoUrl: string;
-          links: TablesUpdate<"links">[];
-        })
-      | undefined
-    >,
-  ) => void;
+  setNextBrand: SetBrand;
 };
 
 export default function LinksForm({
@@ -53,34 +47,6 @@ export default function LinksForm({
       meeting4: links[3]?.url,
     },
   });
-
-  const handleOnLinkChange = (value: string, link: string) => {
-    const linkIndex = links.findIndex((l) => l.description === link);
-    if (linkIndex > -1) {
-      if (value === "") {
-        links.splice(linkIndex, 1);
-      } else {
-        links[linkIndex].url = value;
-      }
-    } else {
-      links.push({
-        description: link,
-        url: value,
-        brand_id: brandId,
-        type: linkType.calender,
-        sub_type: link,
-      });
-    }
-    setNextBrand((prevState) => {
-      if (!prevState) {
-        return;
-      }
-      return {
-        ...prevState,
-        links,
-      };
-    });
-  };
 
   const { mutateAsync: updateBrandLinks, isPending } = useMutation({
     mutationKey: ["brand", brandId],
@@ -133,7 +99,13 @@ export default function LinksForm({
                         {...field}
                         onChange={(e) => {
                           field.onChange(e);
-                          handleOnLinkChange(e.target.value, link);
+                          handleOnLinkChange(
+                            e.target.value,
+                            link,
+                            setNextBrand,
+                            linkType.calender,
+                            brandId,
+                          );
                         }}
                       />
                     </FormControl>

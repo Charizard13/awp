@@ -23,6 +23,8 @@ import {
 } from "@/components/ui/form";
 import { handleLinks } from "@/lib/links";
 import { linkType } from "@/lib/consts";
+import { handleOnLinkChange } from "@/app/(main)/brands/[id]/edit/_lib/utils";
+import { SetBrand } from "@/app/(main)/brands/[id]/edit/_lib/types";
 
 const getLinkDefaultValue = (links: TablesUpdate<"links">[], link: string) => {
   const linkValue = links.find((l) => l.description === link)?.url;
@@ -32,15 +34,7 @@ const getLinkDefaultValue = (links: TablesUpdate<"links">[], link: string) => {
 type LinksFormProps = {
   links: TablesUpdate<"links">[];
   brandId: string;
-  setNextBrand: (
-    value: React.SetStateAction<
-      | (TablesUpdate<"brands"> & {
-          logoUrl: string;
-          links: TablesUpdate<"links">[];
-        })
-      | undefined
-    >,
-  ) => void;
+  setNextBrand: SetBrand;
 };
 
 export default function LinksForm({
@@ -63,35 +57,6 @@ export default function LinksForm({
       youtube: getLinkDefaultValue(links, Links.youtube),
     },
   });
-
-  const handleOnLinkChange = (value: string, link: string) => {
-    setNextBrand((prevState) => {
-      if (!prevState) {
-        return;
-      }
-      const outputLinks = structuredClone(prevState.links);
-      const linkIndex = outputLinks.findIndex((l) => l.description === link);
-      if (linkIndex > -1) {
-        if (value === "") {
-          outputLinks.splice(linkIndex, 1);
-        } else {
-          outputLinks[linkIndex].url = value;
-        }
-      } else {
-        outputLinks.push({
-          description: link,
-          url: value,
-          brand_id: brandId,
-          type: linkType.social,
-          sub_type: link,
-        });
-      }
-      return {
-        ...prevState,
-        links: outputLinks,
-      };
-    });
-  };
 
   const { mutateAsync: updateBrandLinks, isPending } = useMutation({
     mutationKey: ["brand", brandId],
@@ -143,7 +108,13 @@ export default function LinksForm({
                         {...field}
                         onChange={(e) => {
                           field.onChange(e);
-                          handleOnLinkChange(e.target.value, link);
+                          handleOnLinkChange(
+                            e.target.value,
+                            link,
+                            setNextBrand,
+                            linkType.social,
+                            brandId,
+                          );
                         }}
                       />
                     </FormControl>

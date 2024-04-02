@@ -24,20 +24,13 @@ import { appAssets } from "@/lib/consts";
 import * as z from "zod";
 import { formSchema } from "./utils";
 import { useDebounce } from "@/hooks/useDebounce";
+import { SetBrand } from "@/app/(main)/brands/[id]/edit/_lib/types";
 
 type EditProfileProps = {
   brand: TablesInsert<"brands"> & {
     logoUrl: string;
   };
-  setNextBrand: (
-    value: React.SetStateAction<
-      | (TablesUpdate<"brands"> & {
-          logoUrl: string;
-          links: TablesUpdate<"links">[];
-        })
-      | undefined
-    >,
-  ) => void;
+  setNextBrand: SetBrand;
   brandId: string;
 };
 
