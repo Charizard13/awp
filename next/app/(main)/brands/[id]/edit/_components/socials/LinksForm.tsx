@@ -3,7 +3,7 @@ import { Input } from "@/components/ui/input";
 import React from "react";
 
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { TablesInsert, TablesUpdate } from "@/types";
+import { TablesUpdate } from "@/types";
 import { Links, linksKeys } from "./consts";
 import Footer from "./Footer";
 import { formSchema } from "./utils";
@@ -21,9 +21,10 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
+import { handleLinks } from "@/lib/links";
 
 const getLinkDefaultValue = (links: TablesUpdate<"links">[], link: string) => {
-  const linkValue = links.find((l) => l.name === link)?.url;
+  const linkValue = links.find((l) => l.description === link)?.url;
   return linkValue ? linkValue : "";
 }
 
@@ -63,7 +64,7 @@ export default function LinksForm({
   });
 
   const handleOnLinkChange = (value: string, link: string) => {
-    const linkIndex = links.findIndex((l) => l.name === link);
+    const linkIndex = links.findIndex((l) => l.description === link);
     if (linkIndex > -1) {
       if (value === "") {
         links.splice(linkIndex, 1);
@@ -72,7 +73,7 @@ export default function LinksForm({
       }
     } else {
       links.push({
-        name: link,
+        description: link,
         url: value,
         brand_id: brandId,
       });
@@ -93,50 +94,7 @@ export default function LinksForm({
     mutationFn: async (values: z.infer<typeof formSchema>) => {
       const supabase = createWebClient();
       const user = await supabase.auth.getUser();
-      const userId = user?.data?.user?.id;
-      if (!userId) {
-        throw new Error("You must be logged in to update metadata.");
-      }
-
-      const outputLinks: TablesUpdate<"links">[] = Object.entries(values).map(
-        ([description, url]) => ({
-          description,
-          url,
-          brand_id: brandId,
-        }),
-      );
-      const linksToDelete = outputLinks.filter((l) => l.url === "");
-      const linksToInsert: TablesInsert<"links">[] = outputLinks
-        .filter((l) => !!l.url && !!l.name) // Filter out objects where url or description is undefined
-        .map((l) => ({
-          ...l,
-          brand_id: brandId,
-          name: l.name || "", // Provide a default empty string if description is undefined
-          url: l.url || "", // Provide a default empty string if url is undefined
-        }));
-
-      if (linksToInsert.length === 0) {
-        return;
-      }
-      const { error } = await supabase.from("links").upsert(linksToInsert);
-      if (error) {
-        console.log(error);
-        throw new Error(error.message);
-      }
-
-      if (linksToDelete.length > 0) {
-        const { error } = await supabase
-          .from("links")
-          .delete()
-          .in(
-            "id",
-            linksToDelete.map((l) => l.id),
-          );
-        if (error) {
-          console.log(error);
-          throw new Error(error.message);
-        }
-      }
+      await handleLinks(brandId, values);
     },
     onSuccess: () =>
       toast({
@@ -194,11 +152,11 @@ export default function LinksForm({
 
 // const linksToDelete = outputLinks.filter((l) => l.url === "");
 // const linksToInsert: TablesInsert<"links">[] = outputLinks
-//   .filter((l) => !!l.url && !!l.name) // Filter out objects where url or description is undefined
+//   .filter((l) => !!l.url && !!l.description) // Filter out objects where url or description is undefined
 //   .map((l) => ({
 //     ...l,
 //     brand_id: brandId,
-//     description: l.name || "", // Provide a default empty string if description is undefined
+//     description: l.description || "", // Provide a default empty string if description is undefined
 //     url: l.url || "", // Provide a default empty string if url is undefined
 //   }));
 

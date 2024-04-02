@@ -46,16 +46,16 @@ export default function LinksForm({
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      whatsApp: links.find((l) => l.name === Links.whatsApp)?.url,
-      store: links.find((l) => l.name === Links.store)?.url,
-      instagram: links.find((l) => l.name === Links.instagram)?.url,
-      paymentPage: links.find((l) => l.name === Links.paymentPage)?.url,
-      calender: links.find((l) => l.name === Links.calender)?.url,
+      whatsApp: links.find((l) => l.description === Links.whatsApp)?.url,
+      store: links.find((l) => l.description === Links.store)?.url,
+      instagram: links.find((l) => l.description === Links.instagram)?.url,
+      paymentPage: links.find((l) => l.description === Links.paymentPage)?.url,
+      calender: links.find((l) => l.description === Links.calender)?.url,
     },
   });
 
   const handleOnLinkChange = (value: string, link: string) => {
-    const linkIndex = links.findIndex((l) => l.name === link);
+    const linkIndex = links.findIndex((l) => l.description === link);
     if (linkIndex > -1) {
       if (value === "") {
         links.splice(linkIndex, 1);
@@ -64,7 +64,7 @@ export default function LinksForm({
       }
     } else {
       links.push({
-        name: link,
+        description: link,
         url: value,
         brand_id: brandId,
       });
@@ -99,11 +99,11 @@ export default function LinksForm({
       );
       const linksToDelete = outputLinks.filter((l) => l.url === "");
       const linksToInsert: TablesInsert<"links">[] = outputLinks
-        .filter((l) => !!l.url && !!l.name) // Filter out objects where url or description is undefined
+        .filter((l) => !!l.url && !!l.description) // Filter out objects where url or description is undefined
         .map((l) => ({
           ...l,
           brand_id: brandId,
-          name: l.name || "", // Provide a default empty string if description is undefined
+          description: l.description || "", // Provide a default empty string if description is undefined
           url: l.url || "", // Provide a default empty string if url is undefined
         }));
 
@@ -186,11 +186,11 @@ export default function LinksForm({
 
 // const linksToDelete = outputLinks.filter((l) => l.url === "");
 // const linksToInsert: TablesInsert<"links">[] = outputLinks
-//   .filter((l) => !!l.url && !!l.name) // Filter out objects where url or description is undefined
+//   .filter((l) => !!l.url && !!l.description) // Filter out objects where url or description is undefined
 //   .map((l) => ({
 //     ...l,
 //     brand_id: brandId,
-//     description: l.name || "", // Provide a default empty string if description is undefined
+//     description: l.description || "", // Provide a default empty string if description is undefined
 //     url: l.url || "", // Provide a default empty string if url is undefined
 //   }));
 

@@ -54,7 +54,7 @@ export default function ProfileForm({
     resolver: zodResolver(formSchema),
     defaultValues: {
       logo: undefined,
-      name: brand.name,
+      name: brand.description,
       website: brand.website ?? undefined,
       description: brand.description ?? undefined,
     },
@@ -65,7 +65,7 @@ export default function ProfileForm({
   useQuery({
     queryKey: ["isNameAvailable", debouncedUsername],
     queryFn: async () => {
-      if (form.getValues("name") === brand.name) {
+      if (form.getValues("name") === brand.description) {
         return;
       }
       const { count, error } = await supabase
@@ -125,7 +125,7 @@ export default function ProfileForm({
       const { error } = await supabase
         .from("brands")
         .upsert({
-          name: values.name,
+          name: values.description,
           description: values.description,
           website: values.website,
           user_id: userId,

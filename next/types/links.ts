@@ -1,0 +1,1 @@
+export type LinkType  = "social" | "payment" | "calender" | "profile"

@@ -78,7 +78,9 @@ export interface Database {
           created_at: string
           icon: string | null
           id: number
-          name: string
+          description: string
+          type: string
+          sub_type: string
           updated_at: string
           url: string
           user_id: string | null
@@ -88,7 +90,9 @@ export interface Database {
           created_at?: string
           icon?: string | null
           id?: number
-          name: string
+          description?: string
+          type: string;
+          sub_type: string
           updated_at?: string
           url: string
           user_id?: string | null
@@ -98,7 +102,9 @@ export interface Database {
           created_at?: string
           icon?: string | null
           id?: number
-          name?: string
+          description?: string
+          type?: string
+          sub_type?: string
           updated_at?: string
           url?: string
           user_id?: string | null
