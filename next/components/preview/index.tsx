@@ -13,6 +13,7 @@ import Link from "next/link";
 import { Link2Icon } from "lucide-react";
 import Footer from "./Footer";
 import Links from "./Links";
+import { linkType } from "@/lib/consts";
 
 type PreviewProps = {
   brand: TablesUpdate<"brands"> & {
@@ -27,9 +28,8 @@ const defaultUrl = process.env.VERCEL_URL
 
 export default function Preview({ brand, isPreviewMode }: PreviewProps) {
   const { logoUrl, name, description, website, links } = brand;
-  const socialLinks = links.filter(
-    (link) => link.url && link.description,
-  ) as Tables<"links">[];
+  const socialLinks = links.filter((link) => link.type === linkType.social);
+  const filteredLinks = links.filter((link) => link.type !== linkType.social);
 
   return (
     <Card className="flex aspect-[9/16] min-w-[400px] flex-col items-center p-4 text-center xl:shadow-md">
@@ -54,14 +54,13 @@ export default function Preview({ brand, isPreviewMode }: PreviewProps) {
             </a>
           </CardDescription>
         )}
-        <Links links={brand.links} />
+        <Links links={filteredLinks} />
       </CardContent>
-      {!isPreviewMode && (
-        <Footer
-          brandUrl={`${defaultUrl}/${brand.name}`}
-          socialLinks={socialLinks}
-        />
-      )}
+      <Footer
+        brandUrl={`${defaultUrl}/${brand.name}`}
+        socialLinks={socialLinks}
+        isPreviewMode={isPreviewMode}
+      />
     </Card>
   );
 }

@@ -3,7 +3,7 @@ import { Input } from "@/components/ui/input";
 import React from "react";
 
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { TablesInsert, TablesUpdate } from "@/types";
+import { TablesUpdate } from "@/types";
 import { Links, linksKeys } from "./consts";
 import Footer from "./Footer";
 import { formSchema } from "./utils";
@@ -11,7 +11,6 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 import { useMutation } from "@tanstack/react-query";
-import { createWebClient } from "@/lib/supabase/client";
 import { useToast } from "@/components/ui/use-toast";
 import {
   Form,
@@ -48,11 +47,10 @@ export default function LinksForm({
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      whatsApp: links.find((l) => l.description === Links.whatsApp)?.url,
-      store: links.find((l) => l.description === Links.store)?.url,
-      instagram: links.find((l) => l.description === Links.instagram)?.url,
-      paymentPage: links.find((l) => l.description === Links.paymentPage)?.url,
-      calender: links.find((l) => l.description === Links.calender)?.url,
+      meeting1: links[0]?.url,
+      meeting2: links[1]?.url,
+      meeting3: links[2]?.url,
+      meeting4: links[3]?.url,
     },
   });
 
@@ -69,6 +67,8 @@ export default function LinksForm({
         description: link,
         url: value,
         brand_id: brandId,
+        type: linkType.calender,
+        sub_type: link,
       });
     }
     setNextBrand((prevState) => {

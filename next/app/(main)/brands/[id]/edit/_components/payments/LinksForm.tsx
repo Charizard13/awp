@@ -67,6 +67,8 @@ export default function LinksForm({
         description: link,
         url: value,
         brand_id: brandId,
+        type: linkType.payment,
+        sub_type: link,
       });
     }
     setNextBrand((prevState) => {

@@ -1,9 +1,8 @@
 export const Links = {
-  store: "Store",
-  whatsApp: "WhatsApp",
-  instagram: "Instagram",
-  paymentPage: "Payment Page",
-  calender: "Calender",
+  meeting1: "meeting1",
+  meeting2: "meeting2",
+  meeting3: "meeting3",
+  meeting4: "meeting4",
 } as const;
 
 export const linksKeys = Object.keys(Links) as Array<keyof typeof Links>;

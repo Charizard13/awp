@@ -65,27 +65,30 @@ export default function LinksForm({
   });
 
   const handleOnLinkChange = (value: string, link: string) => {
-    const linkIndex = links.findIndex((l) => l.description === link);
-    if (linkIndex > -1) {
-      if (value === "") {
-        links.splice(linkIndex, 1);
-      } else {
-        links[linkIndex].url = value;
-      }
-    } else {
-      links.push({
-        description: link,
-        url: value,
-        brand_id: brandId,
-      });
-    }
     setNextBrand((prevState) => {
       if (!prevState) {
         return;
       }
+      const outputLinks = structuredClone(prevState.links);
+      const linkIndex = outputLinks.findIndex((l) => l.description === link);
+      if (linkIndex > -1) {
+        if (value === "") {
+          outputLinks.splice(linkIndex, 1);
+        } else {
+          outputLinks[linkIndex].url = value;
+        }
+      } else {
+        outputLinks.push({
+          description: link,
+          url: value,
+          brand_id: brandId,
+          type: linkType.social,
+          sub_type: link,
+        });
+      }
       return {
         ...prevState,
-        links,
+        links: outputLinks,
       };
     });
   };
