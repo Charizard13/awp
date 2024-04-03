@@ -17,7 +17,7 @@ const headerRoutes = [
 ];
 export default function Header() {
   return (
-    <header className="bg-white p-4 shadow-sm dark:bg-gray-800">
+    <header className="bg-white shadow-sm dark:bg-gray-800">
       <div className="m-auto flex max-w-screen-2xl items-center justify-between gap-2">
         <Link className="flex items-center" href={"/"}>
           <CloudIcon />

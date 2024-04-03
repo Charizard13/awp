@@ -32,11 +32,6 @@ export async function handleLinks(
     return;
   }
 
-  linksToInsert.forEach((o) => {
-    if (!o.id) {
-      delete o.id;
-    }
-  });
   const { error } = await supabase.from("links").upsert(linksToInsert);
   if (error) {
     console.log(error);
