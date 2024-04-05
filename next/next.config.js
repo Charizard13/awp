@@ -14,7 +14,7 @@ const nextConfig = {
     ],
   },
   experimental: {
-    typedRoutes: true,
+    // typedRoutes: true,
     serverActions: {
       allowedOrigins: [
         "http://127.0.0.1:54321",

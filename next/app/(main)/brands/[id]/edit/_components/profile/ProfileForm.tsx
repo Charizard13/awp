@@ -25,6 +25,7 @@ import * as z from "zod";
 import { formSchema } from "./utils";
 import { useDebounce } from "@/hooks/useDebounce";
 import { SetBrand } from "@/app/(main)/brands/[id]/edit/_lib/types";
+import {QUERY_KEYS} from "@/lib/queries";
 
 type EditProfileProps = {
   brand: TablesInsert<"brands"> & {
@@ -56,9 +57,10 @@ export default function ProfileForm({
   const debouncedUsername = useDebounce(form.getValues("name"), 500);
 
   useQuery({
-    queryKey: ["isNameAvailable", debouncedUsername],
+    queryKey: [QUERY_KEYS.IS_NAME_AVAILABLE, debouncedUsername],
+    enabled: !!debouncedUsername,
     queryFn: async () => {
-      if (form.getValues("name") === brand.description) {
+      if (form.getValues("name") === brand.name) {
         return;
       }
       const { count, error } = await supabase
@@ -108,7 +110,7 @@ export default function ProfileForm({
   };
 
   const { mutateAsync, isPending } = useMutation({
-    mutationKey: ["brand", brandId],
+    mutationKey: [QUERY_KEYS.BRAND, brandId],
     mutationFn: async (values: z.infer<typeof formSchema>) => {
       const user = await supabase.auth.getUser();
       const userId = user?.data?.user?.id;

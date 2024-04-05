@@ -1,3 +1,5 @@
+"use client";
+
 import * as z from "zod";
 
 const optionalUrl = z.union([

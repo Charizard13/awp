@@ -14,6 +14,7 @@ import PaymentsLinksForm from "./_components/payments/LinksForm";
 import MeetingsLinksForm from "./_components/meetings/LinksForm";
 import Loading from "@/app/(main)/loading";
 import { linkType } from "@/lib/consts";
+import {QUERY_KEYS} from "@/lib/queries";
 
 export default function EditAppPage({
   params,
@@ -21,7 +22,7 @@ export default function EditAppPage({
   params: { message: string; id: string };
 }) {
   const { data: brand, isLoading } = useQuery({
-    queryKey: ["brand", params.id],
+    queryKey: [QUERY_KEYS.BRAND, params.id],
     queryFn: async () => {
       const supabase = createWebClient();
       const { error: appError, data: brand } = await supabase

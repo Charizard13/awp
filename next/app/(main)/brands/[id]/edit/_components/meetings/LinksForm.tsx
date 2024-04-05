@@ -24,6 +24,7 @@ import { linkType } from "@/lib/consts";
 import { handleLinks } from "@/lib/links";
 import { handleOnLinkChange } from "@/app/(main)/brands/[id]/edit/_lib/utils";
 import { SetBrand } from "@/app/(main)/brands/[id]/edit/_lib/types";
+import {QUERY_KEYS} from "@/lib/queries";
 
 type LinksFormProps = {
   links: TablesUpdate<"links">[];
@@ -49,7 +50,7 @@ export default function LinksForm({
   });
 
   const { mutateAsync: updateBrandLinks, isPending } = useMutation({
-    mutationKey: ["brand", brandId],
+        mutationKey: [QUERY_KEYS.BRAND, brandId],
     mutationFn: async (values: z.infer<typeof formSchema>) => {
       const output: TablesUpdate<"links">[] = Object.entries(values).map(
         ([key, value]) => ({
